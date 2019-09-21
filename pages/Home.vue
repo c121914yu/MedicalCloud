@@ -8,7 +8,7 @@
 		<BodyInfo></BodyInfo>
 	</view>
 </template>
-
+  
 <script>
 	import PushArticle from './HomeComponents/PushArticle.vue'
 	import Equipment from'./HomeComponents/Equipment.vue'
