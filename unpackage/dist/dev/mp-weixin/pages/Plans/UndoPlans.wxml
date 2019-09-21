@@ -1,0 +1,1 @@
+<view><block wx:for="{{UndoPlans}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="list"><view class="time">{{item.Time}}</view><view class="name">{{item.Medical}}</view><image src="../../static/Plans/delete.png" mode="widthFix"></image></view></block></view>

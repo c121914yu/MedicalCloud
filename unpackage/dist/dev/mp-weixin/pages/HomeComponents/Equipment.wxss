@@ -1,0 +1,60 @@
+
+page{
+	background: rgba(220,222,223,0.3);
+}
+image{
+	height: auto;
+}
+.MyEquipment{
+	width: 90%;
+	margin: 0 auto;
+}
+.Header{
+	line-height: 1.8;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: end;
+	-webkit-align-items: flex-end;
+	    -ms-flex-align: end;
+	        align-items: flex-end;
+}
+.Header navigator{
+	font-size: 14px;
+	color: rgba(107,109,110,0.8);
+	margin-right: 5px;
+}
+.Header ._h3{
+	color: #58595a;
+}
+.scroll{
+	color: #58595a;
+	white-space: nowrap;
+	min-height: 120px;
+}
+.equipment{
+	width: 25%;
+	display: inline-block;
+}
+.equipment-src{
+	/* 设备照片 */
+	width:80%;
+	height: auto;
+	margin: 0 10%;
+}
+.equipment .name{
+	width: 100%;
+	font-size: 17px;
+	text-align: center;
+	overflow: hidden;
+}
+.add{
+	width: 50%;
+	margin: 15% 25%;
+}
+

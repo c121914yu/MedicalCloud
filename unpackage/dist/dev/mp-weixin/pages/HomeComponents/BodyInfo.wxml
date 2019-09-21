@@ -1,0 +1,1 @@
+<view class="BodyInfo"><view class="Header"><view class="_h3">身体指数</view><navigator hover-class="none" url="BodyInfos/BodyInfos">查看更多</navigator></view><image src="../../static/BodyInfo.jpg" mode="widthFix"></image></view>

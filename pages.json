@@ -1,0 +1,136 @@
+{
+	"pages": [
+		{
+			"path": "pages/Loading",
+			"style": {
+				"navigationBarTitleText": "加载中"
+			}
+		},
+		{
+			"path": "pages/Login/Login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/Login/FindPassword",
+			"style": {
+				"navigationBarTitleText": "找回密码"
+			}	
+		},
+		{
+			"path": "pages/Login/Register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		
+		{
+			"path": "pages/Home",
+			"style": {
+				"navigationBarTitleText": "医云助手"
+			}
+		},
+		
+		{
+			"path": "pages/Equipments/AllEquipment",
+			"style": {
+				"navigationBarTitleText": "我的设备"
+			}
+		},
+		{
+			"path": "pages/Equipments/EquipmentDetail",
+			"style": {
+				"navigationBarTitleText": "设备信息"
+			}
+		},
+		{
+			"path": "pages/Equipments/NewEquipment",
+			"style": {
+				"navigationBarTitleText": "添加设备"
+			}
+		},
+		
+		{
+			"path": "pages/Articles/ArticleDetail",
+			"style": {
+				"navigationBarTitleText": "文章详细"
+			}
+		},
+		
+		{
+			"path": "pages/BodyInfos/BodyInfos",
+			"style": {
+				"navigationBarTitleText": "身体指数"
+			}
+		},
+		
+		{
+			"path": "pages/Plans",
+			"style": {
+				"navigationBarTitleText": "用药计划"
+			}
+		},
+		{
+			"path": "pages/Plans/AddPlan",
+			"style": {
+				"navigationBarTitleText": "计划设置",
+				"navigationBarBackgroundColor":"088573"
+			}
+		},
+		{
+			"path": "pages/Plans/UndoPlans",
+			"style": {
+				"navigationBarTitleText": "未完成计划",
+				"navigationBarBackgroundColor":"088573"
+			}
+		},
+		
+		{
+			"path": "pages/MyInfo",
+			"style": {
+				"navigationBarTitleText": "我的信息"
+			}
+		}
+	],
+	
+	"tabBar":{
+		"list":[
+			{
+				"pagePath":"pages/Home",
+				"text":"主页",
+				"iconPath":"static/NavBar/Home1.png",
+				"selectedIconPath":"static/NavBar/Home2.png"
+			},
+			{
+				"pagePath":"pages/Plans",
+				"text":"计划",
+				"iconPath":"static/NavBar/Plan1.png",
+				"selectedIconPath":"static/NavBar/Plan2.png"
+			},
+			{
+				"pagePath":"pages/MyInfo",
+				"text":"我的",
+				"iconPath":"static/NavBar/Mine1.png",
+				"selectedIconPath":"static/NavBar/Mine2.png"
+			}
+		]
+	},
+	
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "test", //模式名称
+				"path": "pages/Plans/UndoPlans", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
+}

@@ -1,0 +1,1 @@
+<view class="Plans"><view><all-plans class="vue-ref" bind:UpdataChoosing="__e" vue-id="1" data-ref="BackToday" data-event-opts="{{[['^UpdataChoosing',[['UpdataChoosing']]]]}}" bind:__l="__l"></all-plans></view><navigator url="Plans/AddPlan?PlanIndex=false" hover-class="none"><image class="AddPlan" src="../static/Plans/AddPlan.png" mode="widthFix"></image></navigator></view>

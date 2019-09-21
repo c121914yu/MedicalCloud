@@ -1,0 +1,181 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 设备信息样式 */
+.info.data-v-3b5cf67f{	
+	width: 90%;
+	height: 40px;
+	margin: 10px auto;
+	border: 1px solid #cbcdcf;
+	border-radius: 20px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.info text.data-v-3b5cf67f{
+	margin-left: 10px;
+}
+.info .content.data-v-3b5cf67f{
+	color: #696767;
+	width: 70%;
+	margin-left: 15px;
+}
+.palaceholder.data-v-3b5cf67f{
+	color: #858181;
+	font-size: 17px;
+}
+.remark.data-v-3b5cf67f{
+	width: 90%;
+	margin: 10px auto;
+}
+.remark text.data-v-3b5cf67f{
+	margin-left: 10px;
+}
+.remark textarea.data-v-3b5cf67f{
+	color: #696767;
+	height: 110px;
+	margin: 10px 0 0 0px;
+	padding: 8px;
+	border: 1px solid #cbcdcf;
+	border-radius: 15px;
+}
+/* 设备信息样式 */
+button.data-v-3b5cf67f{
+	background:-webkit-gradient(linear,right top, left top,from(rgba(63,205,235,1)),to(rgba(188,226,158,1)));
+	background:-o-linear-gradient(right,rgba(63,205,235,1),rgba(188,226,158,1));
+	background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1));
+	color: #FFFFFF;
+	border-radius: 40px;
+	width: 90%;
+	margin: 5px auto;
+}
+

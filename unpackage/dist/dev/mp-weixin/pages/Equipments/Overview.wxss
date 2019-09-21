@@ -1,0 +1,26 @@
+
+.overview.data-v-0e6a8626{
+	font-size: 17px;
+	line-height: 1.8;
+	width: 90%;
+	margin: 15px auto;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.overview image.data-v-0e6a8626{
+	width: 25%;
+	height: auto;
+	border-radius: 50%;
+}
+.overview-info.data-v-0e6a8626{
+	/* 设备总体情况(计划数，未完成) */
+	width: 60%;
+	margin-left: 20px;
+}
+
