@@ -3,29 +3,27 @@
 		<view class="mask"></view>
 		
 		<view class="Popup">
-			<image class="close" src="../../static/close.png" mode="widthFix" @click="CloseMask"/>
-			<view class="Title">{{InitialInfo.EquipmentName}}储药情况</view>
 			<view class="Title">药柜编号:{{InitialInfo.MedicalIndex+1}}</view>
 			
 			<!-- 药物信息 -->
 			<view class="info">
-				<text space="emsp">名 称:</text>
-				<input class="content" type="text" placeholder-class="palaceholder" placeholder="药品名称"
+				<view style="color: #088573;">药&emsp;名:</view>
+				<textarea placeholder-class="palaceholder" placeholder="输入小药盒中药物名称" auto-height="true"
 					v-model="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex].name"/>
-			</view>
-			<view class="info">
-				<text space="emsp">数 量:</text>
-				<input class="content" type="text" placeholder-class="palaceholder" placeholder="药品数量"
-					v-model="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex].amount"/>
-			</view>
-			
-			<view class="remark">
-				<text>备注</text>
-				<textarea placeholder-class="palaceholder" placeholder="给设备写个备注"
-					v-model="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex].remark" cursor="5"/>
 			</view>	
 			
-			<button class="sure-info" @click="SureInfo">确认信息</button>
+			<view class="info">
+				<view style="color: #088573;">备&emsp;注:</view>
+				<textarea placeholder-class="palaceholder" placeholder="给设备写个备注" auto-height="true"
+					v-model="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex].remark"/>
+			</view>	
+
+			<view class="Btn">
+				<view style="color: #cd2d2d;" @click="CloseMask">取消</view>
+				<text style="color: rgba(174,174,174,0.6);">|</text>
+				<view style="color: #088573;" @click="SureInfo">确认</view>
+			</view>
+			
 		</view>	
 	</view>
 </template>
@@ -39,17 +37,9 @@
 				let StaticInfo=this.StaticInfo
 				if(NewInfo.name!=StaticInfo.name)
 					change=true
-				else if(NewInfo.amount!=StaticInfo.amount)
-					change=true
 				else if(NewInfo.remark!=StaticInfo.remark)
 					change=true
 				if(change){
-					/* 只写了名称没写数量 */
-					if(NewInfo.name!="" && NewInfo.amount=="")
-						this.ShowToast('数量不能为空','../../static/error.png')
-					else if(NewInfo.name=="" && NewInfo.amount!="")
-						this.ShowToast('药名不能为空','../../static/error.png')
-					else
 					uni.showModal({
 						title: '提示',
 						content: '您修改了药物信息',
@@ -97,57 +87,34 @@
 </script>
 
 <style>
-	.close{
-		width: 35px;
-		position: absolute;
-		margin-top: 5px;
-		margin-left: 83%;
-	}
 	.Title{
+		color: #929191;
 		text-align: center;
 	}
 	/* 药品信息样式 */
 	.info{
-		width: 90%;
-		height: 40px;
+		width: 95%;
 		margin: 10px auto;
-		border: 1px solid #cbcdcf;
-		border-radius: 20px;
-		display: flex;
-		align-items: center;
 	}
-	.info text{
-		margin-left: 10px;
-	}
-	.info .content{
+	.info textarea{
 		color: #696767;
-		width: 70%;
-		margin-left: 15px;
+		margin-top: 5px;
+		padding: 8px 0 8px 8px;
+		border: 1px solid #088573;
+		border-radius: 10px;
 	}
 	.palaceholder{
 		color: #858181;
 		font-size: 17px;
 	}
-	.remark{
-		width: 90%;
-		margin: 10px auto;
-	}
-	.remark textarea{
-		color: #696767;
-		width: 93%;
-		height: 100px;
-		margin: 10px 0 0 0px;
-		padding: 8px;
-		border: 1px solid #cbcdcf;
-		border-radius: 15px;
-	}
 	/* 药品信息样式 */
-	/* 确认案件 */
-	.sure-info{
-		background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1));
-		color: #FFFFFF;
-		border-radius: 40px;
-		width: 90%;
-		margin: 5px auto;
+	/* 确认/取消按键 */
+	.Btn{
+		margin: 20px 0 10px 0;
+		display: flex;
+	}
+	.Btn view{
+		width: 50%;
+		text-align: center;
 	}
 </style>

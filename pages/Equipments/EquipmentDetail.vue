@@ -11,7 +11,6 @@
 				<view class="medical">
 					<view>药柜编号:{{index+1}}</view>
 					<view >{{medical.name == '' ? '暂无存药':medical.name}}</view>
-					<view>{{medical.amount == '' ? '':"数量:"+medical.amount}}</view>
 				</view>
 			</uni-grid-item>
 		</uni-grid>
@@ -44,7 +43,6 @@
 	
 	import Overview from "./Overview"//引入头部概述组件
 	import SetMedical from"./SetMedical"//引入配置药物信息组件
-	import AllPlans from "../Plans/AllPlans"
 	import EquipmentInfo from"./EquipmentInfo"//引入设备基本信息
 	
 	var Equipment,EquipIndex
@@ -121,7 +119,6 @@
 			
 			EquipmentInfo,
 			Overview,
-			AllPlans,
 			SetMedical
 		}
 	}
@@ -137,6 +134,7 @@
 		/* 储药情况样式 */
 		font-size: 15px;
 		width: 80%;
+		height: auto;
 		text-align: center;
 		line-height: 1.7;
 	}	

@@ -12,7 +12,6 @@
 					<view class="medical">
 						<view>药柜编号:{{index+1}}</view>
 						<view >{{medical.name == '' ? '暂无存药':medical.name}}</view>
-						<view>{{medical.amount == '' ? '':"数量:"+medical.amount}}</view>
 					</view>
 				</uni-grid-item>
 			</uni-grid>
