@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "计划设置",
-  "navigationBarBackgroundColor": "088573",
-  "usingComponents": {
-    "picker": "/pages/Plans/Picker",
-    "select-medicine": "/pages/Plans/SelectMedicine"
-  }
-}

@@ -1,1 +1,0 @@
-<view class="New"><image class="scan" src="../../static/scan.png" mode="widthFix" data-event-opts="{{[['tap',[['scan',['$event']]]]]}}" bindtap="__e"></image><view class="_h2">扫一扫自动添加信息</view><equipment-info vue-id="1" info="{{ChildrenInfo}}" bind:__l="__l"></equipment-info></view>
