@@ -102,7 +102,7 @@
 			MedicalInfo(){
 				let MedicalInfo=new Array
 				for(let i=0;i<9;i++)
-					MedicalInfo.push({name:"",amount:"",remark:""})
+					MedicalInfo.push({names:['']})
 				return JSON.stringify(MedicalInfo)
 			},
 			/* 提示错误信息 */
@@ -154,6 +154,7 @@
 	.remark textarea{
 		color: #696767;
 		width: 97%;
+		min-height: 30px;
 		margin-top: 5px;
 		padding: 5px 0 5px 5px;
 		border: 1px solid #cbcdcf;

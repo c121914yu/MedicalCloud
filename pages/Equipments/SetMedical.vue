@@ -4,20 +4,24 @@
 		
 		<view class="Popup">
 			<view class="Title">药柜编号:{{InitialInfo.MedicalIndex+1}}</view>
+			<view class="remark">
+				点击加号可以添加更多药物,长按药物可以删除。
+			</view>
 			
 			<!-- 药物信息 -->
-			<view class="info">
+			<!-- <view class="info">
 				<view style="color: #088573;">药&emsp;名:</view>
 				<textarea placeholder-class="palaceholder" placeholder="输入小药盒中药物名称" auto-height="true"
-					v-model="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex].name"/>
-			</view>	
+					v-model="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex].names"/>
+			</view>	 -->
+			<view class="info" v-for="(name,index) in names" :key="index" @longpress="RemoveName(index)">
+				<text>药物{{index+1}}：</text>
+				<input type="text" placeholder-class="palaceholder" placeholder="请输入药名" 
+					v-model="names[index]"/>
+			</view>
+			<image class="Add" @click="AddName"
+				src="../../static/Plans/AddTime.png" mode="widthFix"/>
 			
-			<view class="info">
-				<view style="color: #088573;">备&emsp;注:</view>
-				<textarea placeholder-class="palaceholder" placeholder="给设备写个备注" auto-height="true"
-					v-model="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex].remark"/>
-			</view>	
-
 			<view class="Btn">
 				<view style="color: #cd2d2d;" @click="CloseMask">取消</view>
 				<text style="color: rgba(174,174,174,0.6);">|</text>
@@ -30,15 +34,24 @@
 
 <script>
 	export default{
+		data(){
+			return{
+				names:['']
+			}
+		},
 		methods:{
+			AddName(){//添加药
+				this.names.push('')
+			},
+			RemoveName(index){
+				if(this.names.length>1)
+					this.names.splice(index,1)
+			},
 			SureInfo(){//确认按键	
 				let change=false
 				let NewInfo=this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex]
 				let StaticInfo=this.StaticInfo
-				if(NewInfo.name!=StaticInfo.name)
-					change=true
-				else if(NewInfo.remark!=StaticInfo.remark)
-					change=true
+				
 				if(change){
 					uni.showModal({
 						title: '提示',
@@ -87,25 +100,35 @@
 </script>
 
 <style>
+	body{
+		font-size: 17px;
+	}
 	.Title{
+		color: #343434;
+		text-align: center;
+	}
+	.remark{
 		color: #929191;
 		text-align: center;
+		font-size: 13px;
 	}
 	/* 药品信息样式 */
 	.info{
-		width: 95%;
-		margin: 10px auto;
-	}
-	.info textarea{
-		color: #696767;
-		margin-top: 5px;
-		padding: 8px 0 8px 8px;
-		border: 1px solid #088573;
-		border-radius: 10px;
+		color: #343434;
+		background: #fdd930;
+		width: 90%;
+		border-radius: 5px;
+		margin: 5px auto;
+		padding: 10px 0 10px 5px;
+		display: flex;
+		align-items: center;
 	}
 	.palaceholder{
-		color: #858181;
-		font-size: 17px;
+		font-size: 15px;
+	}
+	.Add{
+		width: 12%;
+		margin-left: 5%;
 	}
 	/* 药品信息样式 */
 	/* 确认/取消按键 */
