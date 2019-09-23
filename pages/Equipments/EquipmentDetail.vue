@@ -5,20 +5,23 @@
 		
 		<!-- 储药情况药物一览 -->
 		<h2>储药情况</h2>
-		<uni-grid column="3" :showBorder="false" :highlight="false">
+		<uni-grid column="2" :showBorder="false" :highlight="false" :square="false">
 			<uni-grid-item v-for="(medical,index) in medicals" :key="index"
 				@tap="ClickMedical(index)">
 				<view class="medical">
 					<view>药柜编号:{{index+1}}</view>
-					<view >{{medical.names[0] == '' ? '暂无存药':medical.name}}</view>
+					<view v-if="medical.names[0] == ''">暂无存药</view>
+					<view class="name" v-else v-for="(MedicalName,index) in medical.names" :key = "index">
+						{{MedicalName}}
+					</view>
 				</view>
 			</uni-grid-item>
 		</uni-grid>
 		<!-- 设置药物组件 -->
 		
 		<!-- 发送设备基本信息，药柜编号 -->
-		<SetMedical :show="SetMedical" @CloseSet="CloseSet" @UpdateMedicals="UpdateMedicals"
-			:InitialInfo="SetMedInfo" :StaticInfo="SetMedInfo.MedicalInfo[SetMedInfo.MedicalIndex]">
+		<SetMedical v-if="SetMedical" @CloseSet="CloseSet" @UpdateMedicals="UpdateMedicals"
+			:InitialInfo="SetMedInfo">
 			<!-- StaticInfo是初始的药柜信息，用于判断填写内容是否发生了变化 -->
 		</SetMedical>
 		
@@ -137,11 +140,9 @@
 		height: auto;
 		text-align: center;
 		line-height: 1.7;
-	}	
-	.plan-list{
-		height: 25px;
-		padding: 15px 0;
-		margin-left: 20px;
+	}
+	.medical .name{
+		white-space: nowrap;
 	}
 	.remove{
 		/* 删除按键 */
@@ -150,39 +151,16 @@
 		margin: 10px auto;
 	}
 	
-	/* 九宫格边框样式 */
-	uni-grid-item:nth-last-child(1){
+	/* 4宫格边框样式 */
+	uni-grid-item:nth-child(1){
 		border:1px solid #6fcdb2;
-		border-right: none;
+		border-left: none;
 	}
-	uni-grid-item:nth-last-child(2){
-		border:1px solid #6fcdb2;
-		border-right: none;
+	uni-grid-item:nth-child(2){
+		border-top:1px solid #6fcdb2;
+		border-bottom:1px solid #6fcdb2;
 	}
-	uni-grid-item:nth-last-child(3){
-		border-top: 1px solid #6fcdb2;
-		border-bottom: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(4){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(5){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(6){
-		border-top: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(7){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(8){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(9){
-		border-top: 1px solid #6fcdb2;
+	uni-grid-item:nth-child(3){
+		border-right:1px solid #6fcdb2;
 	}
 </style>

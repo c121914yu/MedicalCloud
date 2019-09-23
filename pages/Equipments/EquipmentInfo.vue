@@ -101,7 +101,7 @@
 			/* 添加设备时生成初始药物信息 */
 			MedicalInfo(){
 				let MedicalInfo=new Array
-				for(let i=0;i<9;i++)
+				for(let i=0;i<4;i++)
 					MedicalInfo.push({names:['']})
 				return JSON.stringify(MedicalInfo)
 			},

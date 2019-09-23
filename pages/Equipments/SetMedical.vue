@@ -1,5 +1,5 @@
 <template>
-	<view class="set-medical" v-if="show">
+	<view class="set-medical" >
 		<view class="mask"></view>
 		
 		<view class="Popup">
@@ -9,11 +9,6 @@
 			</view>
 			
 			<!-- 药物信息 -->
-			<!-- <view class="info">
-				<view style="color: #088573;">药&emsp;名:</view>
-				<textarea placeholder-class="palaceholder" placeholder="输入小药盒中药物名称" auto-height="true"
-					v-model="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex].names"/>
-			</view>	 -->
 			<view class="info" v-for="(name,index) in names" :key="index" @longpress="RemoveName(index)">
 				<text>药物{{index+1}}：</text>
 				<input type="text" placeholder-class="palaceholder" placeholder="请输入药名" 
@@ -33,10 +28,12 @@
 </template>
 
 <script>
+	var medical=[]
 	export default{
 		data(){
+			medical = this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex]
 			return{
-				names:['']
+				names : medical.names
 			}
 		},
 		methods:{
@@ -48,39 +45,39 @@
 					this.names.splice(index,1)
 			},
 			SureInfo(){//确认按键	
-				let change=false
-				let NewInfo=this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex]
-				let StaticInfo=this.StaticInfo
-				
-				if(change){
-					uni.showModal({
-						title: '提示',
-						content: '您修改了药物信息',
-						success: res => {
-							if(res.confirm){
-								uni.showLoading({title:'修改药柜内容中'})		
-								let MedicalInfo=JSON.stringify(this.InitialInfo.MedicalInfo) 
-								uni.request({
-									url: 'http://49.232.38.113:4000/SetMedicalInfo',
-									method: 'POST',
-									data: {
-										MedicalInfo,
-										ID:this.InitialInfo.EquipmentID
-									},
-									success: res => {
-										global.EquipmentsInfo[this.InitialInfo.EquipIndex].MedicalInfo=MedicalInfo
-										this.CloseMask()
-										this.$emit('UpdateMedicals',this.InitialInfo.MedicalInfo)
-										uni.hideLoading()
-										this.ShowToast('修改成功')
-									},
-									fail: (err) => {console.log(err)}})				
-							}//confirm结束
-						}
-					})//showmodal结束
-				}	
-				else
-					this.CloseMask()
+				/*  对names去掉空的项,且至少保留一项*/
+				let names = []
+				names=this.names.filter(name => {
+						return name != ''
+				})
+				if(names.length == 0)
+					names = ['']
+				medical.names = names
+				uni.showModal({
+					title: '提示',
+					content: '确定保存信息?',
+					success: res => {
+						if(res.confirm){	
+							uni.showLoading({title:'正在保存信息'})		
+							let MedicalInfo=JSON.stringify(this.InitialInfo.MedicalInfo) 
+							uni.request({
+								url: 'http://49.232.38.113:4000/SetMedicalInfo',
+								method: 'POST',
+								data: {
+									MedicalInfo,
+									ID:this.InitialInfo.EquipmentID
+								},
+								success: res => {
+									global.EquipmentsInfo[this.InitialInfo.EquipIndex].MedicalInfo = MedicalInfo
+									this.$emit('UpdateMedicals',this.InitialInfo.MedicalInfo)//更新设备详细的药柜信息
+									uni.hideLoading()
+									this.ShowToast('修改成功')
+									this.CloseMask()//关闭弹窗
+								},
+								fail: (err) => {console.log(err)}})				
+						}//confirm结束
+					}
+				})//showmodal结束
 			},
 			CloseMask(){//关闭蒙层
 				this.$emit('CloseSet',false);
@@ -92,9 +89,7 @@
 			}
 		},
 		props:{
-			show:Boolean,
 			InitialInfo:Object,
-			StaticInfo:Object,
 		}
 	}
 </script>
@@ -122,6 +117,10 @@
 		padding: 10px 0 10px 5px;
 		display: flex;
 		align-items: center;
+	}
+	.info input{
+		padding-right: 5px;
+		flex-grow: 1;
 	}
 	.palaceholder{
 		font-size: 15px;
