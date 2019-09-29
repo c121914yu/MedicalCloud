@@ -107,14 +107,14 @@
 				CurrentText:[UseEquipments[0],'今天','每天执行'],
 				
 				TimeInfo:{},
-				value:[],
-				Items1:[],
+				value:[],//下标的值
+				Items1:[],//发送给选择题的数组内容
 				Items2:[],
 				Items3:[],
 				
-				EquipmentIndex:[0],
-				DateIndex:[0,0,0],
-				FrequencyIndex:[0]
+				EquipmentIndex:[0],//设备的下标
+				DateIndex:[0,0,0],//日期下标
+				FrequencyIndex:[0]//频率下标
 				/* 选择器参数 */
 			}
 		},
@@ -300,6 +300,7 @@
 			Close(){
 				this.Picker=false
 			},
+			/* 配置了药柜，设置药柜编号 */
 			ChooseMedicines(e){
 				this.MedicalIndex=e
 				this.SelectMedicine=false

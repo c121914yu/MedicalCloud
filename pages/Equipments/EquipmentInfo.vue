@@ -102,7 +102,11 @@
 			MedicalInfo(){
 				let MedicalInfo=new Array
 				for(let i=0;i<4;i++)
-					MedicalInfo.push({names:['']})
+					MedicalInfo.push([{
+						name:'',
+						amount:'',
+						remark:''
+					}])
 				return JSON.stringify(MedicalInfo)
 			},
 			/* 提示错误信息 */

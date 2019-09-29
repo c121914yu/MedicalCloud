@@ -17,19 +17,20 @@
 				今天不需要用药
 			</view>
 			
-			<view class="Plan" v-for="(plan,index) in TodayPlans" :key="index">				
+			<view class="Plan" v-for="(plan,index) in TodayPlans" :key="index">		
+				<!-- 时间部分 -->
 				<view class="time">
 					{{plan.time}}
 				</view>
-				
+				<!-- 药物部分 -->
 				<view class="medicine">	
 					<view class="Medicine-item" v-for="(medical,index1) in plan.MedicalInfo" :key="index1"
 						 @tap="SetPlan(medical.PlanID)">
-						<view class="dot" v-if="medical.remark!=''"></view>
-						<view :class="medical.remark=='' ? 'MedicalName' : ''">
+						<view class="dot" v-if="medical.remark != ''"></view>
+						<view :class="medical.remark === '' ? 'MedicalName' : ''">
 							{{medical.name}} * {{medical.amount}}
 						</view> 
-						<view class="remark" v-if="medical.remark!=''">备注:{{medical.remark}}</view>
+						<view class="remark" v-if = "medical.remark != ''">备注:{{medical.remark}}</view>
 					</view>
 				</view>
 				
@@ -53,7 +54,7 @@
 			change(e){
 				/* 获取最新的Plan */
 				this.UpdatePlans()
-				/* 更新选中日期 */
+				/* 父级方法，更新选中日期 */
 				this.$emit('UpdataChoosing',e)
 				let today=e.fulldate
 				let TodayPlans=[]
@@ -85,7 +86,7 @@
 					plan.UseTimes.forEach(info=>{
 						let data={MedicalInfo:[]}
 						let MedicalInfo={}
-						/* 取药物的名称 */
+						/* 获取药物的名称 */
 						if(plan.EquipmentID=="不使用设备"){
 							MedicalInfo={
 								name:plan.MedicalName,
@@ -95,25 +96,24 @@
 							}
 							data.MedicalInfo.push(MedicalInfo)
 						}
-						else{
-							let index=this.FindEquipment(plan.EquipmentID)
+						else{//使用设备，根据选中的药柜编号筛选出药名
+							let index=this.FindEquipment(plan.EquipmentID)//获取设备的下标
 							let Medicines=JSON.parse(global.EquipmentsInfo[index].MedicalInfo)
-							let MedicalIndex=JSON.parse(plan.MedicalIndex)
-							let name=''
-							MedicalIndex.forEach(item=>{
-								if(Medicines[item].name!=name){
+							let MedicalIndex=JSON.parse(plan.MedicalIndex)//获取选中的药柜编号
+							
+							/* 将选中的药柜进行遍历,并从中获取所有的药名 */
+							MedicalIndex.forEach(item => {
+								Medicines[item].forEach(medical => {
 									MedicalInfo={
-										name:Medicines[item].name,
-										amount:info.amount,
-										remark:info.remark,
+										name:medical.name,
+										amount:medical.amount,
+										remark:medical.remark,
 										PlanID:plan.PlanID
 									}
-									data.MedicalInfo.push(MedicalInfo)
-								}
-								name=Medicines[item].name
+									data.MedicalInfo.push(MedicalInfo)})		
 							})
 						}
-						/* 取时间 */
+						/* 获取时间 */
 						data.time=info.Hour+":"+info.Minute
 
 						PlansInfo.push(data)
@@ -122,17 +122,17 @@
 				/* 相同时间合并 */
 				for(let a=0;a<PlansInfo.length-1;a++)
 					for(let b=a+1;b<PlansInfo.length;b++)
-						if(PlansInfo[a].time==PlansInfo[b].time){
+						if(PlansInfo[a].time == PlansInfo[b].time){
 							PlansInfo[a].MedicalInfo=PlansInfo[a].MedicalInfo.concat(PlansInfo[b].MedicalInfo)
 							PlansInfo.splice(b,1)
 							--b
 						}
 				/* 数组按时间排序 */
-				let WeeHour=new Date('2019/8/25 00:00:00')//获取0点时间戳
-				for(let a=0;a<PlansInfo.length-1;a++)
-					for(let b=a+1;b<PlansInfo.length;b++){
-						let timeA=new Date('2019/8/25 '+PlansInfo[a].time+':00')-WeeHour
-						let timeB=new Date('2019/8/25 '+PlansInfo[b].time+':00')-WeeHour
+				let WeeHour=new Date('2019/9/25 00:00:00')//获取0点时间戳
+				for(let a = 0;a < PlansInfo.length-1;a++)
+					for(let b =a+1;b<PlansInfo.length;b++){
+						let timeA=new Date('2019/9/25 '+PlansInfo[a].time+':00')-WeeHour
+						let timeB=new Date('2019/9/25 '+PlansInfo[b].time+':00')-WeeHour
 						if(timeA>timeB){
 							let item=PlansInfo[a]
 							PlansInfo[a]=PlansInfo[b]
@@ -154,7 +154,7 @@
 			    iDays = parseInt(Math.abs(StartDay - today) / 1000 / 60 / 60 / 24) //把相差的毫秒数转换为天数 
 			    if((today-StartDay)<0)
 						iDays=-iDays
-					return iDays
+				return iDays
 			},
 			/* 根据ID获取设备的index */
 			FindEquipment(ID){
@@ -235,12 +235,12 @@
 		align-items: flex-start;
 	}
 	.Plan .time{
-		margin-left: 30px;
+		margin-left: 20px;
 		display: flex;
 		align-items: center;
 	}
 	.Plan .medicine{
-		margin-left: 20px;
+		margin-left: 15px;
 		line-height: 1.5;
 	}
 	.Plan .Medicine-item{

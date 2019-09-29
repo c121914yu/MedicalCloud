@@ -6,21 +6,28 @@
 			<view class="Title">{{EquipmentInfo.name}}药柜配置</view>
 			<view class="Remark">点击可选择需要使用的药柜,长按可配置药柜信息</view>
 			
-			<uni-grid column="3" :showBorder="false" :highlight="false">
-				<uni-grid-item :class="medical.active ? 'Active':''" v-for="(medical,index) in Medicines" :key="index"
-				  @tap="PitchMedical(medical,index)" @longpress="SetMedicineInfo(index)" @touchstart="LongTap=false">
+			<uni-grid column="2" :showBorder="false" :highlight="false" :square="false">
+				<uni-grid-item :class="medicines[0].active ? 'Active' : ''" v-for="(medicines,index1) in MedicalInfo" :key="index1"
+					@tap="PitchMedical(medicines,index1)" @longpress="SetMedicineInfo(index1)" @touchstart="LongTap=false">
 					<view class="medical">
-						<view>药柜编号:{{index+1}}</view>
-						<view >{{medical.name == '' ? '暂无存药':medical.name}}</view>
+						<view>药柜编号:{{index1+1}}</view>
+						
+						<block v-for="(medical,index2) in medicines" :key="index2">
+							<view v-if="medical.name == ''">暂无存药</view>
+							<view class="name" v-else>
+								{{medical.name}}
+							</view>
+						</block>
+	
 					</view>
 				</uni-grid-item>
 			</uni-grid>
 			
 			<!-- 发送设备基本信息，药柜编号 -->
-			<SetMedicine :show="SetMedicine" @CloseSet="CloseSet" @UpdateMedicals="UpdateMedicals"
-				:InitialInfo="InitialInfo" :StaticInfo="InitialInfo.MedicalInfo[InitialInfo.MedicalIndex]">
+			<SetMedical v-if="SetMedical" @CloseSet="CloseSet" @UpdateMedicals="UpdateMedicals"
+				:InitialInfo="InitialInfo">
 				<!-- StaticInfo是初始的药柜信息，用于判断填写内容是否发生了变化 -->
-			</SetMedicine>
+			</SetMedical>
 			
 			<button type="primary" @click="finish">完成</button>
 		</view>
@@ -31,74 +38,76 @@
 	import uniGrid from "@/components/uni-grid/uni-grid.vue"
 	import uniGridItem from "@/components/uni-grid-item/uni-grid-item.vue"
 	
-	import SetMedicine from "../Equipments/SetMedical.vue"//设置药柜组件
+	import SetMedical from "../Equipments/SetMedical.vue"//设置药柜组件
 	
 	export default{
 		data(){
 			return{
 				LongTap:false,
-				SetMedicine:false,
+				SetMedical:false,
+				
 				InitialInfo:{}
 			}
 		},
 		methods:{
 			/* 短按选中药柜 */
-			PitchMedical(medical,index){
+			PitchMedical(medicines,index){
 				if(!this.LongTap){
-					if(medical.name=='')
+					if(medicines[0].name == '')
 						uni.showToast({
 							title: '药柜无存药',
 							image:'../../static/error.png',
 							duration:1000
 						})
-					else{
-						let Medicines=JSON.parse(this.EquipmentInfo.MedicalInfo)
-						if(Medicines[index].active==false || Medicines[index].active==undefined)
-							Medicines[index].active=true
+					else{//已填写过配药，点击则选中药柜
+						let MedicalInfo=JSON.parse(this.EquipmentInfo.MedicalInfo)
+						if(MedicalInfo[index][0].active === undefined)
+							MedicalInfo[index][0].active = true
 						else
-							Medicines[index].active=false
-						this.EquipmentInfo.MedicalInfo=JSON.stringify(Medicines)
+							MedicalInfo[index][0].active = !MedicalInfo[index][0].active
+						this.EquipmentInfo.MedicalInfo = JSON.stringify(MedicalInfo)
 					}
 				}
 			},
 			/* 长按配置药柜信息 */
 			SetMedicineInfo(index){
 				this.LongTap=true
-				let medicines=this.Medicines.map(medicine=>{
-					delete medicine.active
-					return medicine
+				
+				/* 去掉active属性 */
+				let MedicalInfo = this.MedicalInfo.map(medicines => {
+					delete medicines[0].active
+					return medicines
 				})
-				let SendInfo={
+				this.EquipmentInfo.MedicalInfo = JSON.stringify(MedicalInfo)
+				
+				let InitialInfo={
 					MedicalIndex:index,
-					EquipmentName:this.EquipmentInfo.name,
 					EquipmentID:this.EquipmentInfo.ID,
-					MedicalInfo:medicines,
+					MedicalInfo:MedicalInfo,
 					EquipIndex:this.EquipIndex
 				}
-				this.InitialInfo=SendInfo
-				this.SetMedicine=true
+				this.InitialInfo=InitialInfo
+				this.SetMedical=true
 			},
 			finish(){
-				let Medicines=JSON.parse(this.EquipmentInfo.MedicalInfo)
 				let ChoosingIndex=[]
-				Medicines.forEach((medicine,index)=>{
-					if(medicine.active)
+				this.MedicalInfo.forEach((medicines,index)=>{
+					if(medicines[0].active)
 						ChoosingIndex.push(index)
 				})
 				this.$emit('ChooseMedicines',ChoosingIndex)
 			},
 			/* 关闭设置药柜 */
 			CloseSet(){
-				this.SetMedicine=false
+				this.SetMedical=false
 			},
 			/* 更新药柜信息 */
-			UpdateMedicals(medicals){
-				let Medicals=JSON.stringify(medicals)
-				this.EquipmentInfo.MedicalInfo=Medicals
+			UpdateMedicals(MedicalInfo){
+				this.EquipmentInfo.MedicalInfo = JSON.stringify(MedicalInfo)
 			}
 		},
 		computed:{
-			Medicines(){	
+			MedicalInfo(){	
 				let EquipmentInfo=this.EquipmentInfo
 				if(EquipmentInfo)
 					return JSON.parse(EquipmentInfo.MedicalInfo)
@@ -108,7 +117,7 @@
 		components:{
 			uniGrid,
 			uniGridItem,
-			SetMedicine
+			SetMedical
 		},
 		props:{
 			show:Boolean,
@@ -148,39 +157,20 @@
 		margin: 5px auto;
 	}
 	
-	/* 九宫格边框样式 */
-	uni-grid-item:nth-last-child(1){
+	/* 4宫格边框样式 */
+	uni-grid-item:nth-child(1){
 		border:1px solid #6fcdb2;
-		border-right: none;
+		border-left: none;
 	}
-	uni-grid-item:nth-last-child(2){
-		border:1px solid #6fcdb2;
-		border-right: none;
+	uni-grid-item:nth-child(2){
+		border-top:1px solid #6fcdb2;
+		border-bottom:1px solid #6fcdb2;
 	}
-	uni-grid-item:nth-last-child(3){
-		border-top: 1px solid #6fcdb2;
-		border-bottom: 1px solid #6fcdb2;
+	uni-grid-item:nth-child(3){
+		border-right:1px solid #6fcdb2;
+		border-bottom:1px solid #6fcdb2;
 	}
-	uni-grid-item:nth-last-child(4){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(5){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(6){
-		border-top: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(7){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(8){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(9){
-		border-top: 1px solid #6fcdb2;
+	uni-grid-item:nth-child(4){
+		border-bottom:1px solid #6fcdb2;
 	}
 </style>

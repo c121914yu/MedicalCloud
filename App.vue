@@ -113,7 +113,8 @@
 		background: #FFFFFF;
 		width: 90%;
 		border-radius: 10px;
-		position: fixed;
+		margin-bottom: 10%;
+		position: absolute;
 		top: 10%;
 		left: 5%;
 		z-index: 999;

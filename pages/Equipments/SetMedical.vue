@@ -1,5 +1,5 @@
 <template>
-	<view class="set-medical" >
+	<view>
 		<view class="mask"></view>
 		
 		<view class="Popup">
@@ -9,14 +9,15 @@
 			</view>
 			
 			<!-- 药物信息 -->
-			<view class="info" v-for="(name,index) in names" :key="index" @longpress="RemoveName(index)">
+			<view class="info" v-for="(info,index) in medicines" :key="index" @longpress="RemoveName(index)">
 				<text>药物{{index+1}}：</text>
 				<input type="text" placeholder-class="palaceholder" placeholder="请输入药名" 
-					v-model="names[index]"/>
+					v-model="info.name"/>
 			</view>
 			<image class="Add" @click="AddName"
 				src="../../static/Plans/AddTime.png" mode="widthFix"/>
 			
+			<!-- 药物信息 -->
 			<view class="Btn">
 				<view style="color: #cd2d2d;" @click="CloseMask">取消</view>
 				<text style="color: rgba(174,174,174,0.6);">|</text>
@@ -28,38 +29,48 @@
 </template>
 
 <script>
-	var medical=[]
 	export default{
 		data(){
-			medical = this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex]
+			let medicines = this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex]
 			return{
-				names : medical.names
+				medicines : medicines
 			}
 		},
 		methods:{
 			AddName(){//添加药
-				this.names.push('')
+				this.medicines.push({
+					name : '',
+					amount : '',
+					remark : ''
+				})
 			},
 			RemoveName(index){
-				if(this.names.length>1)
-					this.names.splice(index,1)
+				if(this.medicines.length>1)
+					this.medicines.splice(index,1)
 			},
 			SureInfo(){//确认按键	
 				/*  对names去掉空的项,且至少保留一项*/
-				let names = []
-				names=this.names.filter(name => {
-						return name != ''
+				let NewInfo = []
+				NewInfo=this.medicines.filter(item => {
+						return item.name != ''
 				})
-				if(names.length == 0)
-					names = ['']
-				medical.names = names
+				if(NewInfo.length == 0)
+					NewInfo = [{
+						name : '',
+						amount : '',
+						remark : ''
+					}]
+									
 				uni.showModal({
 					title: '提示',
 					content: '确定保存信息?',
 					success: res => {
 						if(res.confirm){	
-							uni.showLoading({title:'正在保存信息'})		
+							uni.showLoading({title:'正在保存信息'})
+							/* 修改MedicalInfo，整体返回给数据库 */
+							this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex] = NewInfo
 							let MedicalInfo=JSON.stringify(this.InitialInfo.MedicalInfo) 
+							
 							uni.request({
 								url: 'http://49.232.38.113:4000/SetMedicalInfo',
 								method: 'POST',
@@ -94,7 +105,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	body{
 		font-size: 17px;
 	}
@@ -119,6 +130,7 @@
 		align-items: center;
 	}
 	.info input{
+		/* 让input填充剩余位置 */
 		padding-right: 5px;
 		flex-grow: 1;
 	}

@@ -6,14 +6,18 @@
 		<!-- 储药情况药物一览 -->
 		<h2>储药情况</h2>
 		<uni-grid column="2" :showBorder="false" :highlight="false" :square="false">
-			<uni-grid-item v-for="(medical,index) in medicals" :key="index"
-				@tap="ClickMedical(index)">
+			<uni-grid-item v-for="(medicines,index1) in MedicalInfo" :key="index1"
+				@tap="ClickMedical(index1)">
 				<view class="medical">
-					<view>药柜编号:{{index+1}}</view>
-					<view v-if="medical.names[0] == ''">暂无存药</view>
-					<view class="name" v-else v-for="(MedicalName,index) in medical.names" :key = "index">
-						{{MedicalName}}
-					</view>
+					<view>药柜编号:{{index1+1}}</view>
+					
+					<block v-for="(medical,index2) in medicines" :key="index2">
+						<view v-if="medical.name == ''">暂无存药</view>
+						<view class="name" v-else>
+							{{medical.name}}
+						</view>
+					</block>
+					
 				</view>
 			</uni-grid-item>
 		</uni-grid>
@@ -54,8 +58,9 @@
 			return{
 				SetMedInfo:{},//设置药柜时传所有药物信息,药柜编号和设备基本信息过去
 				SetMedical:false,
-				medicals:[],
-				ChildrenInfo:{//传给子组件的信息
+				MedicalInfo:[],//结构:数组->数组->对象
+				
+				ChildrenInfo:{//传给设备信息组件的信息
 					BtnText:'修改信息',
 					LoadingText:'修改信息中',
 					PostSrc:'http://49.232.38.113:4000/AmendInfo',
@@ -69,7 +74,8 @@
 		onLoad(e) {
 			EquipIndex=e.index
 			Equipment=global.EquipmentsInfo[EquipIndex]
-			this.medicals=JSON.parse(Equipment.MedicalInfo)
+			this.MedicalInfo=JSON.parse(Equipment.MedicalInfo)
+
 			this.ChildrenInfo.EquipmentInfo=Equipment
 			this.ChildrenInfo.index=EquipIndex
 		},
@@ -77,9 +83,8 @@
 			ClickMedical(index){//点击药柜，进入单个药柜设置
 				let SendInfo={
 					MedicalIndex:index,
-					EquipmentName:Equipment.name,
 					EquipmentID:Equipment.ID,
-					MedicalInfo:this.medicals,
+					MedicalInfo:this.MedicalInfo,
 					EquipIndex:EquipIndex
 				}
 				this.SetMedInfo=SendInfo
@@ -107,11 +112,13 @@
 					}})
 			},//Remove结束
 			
-			CloseSet(e){//接收子组件传来信息关闭蒙层
+			/* 关闭设置药柜 */
+			CloseSet(e){
 				this.SetMedical=false
 			},
-			UpdateMedicals(medicals){
-				this.medicals=medicals
+			/* 更新药柜信息 */
+			UpdateMedicals(MedicalInfo){
+				this.MedicalInfo=MedicalInfo
 			}
 		},
 		components:{
