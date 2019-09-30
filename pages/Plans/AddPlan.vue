@@ -1,6 +1,6 @@
 <template>
 	<view class="AddPlan">
-		<Picker  :type="type" :value="value" :Picker="Picker"
+		<Picker v-if="Picker"  :type="type" :value="value" :EquipmentIndex="EquipmentIndex"
 			:Items1="Items1" :Items2="Items2" :Items3="Items3" :TimeInfo="TimeInfo"
 		 :InitialText="InitialText" @FinishPic="FinishPic" @Close="Close">
 		</Picker>
@@ -181,10 +181,11 @@
 					this.TimeInfo=usetime
 					this.value=[Hour,Minute]
 				}
-				else{
+				else{//新增时间
 					let TimeInfo={
 						index:this.UseTimes.length,
-						amount:'',remark:''
+						amount:'',
+						remark:''
 					}
 					this.type="添加时间"
 					this.InitialText="07:00"

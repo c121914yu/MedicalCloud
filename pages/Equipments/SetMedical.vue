@@ -4,18 +4,33 @@
 		
 		<view class="Popup">
 			<view class="Title">药柜编号:{{InitialInfo.MedicalIndex+1}}</view>
-			<view class="remark">
-				点击加号可以添加更多药物,长按药物可以删除。
-			</view>
 			
 			<!-- 药物信息 -->
-			<view class="info" v-for="(info,index) in medicines" :key="index" @longpress="RemoveName(index)">
-				<text>药物{{index+1}}：</text>
-				<input type="text" placeholder-class="palaceholder" placeholder="请输入药名" 
-					v-model="info.name"/>
+			<view class="medical">
+				<view class="info">
+					<text>药名：</text>
+					<input type="text" v-model="medicines[page].name" placeholder="输入药物名称"/>
+				</view>
+				<image class="line" src="../../static/Plans/line.png"/>
+				
+				<view class="info">
+					<text>数量：</text>
+					<input type="number" v-model="medicines[page].amount" placeholder="输入用药数量"/>
+				</view>
+				<image class="line" src="../../static/Plans/line.png"/>
+				
+				<h2>备注:</h2>
+				<textarea placeholder="可以备注些注意事项噢" v-model="medicines[page].remark"/>
 			</view>
-			<image class="Add" @click="AddName"
-				src="../../static/Plans/AddTime.png" mode="widthFix"/>
+			
+			<view style="text-align: center;">药物{{page+1}}</view>
+			
+			<view class="icon">
+				<uni-icons type="back" size="30" :color="'#088573'" @click="last"></uni-icons>
+				<uni-icons type="trash" size="30" :color="'#929191'" @click="RemoveName"></uni-icons>
+				<uni-icons v-if="page === medicines.length-1" type="plusempty" size="30" :color="'#088573'" @click="AddName"></uni-icons>
+				<uni-icons v-else type="forward" size="30" :color="'#088573'" @click="page++"></uni-icons>
+			</view>
 			
 			<!-- 药物信息 -->
 			<view class="Btn">
@@ -29,66 +44,92 @@
 </template>
 
 <script>
+	import uniIcons from '@/components/uni-icons/uni-icons.vue'
+	
 	export default{
 		data(){
 			let medicines = this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex]
 			return{
+				page : 0,
 				medicines : medicines
 			}
 		},
 		methods:{
+			last(){
+				if(this.page > 0)
+					this.page--
+			},
 			AddName(){//添加药
 				this.medicines.push({
 					name : '',
 					amount : '',
 					remark : ''
 				})
+				this.page++
 			},
-			RemoveName(index){
-				if(this.medicines.length>1)
-					this.medicines.splice(index,1)
+			RemoveName(){
+				if(this.medicines.length>1){
+					this.medicines.splice(this.page,1)
+					if(this.page != 0)
+						this.page--
+					else	
+						this.page = 0
+				}
 			},
 			SureInfo(){//确认按键	
+				let error = false
 				/*  对names去掉空的项,且至少保留一项*/
 				let NewInfo = []
-				NewInfo=this.medicines.filter(item => {
-						return item.name != ''
+				NewInfo=this.medicines.filter((item,index) => {
+					if(item.name != '' && item.amount ===''){
+						error = true
+						this.ShowToast('数量不能为空','../../static/error.png')
+						this.page = index
+					}
+					else if((item.name ==='' && item.amount != '') || (item.name ==='' && item.remark != '')){
+						error = true
+						this.ShowToast('药名不能为空','../../static/error.png')
+						this.page = index
+					}
+					return item.name != ''
 				})
-				if(NewInfo.length == 0)
+				
+				if(NewInfo.length === 0)
 					NewInfo = [{
 						name : '',
 						amount : '',
 						remark : ''
 					}]
-									
-				uni.showModal({
-					title: '提示',
-					content: '确定保存信息?',
-					success: res => {
-						if(res.confirm){	
-							uni.showLoading({title:'正在保存信息'})
-							/* 修改MedicalInfo，整体返回给数据库 */
-							this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex] = NewInfo
-							let MedicalInfo=JSON.stringify(this.InitialInfo.MedicalInfo) 
-							
-							uni.request({
-								url: 'http://49.232.38.113:4000/SetMedicalInfo',
-								method: 'POST',
-								data: {
-									MedicalInfo,
-									ID:this.InitialInfo.EquipmentID
-								},
-								success: res => {
-									global.EquipmentsInfo[this.InitialInfo.EquipIndex].MedicalInfo = MedicalInfo
-									this.$emit('UpdateMedicals',this.InitialInfo.MedicalInfo)//更新设备详细的药柜信息
-									uni.hideLoading()
-									this.ShowToast('修改成功')
-									this.CloseMask()//关闭弹窗
-								},
-								fail: (err) => {console.log(err)}})				
-						}//confirm结束
-					}
-				})//showmodal结束
+				
+				if(!error)//输入信息无误				
+					uni.showModal({
+						title: '提示',
+						content: '确定保存信息?',
+						success: res => {
+							if(res.confirm){	
+								uni.showLoading({title:'正在保存信息'})
+								/* 修改MedicalInfo，整体返回给数据库 */
+								this.InitialInfo.MedicalInfo[this.InitialInfo.MedicalIndex] = NewInfo
+								let MedicalInfo=JSON.stringify(this.InitialInfo.MedicalInfo) 
+								
+								uni.request({
+									url: 'http://49.232.38.113:4000/SetMedicalInfo',
+									method: 'POST',
+									data: {
+										MedicalInfo,
+										ID:this.InitialInfo.EquipmentID
+									},
+									success: res => {
+										global.EquipmentsInfo[this.InitialInfo.EquipIndex].MedicalInfo = MedicalInfo
+										this.$emit('UpdateMedicals',this.InitialInfo.MedicalInfo)//更新设备详细的药柜信息
+										uni.hideLoading()
+										this.ShowToast('修改成功')
+										this.CloseMask()//关闭弹窗
+									},
+									fail: (err) => {console.log(err)}})				
+							}//confirm结束
+						}
+					})//showmodal结束
 			},
 			CloseMask(){//关闭蒙层
 				this.$emit('CloseSet',false);
@@ -101,6 +142,9 @@
 		},
 		props:{
 			InitialInfo:Object,
+		},
+		components:{
+			uniIcons
 		}
 	}
 </script>
@@ -113,35 +157,42 @@
 		color: #343434;
 		text-align: center;
 	}
-	.remark{
-		color: #929191;
-		text-align: center;
-		font-size: 13px;
-	}
 	/* 药品信息样式 */
-	.info{
-		color: #343434;
-		background: #fdd930;
+	.medical{
+		font-size: 17px;
 		width: 90%;
-		border-radius: 5px;
 		margin: 5px auto;
-		padding: 10px 0 10px 5px;
+	}
+	.info{
+		height: 40px;
 		display: flex;
 		align-items: center;
 	}
-	.info input{
-		/* 让input填充剩余位置 */
-		padding-right: 5px;
-		flex-grow: 1;
+	/* 分割线样式 */
+	.line{
+		width: 90%;
+		height: 1px;
+		position: absolute;
 	}
-	.palaceholder{
-		font-size: 15px;
+	.medical h2{
+		line-height: 1.8;
 	}
-	.Add{
-		width: 12%;
-		margin-left: 5%;
+	.medical textarea{
+		color: #696767;
+		height: 60px;
+		width: 95%;
+		padding: 5px;
+		border: 1px solid #088573;
+		border-radius: 10px;
 	}
 	/* 药品信息样式 */
+	/* 图标样式 */
+	.icon{
+		width: 40%;
+		margin: 5px auto;
+		display: flex;
+		justify-content: space-between;
+	}
 	/* 确认/取消按键 */
 	.Btn{
 		margin: 20px 0 10px 0;

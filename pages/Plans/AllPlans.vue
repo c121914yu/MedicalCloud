@@ -97,9 +97,9 @@
 							data.MedicalInfo.push(MedicalInfo)
 						}
 						else{//使用设备，根据选中的药柜编号筛选出药名
-							let index=this.FindEquipment(plan.EquipmentID)//获取设备的下标
-							let Medicines=JSON.parse(global.EquipmentsInfo[index].MedicalInfo)
-							let MedicalIndex=JSON.parse(plan.MedicalIndex)//获取选中的药柜编号
+							let index = this.FindEquipment(plan.EquipmentID)//获取设备的下标
+							let Medicines = JSON.parse(global.EquipmentsInfo[index].MedicalInfo)
+							let MedicalIndex = JSON.parse(plan.MedicalIndex)//获取选中的药柜编号
 							
 							/* 将选中的药柜进行遍历,并从中获取所有的药名 */
 							MedicalIndex.forEach(item => {
@@ -110,7 +110,8 @@
 										remark:medical.remark,
 										PlanID:plan.PlanID
 									}
-									data.MedicalInfo.push(MedicalInfo)})		
+									if(MedicalInfo.name != '')
+										data.MedicalInfo.push(MedicalInfo)})		
 							})
 						}
 						/* 获取时间 */

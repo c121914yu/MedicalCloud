@@ -34,7 +34,6 @@
 <!-- 由于异步问题不方便使用生命周期，直接绑定父级传来的值，异步完成后自动会修改
 	-->
 <script>
-	
 	var parent,Equipment
 	export default{
 		data(){

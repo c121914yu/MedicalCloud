@@ -1,6 +1,6 @@
 <!-- 弹窗选择 -->
 <template>
-	<view class="Picker" v-if="Picker">
+	<view class="Picker">
 		<view class="mask"></view>
 		<view class="Popup">
 			<!-- 选中的提示文字 -->
@@ -27,7 +27,7 @@
 			</picker-view>
 			
 			<!-- 设置用药时间特有输入框 -->
-			<view class="UseTime" v-if="type=='添加时间' || type=='修改时间'">
+			<view class="UseTime" v-if="(type=='添加时间' || type=='修改时间') && EquipmentIndex[0] === 0">
 				<view class="info">
 					<view>用药量：</view>
 					<input type="number" v-model="TimeInfo.amount" placeholder="服用药物数量"/>
@@ -109,16 +109,16 @@
 			},
 			
 			FinishPic(){//完成选择
-				if(this.type=="添加时间" && this.TimeInfo.amount=='')
+				if(this.type === "添加时间" && this.TimeInfo.amount === '' && this.EquipmentIndex[0] === 0)
 					this.showtoast("请输入用药量")
-				else if(this.type=="修改时间" && this.TimeInfo.amount=='')
+				else if(this.type === "修改时间" && this.TimeInfo.amount === '' && this.EquipmentIndex[0] === 0)
 					this.showtoast("请输入用药量")
 				else{
 					let data={
 						type:this.type,
 						TimeInfo:this.TimeInfo,
 						value:this.value,
-						CurrentText:this.CurrentText=='' ? this.InitialText:this.CurrentText
+						CurrentText:this.CurrentText === '' ? this.InitialText:this.CurrentText
 					}
 					this.CurrentText=''
 					this.$emit('FinishPic',data)
@@ -138,8 +138,8 @@
 			}
 		},
 		props:{
-			Picker:Boolean,
 			type:String,
+			EquipmentIndex:Array,
 			InitialText:{
 				type:String,
 				value:''
