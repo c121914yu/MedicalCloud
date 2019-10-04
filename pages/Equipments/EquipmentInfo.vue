@@ -162,6 +162,7 @@
 		padding: 5px 0 5px 5px;
 		border: 1px solid #cbcdcf;
 		border-radius: 10px;
+		z-index: 0;
 	}
 	/* 设备信息样式 */
 	button{

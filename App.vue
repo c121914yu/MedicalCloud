@@ -1,8 +1,8 @@
 <script>
-	global.UserLoginInfo=uni.getStorageSync('UserLoginInfo')
-	global.ScreenWidth=uni.getSystemInfoSync().screenWidth
-	global.EquipmentsInfo=''
-	global.UserPlans=[]
+	global.UserLoginInfo = uni.getStorageSync('UserLoginInfo')
+	global.ScreenWidth = uni.getSystemInfoSync().screenWidth
+	global.EquipmentsInfo = []
+	global.UserPlans = []
 	
 	global.SetLoginIngo=(that,UserLoginInfo,text)=>{
 		/* 登录全局函数,存储用户信息 */
@@ -62,7 +62,7 @@
 			fail: (err) => {console.log(err)}})
 	}
 	/* 获取计划信息 */
-	global.GetPlans=(phone,back=false,text='')=>{
+	global.GetPlans = (phone,back=false,text='') => {
 		uni.request({
 			url: 'http://49.232.38.113:4000/GetPlans',
 			method: 'POST',
@@ -78,7 +78,36 @@
 			fail: (err) => {console.log(err)},
 		});
 	}
-	
+	/* 判断哪些设备及对应的药柜有计划 */
+	global.PlanEquipment = (ID) =>{
+		let data = []
+		global.UserPlans.forEach(plan => {
+			if(plan.EquipmentID != '不使用设备')
+				data.push({
+					EquipmentID : plan.EquipmentID,
+					MedicalIndex : JSON.parse(plan.MedicalIndex) 
+				})
+		})
+		if(data.length > 0)
+			for(let a=0;a<data.length-1;a++){
+				/* 相同ID的合并 */
+				for(let b=a+1;b<data.length;b++)
+					if(data[a].EquipmentID === data[b].EquipmentID){
+						data[a].MedicalIndex = data[a].MedicalIndex.concat(data[b].MedicalIndex)
+						data.splice(b,1)
+						--b
+					}
+				/* 相同MedicalIndex去重 */
+				data[a].MedicalIndex = data[a].MedicalIndex.filter((item,index,self) => {
+					return self.indexOf(item) === index
+				})
+			}			
+		data = data.find(item => {
+			return item.EquipmentID == ID
+		})
+		return data
+	}
+
 	export default {
 		onLaunch: function() {
 			if(global.UserLoginInfo){

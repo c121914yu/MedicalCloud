@@ -24,10 +24,9 @@
 				</view>
 				<!-- 药物部分 -->
 				<view class="medicine">	
-					<view class="Medicine-item" v-for="(medical,index1) in plan.MedicalInfo" :key="index1"
-						 @tap="SetPlan(medical.PlanID)">
+					<view class="Medicine-item" v-for="(medical,index1) in plan.MedicalInfo" :key="index1">
 						<view class="dot" v-if="medical.remark != ''"></view>
-						<view :class="medical.remark === '' ? 'MedicalName' : ''">
+						<view :class="medical.remark === '' ? 'MedicalName' : ''" @click="SetPlan(medical.PlanID)">
 							{{medical.name}} * {{medical.amount}}
 						</view> 
 						<view class="remark" v-if = "medical.remark != ''">备注:{{medical.remark}}</view>

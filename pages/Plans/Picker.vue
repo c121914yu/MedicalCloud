@@ -2,6 +2,7 @@
 <template>
 	<view class="Picker">
 		<view class="mask"></view>
+		
 		<view class="Popup">
 			<!-- 选中的提示文字 -->
 			<view class="CurrentText">
@@ -25,17 +26,28 @@
 					</view>
 				</picker-view-column>
 			</picker-view>
-			
-			<!-- 设置用药时间特有输入框 -->
+						
+			<!-- 不需要设备时设置用药时间特有输入框 -->
 			<view class="UseTime" v-if="(type=='添加时间' || type=='修改时间') && EquipmentIndex[0] === 0">
 				<view class="info">
 					<view>用药量：</view>
 					<input type="number" v-model="TimeInfo.amount" placeholder="服用药物数量"/>
 				</view>
 				<image class="line" src="../../static/Plans/line.png"/>
+				
 				<h2>备注:</h2>
 				<textarea placeholder="可以备注些注意事项噢"
 					v-model="TimeInfo.remark"/>
+			</view>
+			
+			<view class="record" v-else-if="(type=='添加时间' || type=='修改时间') && EquipmentIndex[0] != 0">				
+				<view class="remark">按住录音作为计划执行的提示音</view>
+				<image :hidden="RecordUrl" class="start_play" src="../../static/Plans/StartRecord.png"
+					mode="widthFix" @touchstart="StartRecord" @touchend="StopRecord"/>
+				<image :hidden="!RecordUrl" class="start_play" src="../../static/Plans/PlayVoice.png" 
+					mode="widthFix" @click="listen"/>
+				<image class="delete" src="../../static/Plans/delete.png" mode="widthFix"
+					@click="RemoveUrl"/>
 			</view>
 			
 			<!-- 确认，取消键 -->
@@ -44,17 +56,22 @@
 				<text>|</text>
 				<view style="color: #088573;" @click="FinishPic">确认</view>
 			</view>
+			
 		</view>
 	</view>
 </template>
 
 <script>
 	var CurrentText
+	var recorderManager = uni.getRecorderManager()
+	var innerAudioContext = uni.createInnerAudioContext()
+	innerAudioContext.volume = 1
+	
 	export default{
 		data(){
 			return{
-				CurrentText:'',
-				DayList:[]
+				CurrentText : '',
+				DayList : [],
 			}
 		},
 		methods:{
@@ -108,6 +125,29 @@
 				this.DayList=DayList
 			},
 			
+			/* 录音 */
+			StartRecord(){
+				recorderManager.start({
+					format : 'mp3'
+				})
+			},
+			StopRecord(){
+				recorderManager.stop()
+				recorderManager.onStop(res => {
+					this.TimeInfo.RecordUrl = res.tempFilePath
+				})
+			},
+			listen(){
+				if(this.TimeInfo.RecordUrl){
+					console.log(this.TimeInfo.RecordUrl)
+					innerAudioContext.src = this.TimeInfo.RecordUrl
+					innerAudioContext.play()
+				}
+			},
+			RemoveUrl(){
+				this.TimeInfo.RecordUrl = ''
+			},
+			
 			FinishPic(){//完成选择
 				if(this.type === "添加时间" && this.TimeInfo.amount === '' && this.EquipmentIndex[0] === 0)
 					this.showtoast("请输入用药量")
@@ -118,7 +158,7 @@
 						type:this.type,
 						TimeInfo:this.TimeInfo,
 						value:this.value,
-						CurrentText:this.CurrentText === '' ? this.InitialText:this.CurrentText
+						CurrentText:this.CurrentText === '' ? this.InitialText : this.CurrentText
 					}
 					this.CurrentText=''
 					this.$emit('FinishPic',data)
@@ -135,6 +175,14 @@
 					title:text,
 					image:"../../static/error.png",
 					duration:1000})
+			}
+		},//methods结束
+		computed:{
+			RecordUrl(){
+				if(this.TimeInfo.RecordUrl === '')
+					return false
+				else
+					return true
 			}
 		},
 		props:{
@@ -180,16 +228,11 @@
 		margin: 10px auto;
 	}
 	
-	.Btn{
-		margin: 20px 0 10px 0;
-		display: flex;
-	}
-	.Btn view{
-		width: 50%;
-		text-align: center;
-	}
-	.Btn text{
-		color: rgba(174,174,174,0.6);
+	/* 分割线样式 */
+	.line{
+		width: 90%;
+		height: 1px;
+		position: absolute;
 	}
 	
 	/* 时间设置特有内容样式 */
@@ -198,16 +241,10 @@
 		width: 90%;
 		margin: 20px auto;
 	}
-	.info{
+	.UseTime .info{
 		height: 40px;
 		display: flex;
 		align-items: center;
-	}
-	/* 分割线样式 */
-	.line{
-		width: 90%;
-		height: 1px;
-		position: absolute;
 	}
 	.UseTime h2{
 		line-height: 1.8;
@@ -220,4 +257,39 @@
 		border-radius: 10px;
 	}
 	/* 时间设置特有内容样式 */
+	
+	/* 录音样式 */
+	.record{
+		margin: 10px 0;
+	}
+	.record .start_play{
+		width: 60px;
+		height: auto;
+		margin-left: 40%;
+	}
+	.record .delete{
+		width: 25px;
+		height: auto;
+		margin-left: 30px;
+		margin-bottom: 15px;
+	}
+	.record .remark{
+		color: #b3b3b3;
+		font-size: 12px;
+		text-align: center;
+		margin-bottom: 5px;
+	}
+	/* 录音样式 */
+	
+	.Btn{
+		margin: 10px 0;
+		display: flex;
+	}
+	.Btn view{
+		width: 50%;
+		text-align: center;
+	}
+	.Btn text{
+		color: rgba(174,174,174,0.6);
+	}
 </style>

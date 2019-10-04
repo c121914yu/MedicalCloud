@@ -4,6 +4,8 @@
 		
 		<view class="Popup">
 			<view class="Title">药柜编号:{{InitialInfo.MedicalIndex+1}}</view>
+			<view v-if="InitialInfo.active === true" class="remark">该药柜含计划,修改后请注意核对</view>
+			<view v-else-if="InitialInfo.active === 'plan'" class="remark">该药柜可能含其他计划,修改后请注意核对</view>
 			
 			<!-- 药物信息 -->
 			<view class="medical">
@@ -68,13 +70,17 @@
 				this.page++
 			},
 			RemoveName(){
-				if(this.medicines.length>1){
-					this.medicines.splice(this.page,1)
-					if(this.page != 0)
-						this.page--
-					else	
-						this.page = 0
-				}
+				this.medicines.splice(this.page,1)
+				if(this.medicines.length === 0)
+					this.medicines = [{
+						name : '',
+						amount : '',
+						remark : ''
+					}]	
+				if(this.page != 0)
+					this.page--
+				else	
+					this.page = 0
 			},
 			SureInfo(){//确认按键	
 				let error = false
@@ -157,22 +163,27 @@
 		color: #343434;
 		text-align: center;
 	}
-	/* 药品信息样式 */
-	.medical{
-		font-size: 17px;
-		width: 90%;
-		margin: 5px auto;
-	}
-	.info{
-		height: 40px;
-		display: flex;
-		align-items: center;
+	.remark{
+		color: #da1a1a;
+		font-size: 12px;
+		text-align: center;
 	}
 	/* 分割线样式 */
 	.line{
 		width: 90%;
 		height: 1px;
 		position: absolute;
+	}
+	/* 药品信息样式 */
+	.medical{
+		font-size: 17px;
+		width: 90%;
+		margin: 5px auto;
+	}
+	.medical .info{
+		height: 40px;
+		display: flex;
+		align-items: center;
 	}
 	.medical h2{
 		line-height: 1.8;
