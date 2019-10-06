@@ -100,24 +100,29 @@
 			},
 			/* 删除设备按键 */
 			Remove(){
-				uni.showModal({
-					title: '提示',
-					content: '确定删除设备?',
-					confirmColor:"#e42020",
-					success: res => {
-						if(res.confirm)
-							uni.request({
-								url: 'http://49.232.38.113:4000/RemoveEquipment',
-								method: 'POST',
-								data: {ID:Equipment.ID},
-								success: (res) => {
-									global.EquipmentsInfo.splice(EquipIndex,1)
-									uni.navigateBack({
-										delta: 1,
-										success(){uni.showToast({title: '删除设备成功'})}})
-								},//request请求成功结束
-								fail(err) {console.log(err)}})
-					}})
+				if(this.MedicalIndex.length > 0)
+					uni.showToast({
+							title:'正在执行计划',
+							image:"../../static/error.png",})
+				else
+					uni.showModal({
+						title: '提示',
+						content: '确定删除设备?',
+						confirmColor:"#e42020",
+						success: res => {
+							if(res.confirm)
+								uni.request({
+									url: 'http://49.232.38.113:4000/RemoveEquipment',
+									method: 'POST',
+									data: {ID:Equipment.ID},
+									success: (res) => {
+										global.EquipmentsInfo.splice(EquipIndex,1)
+										uni.navigateBack({
+											delta: 1,
+											success(){uni.showToast({title: '删除设备成功'})}})
+									},//request请求成功结束
+									fail(err) {console.log(err)}})
+						}})
 			},//Remove结束
 			
 			/* 关闭设置药柜 */
