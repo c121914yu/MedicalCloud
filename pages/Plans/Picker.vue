@@ -40,12 +40,19 @@
 					v-model="TimeInfo.remark"/>
 			</view>
 			
-			<view class="record" v-else-if="(type=='添加时间' || type=='修改时间') && EquipmentIndex[0] != 0">				
+			<view class="record" v-else-if="(type=='添加时间' || type=='修改时间') && EquipmentIndex[0] != 0">			
 				<view class="remark">按住录音作为计划执行的提示音</view>
-				<image :hidden="RecordUrl" class="start_play" src="../../static/Plans/StartRecord.png"
-					mode="widthFix" @touchstart="StartRecord" @touchend="StopRecord"/>
-				<image :hidden="!RecordUrl" class="start_play" src="../../static/Plans/PlayVoice.png" 
-					mode="widthFix" @click="listen"/>
+				<view class="box"  @touchstart="StartRecord" @touchend="StopRecord"  @click="listen">
+					<image :hidden="RecordUrl" class="start_play" src="../../static/Plans/StartRecord.png"
+						mode="widthFix"/>
+					<image :hidden="!RecordUrl" class="start_play" src="../../static/Plans/PlayVoice.png" 
+						mode="widthFix"/>
+					<!-- 动画效果 -->
+					<view :class="animationStatus ? 'rippleAnimation1 ripple' : 'ripple'"></view>
+					<view :class="animationStatus ? 'rippleAnimation2 ripple' : ''"></view>
+					<view :class="animationStatus ? 'rippleAnimation3 ripple' : ''"></view>
+				</view>
+				
 				<image class="delete" src="../../static/Plans/delete.png" mode="widthFix"
 					@click="RemoveUrl"/>
 			</view>
@@ -72,6 +79,7 @@
 			return{
 				CurrentText : '',
 				DayList : [],
+				animationStatus: false
 			}
 		},
 		methods:{
@@ -127,19 +135,26 @@
 			
 			/* 录音 */
 			StartRecord(){
-				recorderManager.start({
-					format : 'mp3'
-				})
+				if(!this.TimeInfo.RecordUrl){
+					this.animationStatus = true
+					recorderManager.start({
+						format : 'mp3'
+					})
+				}
 			},
 			StopRecord(){
-				recorderManager.stop()
-				recorderManager.onStop(res => {
-					this.TimeInfo.RecordUrl = res.tempFilePath
-				})
+				if(!this.TimeInfo.RecordUrl){
+					this.animationStatus = false
+					recorderManager.stop()
+					recorderManager.onStop(res => {
+						if(res.duration > 500)
+							this.TimeInfo.RecordUrl = res.tempFilePath
+					})
+				}
 			},
 			listen(){
 				if(this.TimeInfo.RecordUrl){
-					console.log(this.TimeInfo.RecordUrl)
+					console.log('播放录音')
 					innerAudioContext.src = this.TimeInfo.RecordUrl
 					innerAudioContext.play()
 				}
@@ -262,22 +277,64 @@
 	.record{
 		margin: 10px 0;
 	}
-	.record .start_play{
+	.record .remark{
+		color: #b3b3b3;
+		font-size: 12px;
+		text-align: center;
+		margin-bottom: 5px;
+	}
+	.record .box{
 		width: 60px;
-		height: auto;
+		height: 60px;
+		border-radius: 50%;
+		display: inline-block;
+		position: relative;
 		margin-left: 40%;
+	}
+	.record .start_play{
+		width: 50px;
+		margin-left: 5px;
+		margin-top: 5px;
+		z-index: 2;
+	}
+	/* 动画 */
+	.record .ripple{
+		position: absolute;
+		top:0;
+		left:0;
+		right:0;
+		bottom:0;
+		border-radius: 50%;
+		border:2px solid #088573;
+		z-index: 1;
+	}
+	.rippleAnimation1{
+	  animation: ripple 1.5s infinite linear;
+	} 
+	.rippleAnimation2{
+	  animation: ripple 1.5s infinite linear;
+	  animation-delay:0.5s;
+	} 
+	.rippleAnimation3{
+	  animation: ripple 1.5s infinite linear;
+	  animation-delay:1s;
+	} 
+	@keyframes ripple{
+	  from{
+	    opacity: 1;
+	    transform: scale(1,1)
+	  }
+	  to{
+	    opacity: 0;
+	    transform: scale(3,3)
+	  }
 	}
 	.record .delete{
 		width: 25px;
 		height: auto;
 		margin-left: 30px;
 		margin-bottom: 15px;
-	}
-	.record .remark{
-		color: #b3b3b3;
-		font-size: 12px;
-		text-align: center;
-		margin-bottom: 5px;
+		z-index: 2;
 	}
 	/* 录音样式 */
 	

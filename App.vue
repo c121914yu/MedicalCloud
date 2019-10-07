@@ -147,6 +147,15 @@
 		top: 10%;
 		left: 5%;
 		z-index: 999;
+		animation: appear 0.5s;
+	}
+	@keyframes appear{
+	  from{
+	    top: -50px;
+	  }
+	  to{
+	    top: 10%;
+	  }
 	}
 	/* 弹框样式 */
 </style>

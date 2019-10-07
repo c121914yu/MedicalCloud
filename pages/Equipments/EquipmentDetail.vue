@@ -120,8 +120,8 @@
 										uni.navigateBack({
 											delta: 1,
 											success(){uni.showToast({title: '删除设备成功'})}})
-									},//request请求成功结束
-									fail(err) {console.log(err)}})
+									},
+									fail(err) {console.log(err)}})//request请求成功结束
 						}})
 			},//Remove结束
 			
