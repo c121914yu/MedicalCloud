@@ -261,11 +261,15 @@
 		display: flex;
 		align-items: center;
 	}
+	.UseTime .info input{
+		flex: 1;
+	}
 	.UseTime h2{
 		line-height: 1.8;
 	}
 	.UseTime textarea{
 		color: #696767;
+		width: 94%;
 		height: 60px;
 		padding: 5px;
 		border: 1px solid #088573;

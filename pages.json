@@ -33,12 +33,6 @@
 		},
 		
 		{
-			"path": "pages/Equipments/AllEquipment",
-			"style": {
-				"navigationBarTitleText": "我的设备"
-			}
-		},
-		{
 			"path": "pages/Equipments/EquipmentDetail",
 			"style": {
 				"navigationBarTitleText": "设备信息"
@@ -79,9 +73,9 @@
 			}
 		},
 		{
-			"path": "pages/Plans/UndoPlans",
+			"path": "pages/Plans/Record",
 			"style": {
-				"navigationBarTitleText": "未完成计划",
+				"navigationBarTitleText": "用药记录",
 				"navigationBarBackgroundColor":"088573"
 			}
 		},
@@ -128,7 +122,7 @@
 		"list": [
 			{
 				"name": "test", //模式名称
-				"path": "pages/Equipments/EquipmentDetail", //启动页面，必选
+				"path": "pages/Plans/Record", //启动页面，必选
 				"query": "" //启动参数，在页面的onLoad函数里面得到
 			}
 		]

@@ -34,7 +34,7 @@
 							})
 						else
 							uni.reLaunch({
-								url:'Home',
+								url:'Plans',
 								success:()=>{this.showtoast(text,'success','')}
 							})
 					},

@@ -6,22 +6,26 @@
 			<view class="Title">{{EquipmentInfo.name}}药柜配置</view>
 			<view class="Remark">点击可选择需要使用的药柜,长按可配置药柜信息</view>
 			
-			<uni-grid column="2" :showBorder="false" :highlight="false" :square="false">
-				<uni-grid-item :class="Active(index1) ? 'active' : ''" v-for="(medicines,index1) in MedicalInfo" :key="index1"
-					@tap="PitchMedical(medicines,index1)" @longpress="SetMedicineInfo(index1)" @touchstart="LongTap=false">
-					<view class="medical">
-						<view>药柜编号:{{index1+1}}</view>
-						
-						<block v-for="(medical,index2) in medicines" :key="index2">
-							<view v-if="medical.name == ''">暂无存药</view>
-							<view class="name" v-else>
-								{{medical.name}}
-							</view>
-						</block>
-	
-					</view>
-				</uni-grid-item>
-			</uni-grid>
+			<view class="medicines">
+				<view
+					class="medical"
+					:class="Active(index1) ? 'active' : ''"
+					v-for="(medicines,index1) in MedicalInfo" 
+					:key="index1" 
+					@click="PitchMedical(medicines,index1)"
+					@longpress="SetMedicineInfo(index1)" 
+					@touchstart="LongTap=false"
+				>
+					<view>药柜编号:{{index1+1}}</view>
+					
+					<block v-for="(medical,index2) in medicines" :key="index2">
+						<view v-if="medical.name == ''">暂无存药</view>
+						<view class="name" v-else>
+							{{medical.name}}
+						</view>
+					</block>
+				</view>
+			</view>
 			
 			<!-- 发送设备基本信息，药柜编号 -->
 			<SetMedical v-if="SetMedical" @CloseSet="CloseSet" @UpdateMedicals="UpdateMedicals"
@@ -35,9 +39,6 @@
 </template>
 
 <script>
-	import uniGrid from "@/components/uni-grid/uni-grid.vue"
-	import uniGridItem from "@/components/uni-grid-item/uni-grid-item.vue"
-	
 	import SetMedical from "../Equipments/SetMedical.vue"//设置药柜组件
 	
 	export default{
@@ -129,8 +130,6 @@
 			},
 		},
 		components:{
-			uniGrid,
-			uniGridItem,
 			SetMedical
 		},
 		props:{
@@ -153,39 +152,54 @@
 		color: #7b7b7b;
 		line-height: 1.8;
 	}
+	
+	/* 储药情况样式 */
+	.medicines{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
 	.medical{
-		/* 九宫格储药情况样式 */
+		box-sizing: border-box;
 		font-size: 15px;
-		width: 80%;
+		width: 50%;
 		text-align: center;
 		line-height: 1.7;
-	}	
+		padding: 5px 0;
+	}
+	.medical .name{
+		width: 98%;
+		margin: 0 auto;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.medical:nth-child(1){
+		border-top: 1px solid #088573;
+		border-right: 1px solid #088573;
+		border-bottom: 1px solid #088573;
+	}
+	.medical:nth-child(2){
+		border-top: 1px solid #088573;
+		border-bottom: 1px solid #088573;
+	}
+	.medical:nth-child(3){
+		border-right: 1px solid #088573;
+		border-bottom: 1px solid #088573;
+	}
+	.medical:nth-child(4){
+		border-bottom: 1px solid #088573;
+	}
+	
 	/* 选中药柜背景加深 */
 	.active{
 		background: rgba(8,133,115,0.4);
 	}
+	
 	button{
 		background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1));
 		color: #FFFFFF;
 		border-radius: 20px;
 		width: 90%;
 		margin: 5px auto;
-	}
-	
-	/* 4宫格边框样式 */
-	uni-grid-item:nth-child(1){
-		border:1px solid #6fcdb2;
-		border-left: none;
-	}
-	uni-grid-item:nth-child(2){
-		border-top:1px solid #6fcdb2;
-		border-bottom:1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-child(3){
-		border-right:1px solid #6fcdb2;
-		border-bottom:1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-child(4){
-		border-bottom:1px solid #6fcdb2;
 	}
 </style>

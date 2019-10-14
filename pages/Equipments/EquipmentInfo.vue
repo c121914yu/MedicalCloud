@@ -3,7 +3,7 @@
 	<view>
 		<view class="info">
 			<text space="emsp">类 型:</text>
-			<picker class="content palaceholder" mode="selector" v-model="kind"
+			<picker class="content" mode="selector" v-model="kind"
 				:range="kinds" :value="index" @change="ChooseKind" :disabled="info.change">
 				<view>{{kinds[index]}}</view>
 			</picker>
@@ -128,6 +128,10 @@
 </script>
 
 <style scoped>
+	.palaceholder{
+		color: #858181;
+		font-size: 15px;
+	}
 	/* 设备信息样式 */
 	.info{	
 		width: 94%;
@@ -138,6 +142,9 @@
 		display: flex;
 		align-items: center;
 	}
+	.info:nth-child(1){
+		margin-top: 0;
+	}
 	.info text{
 		margin-left: 10px;
 	}
@@ -146,10 +153,7 @@
 		width: 70%;
 		margin-left: 15px;
 	}
-	.palaceholder{
-		color: #858181;
-		font-size: 15px;
-	}
+	
 	.remark{
 		width: 94%;
 		margin: 10px auto;
@@ -157,19 +161,17 @@
 	.remark textarea{
 		color: #696767;
 		width: 97%;
-		min-height: 30px;
 		margin-top: 5px;
 		padding: 5px 0 5px 5px;
 		border: 1px solid #cbcdcf;
 		border-radius: 10px;
-		z-index: 0;
 	}
 	/* 设备信息样式 */
 	button{
 		background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1));
 		color: #FFFFFF;
-		border-radius: 40px;
-		width: 90%;
+		border-radius: 20px;
+		width: 95%;
 		margin: 5px auto;
 	}
 </style>

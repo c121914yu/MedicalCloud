@@ -15,6 +15,7 @@
 					url:'../Home',
 					success() {//成功存储数据后，将个人信息赋给全局变量，然后跳转
 						global.UserLoginInfo=UserLoginInfo
+						global.GetPlans(UserLoginInfo.phone)
 						uni.showToast({title: text})}})}
 		})//setstory结束
 	}
@@ -119,9 +120,6 @@
 </script>
 
 <style>
-	*{
-		box-sizing: border-box;
-	}
 	/*每个页面公共css */
 	image{
 		height: auto;
@@ -147,7 +145,7 @@
 		top: 10%;
 		left: 5%;
 		z-index: 999;
-		animation: appear 0.5s;
+		animation: appear 0.5s ease-out;
 	}
 	@keyframes appear{
 	  from{

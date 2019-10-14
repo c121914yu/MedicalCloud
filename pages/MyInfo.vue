@@ -5,25 +5,22 @@
 			<text style="color: #088573;">{{UserName}}</text>
 		</view>
 		
-		<view class="info">
-			<text>我的设备</text>
-			<text class="amount">{{EquipmentAmount}}</text>
-		</view>
+		<navigator class="info" url="Plans/Record" hover-class="none">
+			<text>用药记录</text>
+			<text class="amount">0</text>
+			<image src="../static/to_right.png" mode="widthFix"></image>
+		</navigator>
 		
 		<view class="info">
 			<text space="emsp">我的计划</text>
 			<text class="amount">{{PlanAmount}}</text>
+			<image src="../static/to_right.png" mode="widthFix"></image>
 		</view>
 		
 		<view class="info">
-			<text>已执行计划</text>
-			<text class="amount">12</text>
+			<text>我的设备</text>
+			<text class="amount">{{EquipmentAmount}}</text>
 		</view>
-		
-		<navigator class="info" url="Plans/UndoPlans" hover-class="none">
-			<text>未完成计划</text>
-			<text class="amount">0</text>
-		</navigator>
 		
 		<button class="LogOut" @click="LogOut">退出登录</button>
 	</view>
@@ -96,14 +93,23 @@
 		color: #b3b3b3;
 		width: 90%;
 		margin: 0 auto;
-		padding-left: 5px;
-		line-height: 2;
+		padding: 7px 5px;
 		border-top: 1px dotted #c8c8c8;
+		position: relative;
+	}
+	.info:active{
+		background: rgba(212,212,212,0.6);
 	}
 	.info .amount{
 		color: #088573;
 		margin-left: 10px;
 	}
+	.info image{
+		width: 17px;
+		position: absolute;
+		right: 10px;
+	}
+	
 	.LogOut{
 		background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1));
 		color: #FFFFFF;

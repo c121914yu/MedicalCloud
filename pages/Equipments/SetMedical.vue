@@ -185,6 +185,9 @@
 		display: flex;
 		align-items: center;
 	}
+	.medical .info input{
+		flex: 1;
+	}
 	.medical h2{
 		line-height: 1.8;
 	}

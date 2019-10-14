@@ -47,6 +47,7 @@
 <style>
 	h2{
 		text-align: center;
+		margin-bottom: 10px;
 	}
 	.scan{
 		/* 扫一扫样式 */

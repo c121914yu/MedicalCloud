@@ -3,7 +3,6 @@
 	<view class="MyEquipment">
 		<view class="Header">
 			<h3>我的设备</h3>
-			<navigator hover-class="none" url="Equipments/AllEquipment">查看全部</navigator>
 		</view>
 		
 		<scroll-view class="scroll" scroll-x="true">

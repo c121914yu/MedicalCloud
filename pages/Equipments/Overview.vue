@@ -1,7 +1,9 @@
 <!-- EquipmentDetail头部概况组件 -->
 <template>
 	<view class="overview">
-		<image src="../../static/logo.png" mode="widthFix"></image>
+		<view class="logo">
+			<image src="../../static/logo.png" mode="widthFix"></image>
+		</view>
 		<view class="overview-info">
 			<view>
 				 <cmd-progress :percent="power" status="active" stroke-width="15">
@@ -62,12 +64,16 @@
 		display: flex;
 		align-items: center;
 	}
-	.overview image{
+	.overview .logo{
 		width: 25%;
+		height: width;
+	}
+	.overview .logo image{
+		width: 100%;
 		height: auto;
 		border-radius: 50%;
 	}
-	.overview-info{
+	.overview .overview-info{
 		/* 设备总体情况(计划数，未完成) */
 		width: 60%;
 		margin-left: 20px;
