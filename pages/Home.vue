@@ -20,8 +20,14 @@
 				EquipmentInfo:[]
 			}
 		},
+		onLoad() {
+			uni.showLoading({title: '加载中'})
+		},
 		onShow() {
 			this.EquipmentInfo=global.EquipmentsInfo
+		},
+		onReady() {
+			uni.hideLoading()
 		},
 		components:{
 			PushArticle,Equipment,BodyInfo

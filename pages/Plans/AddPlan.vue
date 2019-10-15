@@ -7,19 +7,19 @@
 		
 		<view class="info">
 			<view>使用设备：</view>
-			<view @click="PickerEquipment">{{CurrentText[0]}}</view>
+			<view class="content" @click="PickerEquipment">{{CurrentText[0]}}</view>
 		</view>
 		<image class="line" src="../../static/Plans/line.png"/>
 		
 		<!-- 不需要设备,直接填写药名 -->
 		<view class="info" v-if="!EquipmentIndex[0]">
 			<view>药物名称：</view>
-			<input type="text" v-model="MedicalName" placeholder="药物名称" />
+			<input class="content" type="text" v-model="MedicalName" placeholder="药物名称" />
 		</view>
 		<!-- 需要设备,选择对应的药柜 -->
 		<view class="info" v-else>
 			<view>选择药柜：</view>
-			<view class="Medicines" @click="PicMedicine">
+			<view class="Medicines content" @click="PicMedicine">
 				<view v-if="MedicalIndex.length==0">配置药柜</view>
 				<view v-for="(item,index) in MedicalIndex" :key="index">药柜{{item+1}}</view>
 			</view>
@@ -32,7 +32,7 @@
 		
 		<view class="info">
 			<view>开始日期：</view>
-			<view @click="PickerDate">
+			<view class="content" @click="PickerDate">
 				{{CurrentText[1]==Today ? '今天' : CurrentText[1]}}
 			</view>
 		</view>
@@ -40,7 +40,7 @@
 		
 		<view class="info">
 			<view>计划频率：</view>
-			<view @click="PickerFrequency">{{CurrentText[2]}}</view>
+			<view class="content" @click="PickerFrequency">{{CurrentText[2]}}</view>
 		</view>
 		<image class="line" src="../../static/Plans/line.png"/>
 		
@@ -383,7 +383,8 @@
 					DayList.push(i)	
 			},//SetDate结束
 			SetFrequency(){//生成频率信息数组
-				for(let i=1;i<100;i++)
+				FrequencyList = []
+				for(let i=1;i<31;i++)
 					FrequencyList.push(i)
 			},
 			SetTimes(){//生成时间数组
@@ -459,7 +460,7 @@
 	}
 	/* 分割线样式 */
 	.line{
-		width: 85%;
+		width: 90%;
 		height: 1px;
 		margin: 0 auto;
 		position: absolute;
@@ -474,6 +475,9 @@
 		margin: 0 auto;
 		display: flex;
 		align-items: center;
+	}
+	.info .content{
+		flex: 1;
 	}
 	
 	/* 配置药柜样式 */
@@ -520,7 +524,7 @@
 		justify-content: center;
 		align-items: center;
 	}
-	.content{
+	.UseTime .content{
 		font-size: 15px;
 	}
 	

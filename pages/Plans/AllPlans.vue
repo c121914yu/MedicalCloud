@@ -17,7 +17,11 @@
 				今天不需要用药
 			</view>
 			
-			<view class="Plan" v-for="(plan,index) in TodayPlans" :key="index">		
+			<view 
+				class="Plan" 
+				v-for="(plan,index) in TodayPlans" 
+				:key="index"
+			>		
 				<!-- 时间部分 -->
 				<view class="time">
 					{{plan.time}}
@@ -233,6 +237,7 @@
 		margin: 15px 0;
 		display: flex;
 		align-items: flex-start;
+		overflow: hidden;
 	}
 	.Plan .time{
 		margin-left: 20px;

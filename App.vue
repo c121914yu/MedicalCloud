@@ -147,11 +147,16 @@
 		z-index: 999;
 		animation: appear 0.5s ease-out;
 	}
+	.textareashow{
+		animation: appear 0s ease-out;
+	}
 	@keyframes appear{
 	  from{
-	    top: -50px;
+			opacity: 0.5;
+	    top: -100px;
 	  }
 	  to{
+			opacity: 1;
 	    top: 10%;
 	  }
 	}

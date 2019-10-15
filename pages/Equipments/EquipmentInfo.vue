@@ -1,15 +1,16 @@
 <!-- 设备的基本信息(标识码，图片，名称，备注) -->
 <template>
 	<view>
-		<view class="info">
+		<view class="info" :class="info.change ? 'unchanged' : ''">
 			<text space="emsp">类 型:</text>
 			<picker class="content" mode="selector" v-model="kind"
-				:range="kinds" :value="index" @change="ChooseKind" :disabled="info.change">
+				:range="kinds" :value="index" :disabled="info.change"
+				@change="ChooseKind" >
 				<view>{{kinds[index]}}</view>
 			</picker>
 		</view>
 		
-		<view class="info">
+		<view class="info" :class="info.change ? 'unchanged' : ''">
 			<text>标识码:</text>
 			<input class="content" type="text" placeholder-class="palaceholder" placeholder="请输入设备标识码"
 				v-model="info.EquipmentInfo.ID"  :disabled="info.change"/>
@@ -128,10 +129,6 @@
 </script>
 
 <style scoped>
-	.palaceholder{
-		color: #858181;
-		font-size: 15px;
-	}
 	/* 设备信息样式 */
 	.info{	
 		width: 94%;
@@ -152,6 +149,10 @@
 		color: #696767;
 		width: 70%;
 		margin-left: 15px;
+		flex: 1;
+	}
+	.unchanged{
+		background: rgba(210,210,210,0.5);
 	}
 	
 	.remark{

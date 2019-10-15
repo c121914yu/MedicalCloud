@@ -164,6 +164,7 @@
 	
 	/* 储药情况样式 */
 	.medicines{
+		min-height: 191px;
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -183,20 +184,20 @@
 		overflow: hidden;
 	}
 	.medical:nth-child(1){
-		border-top: 1px solid #088573;
-		border-right: 1px solid #088573;
-		border-bottom: 1px solid #088573;
+		border-top: 1rpx solid #088573;
+		border-right: 1rpx solid #088573;
+		border-bottom: 1rpx solid #088573;
 	}
 	.medical:nth-child(2){
-		border-top: 1px solid #088573;
-		border-bottom: 1px solid #088573;
+		border-top: 1rpx solid #088573;
+		border-bottom: 1rpx solid #088573;
 	}
 	.medical:nth-child(3){
-		border-right: 1px solid #088573;
-		border-bottom: 1px solid #088573;
+		border-right: 1rpx solid #088573;
+		border-bottom: 1rpx solid #088573;
 	}
 	.medical:nth-child(4){
-		border-bottom: 1px solid #088573;
+		border-bottom: 1rpx solid #088573;
 	}
 	
 	/* 选中药柜背景加深 */

@@ -65,12 +65,11 @@
 		align-items: center;
 	}
 	.overview .logo{
-		width: 25%;
-		height: width;
+		width: 70px;
+		height: 70px;
 	}
 	.overview .logo image{
 		width: 100%;
-		height: auto;
 		border-radius: 50%;
 	}
 	.overview .overview-info{

@@ -1,7 +1,9 @@
 <template>
 	<view class="MyInfo">
 		<view class="wxInfo">
-			<image class="avatar" :src="UserAvatar" mode="widthFix"></image>
+			<view class="avatar">
+				<image :src="UserAvatar" mode="widthFix"></image>
+			</view>
 			<text style="color: #088573;">{{UserName}}</text>
 		</view>
 		
@@ -83,10 +85,14 @@
 		display: flex;
 		align-items: center;
 	}
-	.avatar{
-		width: 20%;
-		border-radius: 50%;
+	.wxInfo .avatar{
+		width: 80px;
+		height: 80px;
 		margin: 10px 20px 10px 10px;
+	}
+	.wxInfo .avatar image{
+		width: 100%;
+		border-radius: 50%;
 	}
 	
 	.info{
