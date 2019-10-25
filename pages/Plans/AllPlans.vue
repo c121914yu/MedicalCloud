@@ -27,7 +27,7 @@
 					{{plan.time}}
 				</view>
 				<!-- 药物部分 -->
-				<view class="medicine">	
+				<view class="medicines">	
 					<view class="Medicine-item" v-for="(medical,index1) in plan.MedicalInfo" :key="index1">
 						<view class="dot" v-if="medical.remark != ''"></view>
 						<view :class="medical.remark === '' ? 'MedicalName' : ''" @click="SetPlan(medical.PlanID)">
@@ -215,6 +215,9 @@
 		background: #088573;
 		width: 86%;
 		margin: 0 auto;
+		box-shadow: 2px 2px 2px #b1b1b1;
+		border-bottom-right-radius: 5px;
+		border-bottom-left-radius: 5px;
 	}
 	/* 提示内容 */
 	.hint{
@@ -241,14 +244,13 @@
 	}
 	.Plan .time{
 		margin-left: 20px;
-		display: flex;
-		align-items: center;
 	}
-	.Plan .medicine{
+	.Plan .medicines{
 		margin-left: 15px;
 		line-height: 1.5;
 	}
 	.Plan .Medicine-item{
+		flex: 1;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;

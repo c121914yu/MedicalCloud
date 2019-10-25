@@ -69,14 +69,21 @@
 			"path": "pages/Plans/AddPlan",
 			"style": {
 				"navigationBarTitleText": "计划设置",
-				"navigationBarBackgroundColor":"088573"
+				"navigationBarBackgroundColor":"#088573"
 			}
 		},
 		{
 			"path": "pages/Plans/Record",
 			"style": {
 				"navigationBarTitleText": "用药记录",
-				"navigationBarBackgroundColor":"088573"
+				"navigationBarBackgroundColor":"#088573"
+			}
+		},
+		{
+			"path": "pages/Plans/MyPlans",
+			"style": {
+				"navigationBarTitleText": "我的计划",
+				"navigationBarBackgroundColor":"#088573"
 			}
 		},
 		

@@ -24,12 +24,13 @@
 		/* 找回密码跟注册的公用请求函数 */
 		uni.request({
 			url: 'http://49.232.38.113:4000'+url,
+			// url: 'http://localhost:4000'+url,
 			method: 'POST',
 			data:data,
 			success: res => {
-				if(res.data=='该用户不存在')
+				if(res.data === '该用户不存在')
 					that.showtoast('该用户不存在')
-				else if(res.data=='用户已存在')
+				else if(res.data === '用户已存在')
 					that.showtoast('用户已存在')
 				else{//无错误
 					let UserLoginInfo={
@@ -146,9 +147,6 @@
 		left: 5%;
 		z-index: 999;
 		animation: appear 0.5s ease-out;
-	}
-	.textareashow{
-		animation: appear 0s ease-out;
 	}
 	@keyframes appear{
 	  from{

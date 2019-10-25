@@ -213,6 +213,12 @@
 			
 			/* 确认添加计划按键 */
 			Sure(){
+				/* 请求订阅权限 */
+				wx.requestSubscribeMessage({
+					tmplIds: ['MQafvPjsKoHExzTqnr8e6yJwgmAterQz2o8jvLYPsmI'],
+					success(res){console.log(res)},
+					faie(err){console.log(err)}
+				})
 				/* 获取选择的设备 */
 				let EquipmentID
 				if(this.EquipmentIndex[0]==0)

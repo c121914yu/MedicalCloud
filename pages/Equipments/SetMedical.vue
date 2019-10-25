@@ -25,7 +25,6 @@
 				
 				<h2>备注:</h2>
 				<textarea 
-					class="textareashow"
 					placeholder="可以备注些注意事项噢" 
 					v-model="medicines[page].remark"/>
 			</view>

@@ -104,15 +104,21 @@
 				else{//输入内容符合格式，请求服务器
 					/* 发送验证码跟手机到后台代码 */
 					if(1){//验证码正确
-						uni.showLoading({title: '注册中'});
-						let date=new Date().toLocaleDateString()+','+new Date().toLocaleTimeString('chinese', { hour12: false })
-						let data={
-								phone:that.phone,
-								password:that.password,
-								date:date
-						}
-						global.LoginRequest('/UserRegister',data,userinfo,that,'注册成功')
-					}  
+						uni.showLoading({title: '注册中'})
+						uni.login({
+						  provider: 'weixin',
+						  success: (loginRes) => {
+								let date=new Date().toLocaleDateString()+','+new Date().toLocaleTimeString('chinese', { hour12: false })
+								let data={
+										phone:that.phone,
+										password:that.password,
+										date:date,
+										openid : loginRes.code
+								}
+								global.LoginRequest('/UserRegister',data,userinfo,that,'注册成功')
+						  }
+						})
+					}
 					else
 						console.log('验证码错误')
 				}//请求服务器结束

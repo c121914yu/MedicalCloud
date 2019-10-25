@@ -9,15 +9,14 @@
 		
 		<navigator class="info" url="Plans/Record" hover-class="none">
 			<text>用药记录</text>
-			<text class="amount">0</text>
 			<image src="../static/to_right.png" mode="widthFix"></image>
 		</navigator>
 		
-		<view class="info">
+		<navigator class="info" url="Plans/MyPlans" hover-class="none">
 			<text space="emsp">我的计划</text>
 			<text class="amount">{{PlanAmount}}</text>
 			<image src="../static/to_right.png" mode="widthFix"></image>
-		</view>
+		</navigator>
 		
 		<view class="info">
 			<text>我的设备</text>
@@ -39,10 +38,8 @@
 			}
 		},
 		onShow() {
-			let EquipmentAmount=global.EquipmentsInfo.length
-			this.EquipmentAmount=EquipmentAmount
-			let PlanAmount=global.UserPlans.length
-			this.PlanAmount=PlanAmount
+			this.EquipmentAmount = global.EquipmentsInfo.length
+			this.PlanAmount = global.UserPlans.length
 		},
 		methods:{
 			LogOut(){//退出登录
