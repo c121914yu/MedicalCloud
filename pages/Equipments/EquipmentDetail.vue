@@ -60,7 +60,7 @@
 				ChildrenInfo:{//传给设备信息组件的信息
 					BtnText:'修改信息',
 					LoadingText:'修改信息中',
-					PostSrc:'http://49.232.38.113:4000/AmendInfo',
+					PostSrc:'https://jinlongyuchitang.cn:4000/AmendInfo',
 					SuccessText:'修改信息成功',
 					change:true,
 					EquipmentInfo:{},
@@ -104,7 +104,7 @@
 						success: res => {
 							if(res.confirm)
 								uni.request({
-									url: 'http://49.232.38.113:4000/RemoveEquipment',
+									url: 'https://jinlongyuchitang.cn:4000/RemoveEquipment',
 									method: 'POST',
 									data: {ID:Equipment.ID},
 									success: (res) => {

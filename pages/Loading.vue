@@ -18,7 +18,7 @@
 			else
 				//通过手机号跟时间戳判断登录是否过期
 				uni.request({
-					url: 'http://49.232.38.113:4000/InspectLogin',
+					url: 'https://jinlongyuchitang.cn:4000/InspectLogin',
 					method: 'POST',
 					data: {
 						phone:UserLoginInfo.phone,

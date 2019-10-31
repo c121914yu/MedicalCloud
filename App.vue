@@ -23,7 +23,7 @@
 	global.LoginRequest=(url,data,userinfo,that,text)=>{
 		/* 找回密码跟注册的公用请求函数 */
 		uni.request({
-			url: 'http://49.232.38.113:4000'+url,
+			url: 'https://jinlongyuchitang.cn:4000'+url,
 			// url: 'http://localhost:4000'+url,
 			method: 'POST',
 			data:data,
@@ -50,7 +50,7 @@
 		if(text!='')
 			global.UserLoginInfo={phone:UserLoginInfo.phone}
 		uni.request({
-			url: 'http://49.232.38.113:4000/GetEquipment',
+			url: 'https://jinlongyuchitang.cn:4000/GetEquipment',
 			method: 'POST',
 			data: {
 				phone:global.UserLoginInfo.phone,
@@ -66,7 +66,7 @@
 	/* 获取计划信息 */
 	global.GetPlans = (phone,back=false,text='') => {
 		uni.request({
-			url: 'http://49.232.38.113:4000/GetPlans',
+			url: 'https://jinlongyuchitang.cn:4000/GetPlans',
 			method: 'POST',
 			data: {phone:phone},
 			success: res => {
@@ -84,11 +84,15 @@
 	global.PlanEquipment = (ID) =>{
 		let data = []
 		global.UserPlans.forEach(plan => {
-			if(plan.EquipmentID != '不使用设备')
-				data.push({
-					EquipmentID : plan.EquipmentID,
-					MedicalIndex : JSON.parse(plan.MedicalIndex) 
-				})
+			if(plan.EquipmentID != '不使用设备'){
+			  const UseTimes = JSON.parse(plan.UseTimes)
+				UseTimes.forEach(item => {
+					data.push({
+						EquipmentID : plan.EquipmentID,
+						MedicalIndex : item.MedicalIndex
+					})
+				})	
+			}
 		})
 		if(data.length > 0)
 			for(let a=0;a<data.length-1;a++){
@@ -116,7 +120,7 @@
 				global.GetEquipments()//获取用户所有设备信息
 				global.GetPlans(global.UserLoginInfo.phone)//获取用户计划信息
 			}
-		}
+		},
 	}
 </script>
 
@@ -149,13 +153,13 @@
 		animation: appear 0.5s ease-out;
 	}
 	@keyframes appear{
-	  from{
-			opacity: 0.5;
-	    top: -100px;
-	  }
-	  to{
-			opacity: 1;
-	    top: 10%;
+	  0%{
+			opacity: 0;
+			transform: scale(0);
+		}
+	  100%{
+	  	opacity: 1;
+	  	transform: scale(1);
 	  }
 	}
 	/* 弹框样式 */

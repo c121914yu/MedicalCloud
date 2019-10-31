@@ -1,7 +1,7 @@
 <template>
 	<view class="AddPlan">
 		<Picker v-if="Picker"  :type="type" :value="value" :EquipmentIndex="EquipmentIndex"
-			:Items1="Items1" :Items2="Items2" :Items3="Items3" :TimeInfo="TimeInfo"
+			:Items1="Items1" :Items2="Items2" :Items3="Items3" :UseMedicines="UseMedicines"
 		 :InitialText="InitialText" @FinishPic="FinishPic" @Close="Close">
 		</Picker>
 		
@@ -9,25 +9,6 @@
 			<view>使用设备：</view>
 			<view class="content" @click="PickerEquipment">{{CurrentText[0]}}</view>
 		</view>
-		<image class="line" src="../../static/Plans/line.png"/>
-		
-		<!-- 不需要设备,直接填写药名 -->
-		<view class="info" v-if="!EquipmentIndex[0]">
-			<view>药物名称：</view>
-			<input class="content" type="text" v-model="MedicalName" placeholder="药物名称" />
-		</view>
-		<!-- 需要设备,选择对应的药柜 -->
-		<view class="info" v-else>
-			<view>选择药柜：</view>
-			<view class="Medicines content" @click="PicMedicine">
-				<view v-if="MedicalIndex.length==0">配置药柜</view>
-				<view v-for="(item,index) in MedicalIndex" :key="index">药柜{{item+1}}</view>
-			</view>
-		</view>
-		<!-- 配置药柜组件 -->
-		<SelectMedicine :show="SelectMedicine" @ChooseMedicines="ChooseMedicines" :MedicalIndex="MedicalIndex"
-			:EquipmentInfo="EquipmentInfo[EquipmentIndex[0]-1]" :EquipIndex="EquipmentIndex[0]-1">
-		</SelectMedicine>
 		<image class="line" src="../../static/Plans/line.png"/>
 		
 		<view class="info">
@@ -54,20 +35,27 @@
 			<view class="time">{{usetime.Hour+":"+usetime.Minute}}</view>
 			
 			<view v-if="EquipmentIndex[0] === 0" class="content">
-				<view>
-					<text style="color:#7b7b7b;">用量：</text>
-					<text>{{usetime.amount}}</text>
-				</view>
-				<view>
-					<text style="color:#7b7b7b;">备注：</text>
-					<text>{{usetime.remark}}</text>
+				<view v-for="(medical,index1) in usetime.Medicines" :key="index1">
+					<text style="color: #464646;">{{medical.name}} *{{medical.amount}}</text>
 				</view>
 			</view>
-			
+				
 			<view v-else class="record">
-				<text style="margin-right: 6px;">录音:</text>
-				<text v-if="UseTimes[index].RecordUrl === ''" style="color: #7b7b7b;">默认提示音</text>
-				<image v-else src="../../static/Plans/PlayVoice.png" mode="widthFix" @click.stop="PlayVoice(index)"/>
+				<view>
+					<view 
+						style="color: #7b7b7b;font-size: 17px;" 
+						v-for="(medicalIndex,index2) in usetime.MedicalIndex" 
+						:key="index2"
+					>
+						药柜{{medicalIndex + 1}}
+					</view>
+				</view>
+				
+				<view style="margin-left: 10px;display: flex;align-items: center;">
+					<text style="margin-right: 6px;">提示音:</text>
+					<text v-if="usetime.RecordUrl === ''" style="color: #7b7b7b;">默认</text>
+					<image v-else src="../../static/Plans/PlayVoice.png" mode="widthFix" @click.stop="PlayVoice(usetime.RecordUrl)"/>
+				</view>
 			</view>
 		</view>
 		
@@ -86,7 +74,6 @@
 
 <script>
 	import Picker from './Picker'//引入选择自定义组件
-	import SelectMedicine from './SelectMedicine'//选择药柜组件
 	
 	var plan
 	var Equipments,UseEquipments=["不使用设备"]
@@ -100,8 +87,6 @@
 				SelectMedicine:false,
 				
 				EquipmentInfo:{},
-				MedicalName:'',
-				MedicalIndex : new Array(1),
 				Today:'',
 				UseTimes:[],
 				/* 选择器参数 */
@@ -110,7 +95,7 @@
 				InitialText:'',
 				CurrentText:[UseEquipments[0],'今天','每天执行'],
 				
-				TimeInfo:{},
+				UseMedicines:{},
 				value:[],//下标的值
 				Items1:[],//发送给选择题的数组内容
 				Items2:[],
@@ -140,10 +125,6 @@
 				this.InitialText=this.CurrentText[0]
 				this.value=this.EquipmentIndex
 				this.Picker=true
-			},
-			PicMedicine(){//配置药柜
-				this.MedicalIndex = this.MedicalIndex
-				this.SelectMedicine=true
 			},
 			PickerDate(){//选择日期
 				this.type="选择日期"
@@ -181,33 +162,37 @@
 						return e === usetime.Minute
 					})
 					/* 计算时间下标 */		
-					this.type="修改时间"
-					this.InitialText=usetime.Hour+":"+usetime.Minute
-					this.TimeInfo=usetime
-					this.value=[Hour,Minute]
+					this.type = "修改时间"
+					this.InitialText = usetime.Hour + ":" + usetime.Minute
+					this.UseMedicines = usetime
+					this.value = [Hour,Minute]
 				}
 				else{//新增时间
-					let TimeInfo={
-						amount : '',
-						remark : '',
-						RecordUrl : ''
+					let UseMedicines = {
+						RecordUrl : '',
+						MedicalIndex : [],
+						Medicines : [{
+							name : '',
+							amount : '',
+							remark : '',
+						}]
 					}
-					this.type="添加时间"
-					this.InitialText="07:00"
-					this.TimeInfo=TimeInfo
-					this.value=[7,0]
+					this.type = "添加时间"
+					this.InitialText = "07:00"
+					this.UseMedicines = UseMedicines
+					this.value = [7,0]
 				}
-				this.Picker=true
+				this.Picker = true
 			},
 			RemoveTime(index){
 				this.UseTimes.splice(index,1)
 			},
-			PlayVoice(index){//播放录音
+			PlayVoice(src){//播放录音
 				let recorderManager = uni.getRecorderManager()
 				let innerAudioContext = uni.createInnerAudioContext()
 				
 				innerAudioContext.volume = 1
-				innerAudioContext.src = this.UseTimes[index].RecordUrl
+				innerAudioContext.src = src
 				innerAudioContext.play()
 			},
 			
@@ -243,11 +228,7 @@
 						}
 				
 				/* 判断填写内容是否有误 */
-				if(this.EquipmentIndex[0] === 0 && this.MedicalName === '')
-					this.showtoast("请输入药名")
-				else if(this.EquipmentIndex[0] != 0 && this.MedicalIndex.length === 0)
-					this.showtoast("请选择药柜")
-				else if(this.UseTimes.length === 0)
+				if(this.UseTimes.length === 0)
 					this.showtoast("请选择时间")
 									
 				else{
@@ -255,15 +236,13 @@
 					let data={
 						phone:global.UserLoginInfo.phone,
 						EquipmentID:EquipmentID,
-						MedicalName:this.MedicalName,
-						MedicalIndex:JSON.stringify(this.MedicalIndex),
 						date:date,
 						Frequency:Frequency,
 						UseTimes:JSON.stringify(this.UseTimes)
 					}
 					let Request=(url,text)=>{
 						uni.request({
-							url: 'http://49.232.38.113:4000'+url,
+							url: 'https://jinlongyuchitang.cn:4000'+url,
 							method: 'POST',
 							data: data,
 							success: res => {
@@ -289,7 +268,7 @@
 					success: res => {
 						if(res.confirm)
 							uni.request({
-								url: 'http://49.232.38.113:4000/RemovePlan',
+								url: 'https://jinlongyuchitang.cn:4000/RemovePlan',
 								method: 'POST',
 								data:{PlanID:plan.PlanID},
 								success: res => {
@@ -303,19 +282,19 @@
 			FinishPic(e){
 				let data=e.detail.__args__[0]
 				let SetUseTimes=(type)=>{
-					let Hour=TimesList[0][data.value[0]]
-					let Minute=TimesList[1][data.value[1]]
-					let TimeInfo={//初始化对象
-						Hour:Hour,
-						Minute:Minute,
-						amount:data.TimeInfo.amount,
-						remark:data.TimeInfo.remark,
-						RecordUrl:data.TimeInfo.RecordUrl
+					let Hour = TimesList[0][data.value[0]]
+					let Minute = TimesList[1][data.value[1]]
+					let UseMedicines = {//初始化对象
+						Hour : Hour,
+						Minute : Minute,
+						Medicines : data.Medicines,
+						MedicalIndex : data.MedicalIndex,
+						RecordUrl : data.RecordUrl,
 					}
 					if(type === '添加时间')
-						this.UseTimes.push(TimeInfo)
+						this.UseTimes.push(UseMedicines)
 					else
-						this.UseTimes[TimeIndex]=TimeInfo
+						this.UseTimes[TimeIndex] = UseMedicines
 					/* 对数组排序 */
 					this.UseTimes.sort(function(a,b){
 						if(a.Hour === b. Hour)
@@ -324,7 +303,7 @@
 					})
 				}
 				switch(data.type){
-					case '选择设备':this.EquipmentIndex=data.value; this.CurrentText[0]=data.CurrentText; this.MedicalName=""; this.MedicalIndex=[]; this.UseTimes=[]; break;
+					case '选择设备':this.EquipmentIndex=data.value; this.CurrentText[0]=data.CurrentText; this.UseTimes=[]; break;
 					case '选择日期':this.DateIndex=data.value;this.CurrentText[1]=data.CurrentText;break
 					case '选择频率':this.FrequencyIndex=data.value;this.CurrentText[2]=data.CurrentText;break
 					case '添加时间':SetUseTimes('添加时间');break
@@ -336,21 +315,16 @@
 			Close(){
 				this.Picker=false
 			},
-			/* 配置了药柜，设置药柜编号 */
-			ChooseMedicines(e){
-				this.MedicalIndex = e
-				this.SelectMedicine = false
-			},
 			
 			/* 初始化数据方法: */
 			SetUseEquipments(){//生成设备信息数组
 				/* 如果用户有设备，把设备名组成数组给UseEquipments */
-				Equipments=global.EquipmentsInfo
-				this.EquipmentInfo=Equipments
+				Equipments = global.EquipmentsInfo
+				this.EquipmentInfo = Equipments
 
 				UseEquipments=["不使用设备"]
 				if(Equipments.length)
-					UseEquipments=UseEquipments.concat(Equipments.map(item=>{
+					UseEquipments = UseEquipments.concat(Equipments.map(item=>{
 						return item.name
 					}))
 			},
@@ -411,21 +385,17 @@
 			
 			/* 修改界面的初始数据 */
 			SetChangeData(PlanIndex){
-				plan=global.UserPlans[PlanIndex]
-				let equipments=global.EquipmentsInfo
-				/* 如果使用设备 */
-				if(plan.EquipmentID!="不使用设备"){
-					equipments.find((item,index)=>{
-						if(item.ID==plan.EquipmentID){
-							this.EquipmentIndex[0]=index+1
-							this.CurrentText[0]=item.name
+				plan = global.UserPlans[PlanIndex]
+				/* 修改设备情况 */
+				if(plan.EquipmentID != "不使用设备"){
+					let Equipment = Equipments.find((item,index)=>{
+						if(item.ID === plan.EquipmentID){
+							this.EquipmentIndex[0] = index+1
+							this.CurrentText[0] = item.name
 						}
-						return item.ID==plan.EquipmentID
+						return item.ID === plan.EquipmentID
 					})
-					this.MedicalIndex=JSON.parse(plan.MedicalIndex) 
 				}
-				else
-					this.MedicalName=plan.MedicalName
 				/* 修改日期 */
 				let date=JSON.parse(plan.date)
 				this.CurrentText[1]=date.year+'年'+date.month+'月'+date.day+'日'
@@ -448,7 +418,7 @@
 		},//methods结束
 	
 		components:{
-			Picker,SelectMedicine
+			Picker
 		}
 	}
 </script>
@@ -537,7 +507,7 @@
 	/* 录音 */
 	.record{
 		display: flex;
-		align-content: center;
+		align-items: center;
 	}
 	.record text{
 		color: ;
@@ -546,7 +516,6 @@
 	}
 	.record image{
 		width: 30px;
-		height: auto;
 		z-index: 99;
 	}
 	

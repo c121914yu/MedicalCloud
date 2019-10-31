@@ -19,7 +19,7 @@
 				ChildrenInfo:{
 					BtnText:'添加设备',
 					LoadingText:'添加设备中',
-					PostSrc:'http://49.232.38.113:4000/AddEquipment',
+					PostSrc:'https://jinlongyuchitang.cn:4000/AddEquipment',
 					SuccessText:'添加设备成功',
 					change:false,
 					EquipmentInfo:{}

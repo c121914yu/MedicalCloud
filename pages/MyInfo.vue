@@ -101,7 +101,7 @@
 		position: relative;
 	}
 	.info:active{
-		background: rgba(212,212,212,0.6);
+		background: rgba(212,212,212,0.4);
 	}
 	.info .amount{
 		color: #088573;

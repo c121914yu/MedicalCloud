@@ -37,8 +37,8 @@
 				<uni-icons v-if="page === medicines.length-1" type="plusempty" size="30" :color="'#088573'" @click="AddName"></uni-icons>
 				<uni-icons v-else type="forward" size="30" :color="'#088573'" @click="page++"></uni-icons>
 			</view>
-			
 			<!-- 药物信息 -->
+			
 			<view class="Btn">
 				<view style="color: #cd2d2d;" @click="CloseMask">取消</view>
 				<text style="color: rgba(174,174,174,0.6);">|</text>
@@ -123,7 +123,7 @@
 								let MedicalInfo=JSON.stringify(this.InitialInfo.MedicalInfo) 
 								
 								uni.request({
-									url: 'http://49.232.38.113:4000/SetMedicalInfo',
+									url: 'https://jinlongyuchitang.cn:4000/SetMedicalInfo',
 									method: 'POST',
 									data: {
 										MedicalInfo,
