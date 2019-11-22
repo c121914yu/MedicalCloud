@@ -18,6 +18,12 @@
 			<image src="../static/to_right.png" mode="widthFix"></image>
 		</navigator>
 		
+		<navigator class="info" url="MyPage/MyMedicines" hover-class="none">
+			<text space="emsp">我的药柜</text>
+			<text class="amount">{{MedicalAmount}}</text>
+			<image src="../static/to_right.png" mode="widthFix"></image>
+		</navigator>
+		
 		<view class="info">
 			<text>我的设备</text>
 			<text class="amount">{{EquipmentAmount}}</text>
@@ -32,14 +38,18 @@
 		data(){
 			return{
 				UserAvatar:global.UserLoginInfo.avatar,
-				UserName:global.UserLoginInfo.name,
-				EquipmentAmount:0,
-				PlanAmount:0
+				UserName : global.UserLoginInfo.name,
+				PlanAmount : 0,
+				MedicalAmount : 0,
+				EquipmentAmount : 0,
 			}
 		},
 		onShow() {
-			this.EquipmentAmount = global.EquipmentsInfo.length
+			uni.showLoading({title:'加载中...'})
 			this.PlanAmount = global.UserPlans.length
+			this.MedicalAmount = global.UserMedical.length
+			this.EquipmentAmount = global.EquipmentsInfo.length
+			uni.hideLoading()
 		},
 		methods:{
 			LogOut(){//退出登录
@@ -58,13 +68,13 @@
 							})}
 				})
 			},//LogOut结束
+			/*提示*/
 			showtoast(text,icon,src){
 				uni.showToast({
 					title: text,
 					icon:icon,
-					image:src
-				})
-			},//showtoast结束
+					image:src})
+			},
 		}//methods结束
 	}
 </script>

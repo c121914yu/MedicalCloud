@@ -66,7 +66,7 @@
 		<image class="line" src="../../static/Plans/line.png"/>
 		
 		<view style="display: flex;justify-content: space-between;padding: 10px 0;">
-			<button class="remove" v-if="ChangePlan" @click="Remove">删除</button>
+			<button class="remove" v-show="ChangePlan" @click="Remove">删除</button>
 			<button class="sure" @click="Sure">确认</button>
 		</view>
 	</view>
@@ -84,7 +84,6 @@
 		data(){			
 			return{
 				ChangePlan:false,
-				SelectMedicine:false,
 				
 				EquipmentInfo:{},
 				Today:'',
@@ -149,7 +148,7 @@
 				this.Items2=TimesList[1]
 				this.Items3=[]
 				/* 如果是修改的,把已经选中的时间传过去 */
-				if(type=="Change"){
+				if(type === "Change"){
 					TimeIndex = i
 					/* 计算时间下标 */
 					let Hour,Minute
@@ -168,19 +167,37 @@
 					this.value = [Hour,Minute]
 				}
 				else{//新增时间
-					let UseMedicines = {
-						RecordUrl : '',
-						MedicalIndex : [],
-						Medicines : [{
-							name : '',
-							amount : '',
-							remark : '',
-						}]
-					}
+					let UseMedicines = {}
+					let InitialText = "07:30"
+					let Hour = 7
+					if(this.UseTimes.length > 0){
+						const LastTime = this.UseTimes[this.UseTimes.length-1]
+						TimesList[0].find((e,index)=>{
+							Hour = index
+							return e === LastTime.Hour
+						})
+						UseMedicines = {
+							Hour : Hour,
+							RecordUrl : '',
+							MedicalIndex : LastTime.MedicalIndex,
+							Medicines : LastTime.Medicines
+						}
+						InitialText = Hour + ":30"
+					}		
+					else
+						UseMedicines = {
+							RecordUrl : '',
+							MedicalIndex : [],
+							Medicines : [{
+								name : '',
+								amount : '',
+								remark : '',
+							}]
+						}
 					this.type = "添加时间"
-					this.InitialText = "07:00"
+					this.InitialText = InitialText
 					this.UseMedicines = UseMedicines
-					this.value = [7,0]
+					this.value = [Hour,30]
 				}
 				this.Picker = true
 			},
@@ -190,7 +207,7 @@
 			PlayVoice(src){//播放录音
 				let recorderManager = uni.getRecorderManager()
 				let innerAudioContext = uni.createInnerAudioContext()
-				
+				console.log(src)
 				innerAudioContext.volume = 1
 				innerAudioContext.src = src
 				innerAudioContext.play()
@@ -199,8 +216,8 @@
 			/* 确认添加计划按键 */
 			Sure(){
 				/* 请求订阅权限 */
-				wx.requestSubscribeMessage({
-					tmplIds: ['MQafvPjsKoHExzTqnr8e6yJwgmAterQz2o8jvLYPsmI'],
+				uni.requestSubscribeMessage({
+					tmplIds: ['NZuGule3MSGcW4xLeYT2ucpCho5J1cgQ9O5tmTFLIYs'],
 					success(res){console.log(res)},
 					faie(err){console.log(err)}
 				})
@@ -217,7 +234,11 @@
 					day:DateList[2][this.DateIndex[2]]
 				}) 
 				/* 获取使用频率 */
-				let Frequency=FrequencyList[this.FrequencyIndex[0]]
+				let Frequency = FrequencyList[this.FrequencyIndex[0]]
+				/* 获取录音列表 */
+				let RecordUrls = this.UseTimes.map(item => {
+					return item.RecordUrl
+				})
 				
 				/* 判断有没有重复的时间 */
 				for(let a = 0;a<this.UseTimes.length-1;a++)
@@ -241,15 +262,23 @@
 						UseTimes:JSON.stringify(this.UseTimes)
 					}
 					let Request=(url,text)=>{
-						uni.request({
-							url: 'https://jinlongyuchitang.cn:4000'+url,
-							method: 'POST',
-							data: data,
-							success: res => {
-								global.GetPlans(global.UserLoginInfo.phone,true,text)
+						uni.uploadFile({
+							// url: 'https://jinlongyuchitang.cn:4000'+url,
+							url: 'http://localhost:4000/AddPlan',
+							filePath: RecordUrls[0],
+							name: 'audio',
+							formData: data,
+							success: (res) => {
+								console.log(res)
+								// if(res.statusCode === 200)
+								// 	global.GetPlans(global.UserLoginInfo.phone,true,text)
+								// else
+								// 	uni.showToast({
+								// 		title:'网络错误'
+								// 	})
 							},
 							fail: (err) => {console.log(err)},
-						})
+						});
 					}
 					if(this.ChangePlan){
 						data.PlanID=plan.PlanID

@@ -71,8 +71,10 @@
 		onLoad(e) {
 			EquipIndex=e.index
 			Equipment = global.EquipmentsInfo[EquipIndex]
-			if(global.PlanEquipment(Equipment.ID))
-				this.MedicalIndex = global.PlanEquipment(Equipment.ID).MedicalIndex
+			
+			let PlanEquipment = this.PlanEquipment(Equipment.ID)
+			if(PlanEquipment)
+				this.MedicalIndex = PlanEquipment.MedicalIndex
 			this.MedicalInfo=JSON.parse(Equipment.MedicalInfo)
 			
 			this.ChildrenInfo.EquipmentInfo=Equipment
@@ -135,6 +137,39 @@
 					}
 				})
 				return active
+			},
+			/* 判断设备对应的药柜是否有计划 */
+			PlanEquipment(ID){
+				let data = []
+				global.UserPlans.forEach(plan => {
+					if(plan.EquipmentID != '不使用设备'){
+					  const UseTimes = JSON.parse(plan.UseTimes)
+						UseTimes.forEach(item => {
+							data.push({
+								EquipmentID : plan.EquipmentID,
+								MedicalIndex : item.MedicalIndex
+							})
+						})	
+					}
+				})
+				if(data.length > 0)
+					for(let a=0;a<data.length-1;a++){
+						/* 相同ID的合并 */
+						for(let b=a+1;b<data.length;b++)
+							if(data[a].EquipmentID === data[b].EquipmentID){
+								data[a].MedicalIndex = data[a].MedicalIndex.concat(data[b].MedicalIndex)
+								data.splice(b,1)
+								--b
+							}
+						/* 相同MedicalIndex去重 */
+						data[a].MedicalIndex = data[a].MedicalIndex.filter((item,index,self) => {
+							return self.indexOf(item) === index
+						})
+					}			
+				data = data.find(item => {
+					return item.EquipmentID == ID
+				})
+				return data
 			}
 		},//methods结束
 		components:{

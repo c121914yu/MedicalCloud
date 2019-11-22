@@ -46,6 +46,9 @@
 					<textarea placeholder="可以备注些注意事项噢"
 						v-model="Medicines[page].remark"/>
 				</view>		
+				
+				<view class="selcet-from-medical" @click="selectMedical=true">从药柜中选择</view>
+				<selcet-from-medical v-if="selectMedical" @close="ClosePop" @finishSelect="finishSelect"></selcet-from-medical>
 
 				<view class="icon">
 					<uni-icons type="back" size="30" :color="'#088573'" @click="last"></uni-icons>
@@ -55,6 +58,7 @@
 				</view>
 			</view>
 			
+			<!-- 使用设备时设置用药时间特有输入框 -->
 			<view class="record" v-else-if="(type === '添加时间' || type === '修改时间') && EquipmentIndex[0] != 0">		
 				<view class="Remark">点击可选择需要使用的药柜,长按可配置药柜信息</view>
 				<view class="medicines">
@@ -78,7 +82,7 @@
 					</view>
 				</view>
 				
-				<SetMedical v-if="SetMedical" @CloseSet="CloseSet" :InitialInfo="InitialInfo">
+				<SetMedical v-if="SetMedical" @CloseSet="ClosePop" :InitialInfo="InitialInfo">
 				</SetMedical>
 				
 				<view class="remark">按住录音作为计划执行的提示音</view>
@@ -110,8 +114,8 @@
 
 <script>
 	import uniIcons from '@/components/uni-icons/uni-icons.vue'
-	import SelectMedicine from './SelectMedicine'//选择药柜组件
 	import SetMedical from "../Equipments/SetMedical.vue"//设置药柜组件
+	import Medical from './SelectMedical'//查看用户个人药柜
 	
 	var CurrentText
 	var recorderManager = uni.getRecorderManager()
@@ -127,6 +131,7 @@
 				Medicines : Medicines,
 				LongTap : false,
 				SetMedical : false,
+				selectMedical : false,
 				InitialInfo : {},
 				RecordUrl : RecordUrl,
 				
@@ -215,7 +220,7 @@
 					this.$emit('FinishPic',data)
 				}
 			},
-			Close(){//取消关闭弹窗
+			Close(){//关闭时间选择弹窗
 				this.CurrentText=''
 				this.$emit('Close',false)
 			},
@@ -275,6 +280,17 @@
 					this.page = 0
 			},
 			/* 添加/切换/减少药物 */
+			
+			finishSelect(e){//完成选择
+				if(this.Medicines[this.Medicines.length-1].name === '')
+					this.Medicines.splice(this.Medicines.length-1,1)
+				this.Medicines = this.Medicines.concat(e)
+				uni.showToast({
+					title:'已更新药物',
+					duration:1000
+				})
+				this.selectMedical = false
+			},
 			
 			/* 选中的药柜 */
 			Active(index){
@@ -339,8 +355,9 @@
 				this.SetMedical=true
 			},
 			/* 关闭设置药柜 */
-			CloseSet(){
-				this.SetMedical=false
+			ClosePop(){
+				this.SetMedical = false
+				this.selectMedical = false
 			},
 			
 			/* 录音 */
@@ -409,8 +426,8 @@
 		},
 		components:{
 			uniIcons,
-			SelectMedicine,
-			SetMedical
+			SetMedical,
+			'selcet-from-medical' : Medical
 		}
 	}
 </script>
@@ -464,6 +481,12 @@
 		padding: 5px;
 		border: 1px solid #088573;
 		border-radius: 10px;
+	}
+	.UseTime .selcet-from-medical{
+		color: #088573;
+		position: absolute;
+		top: 5px;
+		right: 10px;
 	}
 	/* 图标样式 */
 	.UseTime .icon{
