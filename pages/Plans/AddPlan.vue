@@ -75,7 +75,7 @@
 <script>
 	import Picker from './Picker'//引入选择自定义组件
 	
-	var plan
+	var plan = {}
 	var Equipments,UseEquipments=["不使用设备"]
 	var DateList=[],Today,DayList=[]
 	var FrequencyList=[]
@@ -178,7 +178,7 @@
 						})
 						UseMedicines = {
 							Hour : Hour,
-							RecordUrl : '',
+							RecordUrl : LastTime.RecordUrl,
 							MedicalIndex : LastTime.MedicalIndex,
 							Medicines : LastTime.Medicines
 						}
@@ -236,9 +236,15 @@
 				/* 获取使用频率 */
 				let Frequency = FrequencyList[this.FrequencyIndex[0]]
 				/* 获取录音列表 */
-				let RecordUrls = this.UseTimes.map(item => {
-					return item.RecordUrl
+				let RecordUrls = []
+				this.UseTimes.forEach((item,index) => {
+					if(item.RecordUrl.indexOf("https") === -1 && item.RecordUrl != '')//代表url不是以https开头，即如果是临时路径则保存
+					 RecordUrls.push({
+						 url : item.RecordUrl,
+						 index : index
+					 })
 				})
+				console.log(RecordUrls)
 				
 				/* 判断有没有重复的时间 */
 				for(let a = 0;a<this.UseTimes.length-1;a++)
@@ -250,44 +256,75 @@
 				
 				/* 判断填写内容是否有误 */
 				if(this.UseTimes.length === 0)
-					this.showtoast("请选择时间")
-									
+					this.showtoast("请选择时间")					
 				else{
-					/* 发送数据给服务器 */
-					let data={
-						phone:global.UserLoginInfo.phone,
-						EquipmentID:EquipmentID,
-						date:date,
-						Frequency:Frequency,
-						UseTimes:JSON.stringify(this.UseTimes)
-					}
-					let Request=(url,text)=>{
-						uni.uploadFile({
-							// url: 'https://jinlongyuchitang.cn:4000'+url,
-							url: 'http://localhost:4000/AddPlan',
-							filePath: RecordUrls[0],
-							name: 'audio',
-							formData: data,
-							success: (res) => {
-								console.log(res)
-								// if(res.statusCode === 200)
-								// 	global.GetPlans(global.UserLoginInfo.phone,true,text)
-								// else
-								// 	uni.showToast({
-								// 		title:'网络错误'
-								// 	})
-							},
-							fail: (err) => {console.log(err)},
-						});
-					}
-					if(this.ChangePlan){
-						data.PlanID=plan.PlanID
-						Request('/ChangePlan','修改计划成功')
-					}
-					else
-						Request('/AddPlan','添加计划成功')				
-				}
-				/* 发送数据给服务器 */
+					uni.showModal({
+						title: '提示',
+						content: this.ChangePlan ? '确认修改计划?' : '确认添加计划?',
+						success: res => {
+							if(res.confirm){
+								uni.showLoading({title:'请求中...'})
+								/* 发送数据给服务器 */
+								let request = (url,text) => {
+									const data={
+										phone:global.UserLoginInfo.phone,
+										EquipmentID:EquipmentID,
+										date:date,
+										Frequency:Frequency,
+										UseTimes:JSON.stringify(this.UseTimes),
+										PlanID : plan.PlanID || ''
+									}
+									uni.request({
+										url: 'https://jinlongyuchitang.cn:4000' + url,
+										method:'POST',
+										data:data,
+										success:res => {
+											if(res.statusCode === 200)
+												global.GetPlans(global.UserLoginInfo.phone,true,text)
+											else
+												uni.showToast({title:'网络错误'})
+										},
+										fail: (err) => {console.log(err)}
+									})
+								}//request函数
+								/* 存储录音 */
+								let time = 0
+								let upRecord = (item) => {
+									uni.uploadFile({
+										url: 'https://jinlongyuchitang.cn:4000/upRecord',
+										// url: 'http://localhost:4000/upRecord',
+										filePath: item.url,
+										name: 'audio',
+										success: (res) => {
+											if(res.statusCode === 200){
+												this.UseTimes[item.index].RecordUrl = res.data
+												time++
+												if(time === RecordUrls.length){
+													if(this.ChangePlan)
+														request('/ChangePlan','修改计划成功')
+													else
+														request('/AddPlan','添加计划成功')
+												}
+											}
+											else
+												uni.showToast({title:'网络错误'})
+										},
+										fail: (err) => {console.log(err)},
+									})
+								}//upRecord函数
+								/* 判断是否需要上传录音 */
+								if(RecordUrls.length === 0){
+									if(this.ChangePlan)
+										request('/ChangePlan','修改计划成功')
+									else
+										request('/AddPlan','添加计划成功')
+								}
+								else
+									RecordUrls.forEach(item => {
+											upRecord(item)
+									})
+							}}})//model结束	
+				}//request结束
 			},
 			/* 删除计划 */
 			Remove(){
@@ -303,7 +340,8 @@
 								success: res => {
 									global.GetPlans(global.UserLoginInfo.phone,true,'删除计划成功')
 								},
-								fail: (err) => {console.log(err)},})}
+								fail: (err) => {console.log(err)},
+								complete() {uni.hideLoading()}})}
 				})
 			},
 					

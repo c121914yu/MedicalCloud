@@ -140,6 +140,14 @@
 				animationStatus: false
 			}
 		},
+		created() {
+			uni.authorize({
+				scope: 'scope.record',
+				success() {
+						uni.getRecorderManager()
+				}
+			})
+		},
 		methods:{
 			PickerChange(e){
 				let value=e.detail.value
@@ -376,13 +384,12 @@
 					recorderManager.onStop(res => {
 						if(res.duration > 500)
 							this.RecordUrl = res.tempFilePath
-							console.log(this.RecordUrl)
 					})
 				}
 			},
 			listen(){
 				if(this.RecordUrl){
-					console.log('播放录音')
+					console.log(this.RecordUrl)
 					innerAudioContext.src = this.RecordUrl
 					innerAudioContext.play()
 				}
