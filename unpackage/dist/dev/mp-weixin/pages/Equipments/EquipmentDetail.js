@@ -90,6 +90,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.MedicalInfo, function(medicines, index1) {
+    var m0 = _vm.Active(index1)
+    return {
+      $orig: _vm.__get_orig(medicines),
+      m0: m0
+    }
+  })
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -122,7 +138,16 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniGrid = function uniGrid() {return __webpack_require__.e(/*! import() | components/uni-grid/uni-grid */ "components/uni-grid/uni-grid").then(__webpack_require__.bind(null, /*! @/components/uni-grid/uni-grid.vue */ 99));};var uniGridItem = function uniGridItem() {return __webpack_require__.e(/*! import() | components/uni-grid-item/uni-grid-item */ "components/uni-grid-item/uni-grid-item").then(__webpack_require__.bind(null, /*! @/components/uni-grid-item/uni-grid-item.vue */ 108));};var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ 125));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ 163));};var Overview = function Overview() {return __webpack_require__.e(/*! import() | pages/Equipments/Overview */ "pages/Equipments/Overview").then(__webpack_require__.bind(null, /*! ./Overview */ 150));};var SetMedical = function SetMedical() {return __webpack_require__.e(/*! import() | pages/Equipments/SetMedical */ "pages/Equipments/SetMedical").then(__webpack_require__.bind(null, /*! ./SetMedical */ 157));};var AllPlans = function AllPlans() {return __webpack_require__.e(/*! import() | pages/Plans/AllPlans */ "pages/Plans/AllPlans").then(__webpack_require__.bind(null, /*! ../Plans/AllPlans */ 171));};var EquipmentInfo = function EquipmentInfo() {return __webpack_require__.e(/*! import() | pages/Equipments/EquipmentInfo */ "pages/Equipments/EquipmentInfo").then(__webpack_require__.bind(null, /*! ./EquipmentInfo */ 164));};
+/* WEBPACK VAR INJECTION */(function(global, uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniGrid = function uniGrid() {return __webpack_require__.e(/*! import() | components/uni-grid/uni-grid */ "components/uni-grid/uni-grid").then(__webpack_require__.bind(null, /*! @/components/uni-grid/uni-grid.vue */ 99));};var uniGridItem = function uniGridItem() {return __webpack_require__.e(/*! import() | components/uni-grid-item/uni-grid-item */ "components/uni-grid-item/uni-grid-item").then(__webpack_require__.bind(null, /*! @/components/uni-grid-item/uni-grid-item.vue */ 108));};var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ 125));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ 163));};var Overview = function Overview() {return __webpack_require__.e(/*! import() | pages/Equipments/Overview */ "pages/Equipments/Overview").then(__webpack_require__.bind(null, /*! ./Overview */ 150));};var SetMedical = function SetMedical() {return __webpack_require__.e(/*! import() | pages/Equipments/SetMedical */ "pages/Equipments/SetMedical").then(__webpack_require__.bind(null, /*! ./SetMedical */ 157));};var EquipmentInfo = function EquipmentInfo() {return __webpack_require__.e(/*! import() | pages/Equipments/EquipmentInfo */ "pages/Equipments/EquipmentInfo").then(__webpack_require__.bind(null, /*! ./EquipmentInfo */ 164));};
+
+
+
+
+
+
+
+
+
 
 
 
@@ -177,8 +202,10 @@ var Equipment, EquipIndex;var _default =
     return {
       SetMedInfo: {}, //设置药柜时传所有药物信息,药柜编号和设备基本信息过去
       SetMedical: false,
-      medicals: [],
-      ChildrenInfo: { //传给子组件的信息
+      MedicalIndex: [], //有计划的药柜编号
+      MedicalInfo: [], //结构:数组->数组->对象
+
+      ChildrenInfo: { //传给设备信息组件的信息
         BtnText: '修改信息',
         LoadingText: '修改信息中',
         PostSrc: 'http://49.232.38.113:4000/AmendInfo',
@@ -192,7 +219,10 @@ var Equipment, EquipIndex;var _default =
   onLoad: function onLoad(e) {
     EquipIndex = e.index;
     Equipment = global.EquipmentsInfo[EquipIndex];
-    this.medicals = JSON.parse(Equipment.MedicalInfo);
+    if (global.PlanEquipment(Equipment.ID))
+    this.MedicalIndex = global.PlanEquipment(Equipment.ID).MedicalIndex;
+    this.MedicalInfo = JSON.parse(Equipment.MedicalInfo);
+
     this.ChildrenInfo.EquipmentInfo = Equipment;
     this.ChildrenInfo.index = EquipIndex;
   },
@@ -200,10 +230,10 @@ var Equipment, EquipIndex;var _default =
     ClickMedical: function ClickMedical(index) {//点击药柜，进入单个药柜设置
       var SendInfo = {
         MedicalIndex: index,
-        EquipmentName: Equipment.name,
         EquipmentID: Equipment.ID,
-        MedicalInfo: this.medicals,
-        EquipIndex: EquipIndex };
+        MedicalInfo: this.MedicalInfo,
+        EquipIndex: EquipIndex,
+        active: this.Active(index) };
 
       this.SetMedInfo = SendInfo;
       this.SetMedical = !this.SetMedical;
@@ -230,13 +260,26 @@ var Equipment, EquipIndex;var _default =
         } });
     }, //Remove结束
 
-    CloseSet: function CloseSet(e) {//接收子组件传来信息关闭蒙层
+    /* 关闭设置药柜 */
+    CloseSet: function CloseSet(e) {
       this.SetMedical = false;
     },
-    UpdateMedicals: function UpdateMedicals(medicals) {
-      this.medicals = medicals;
+    /* 更新药柜信息 */
+    UpdateMedicals: function UpdateMedicals(MedicalInfo) {
+      this.MedicalInfo = MedicalInfo;
+    },
+    /* 判断哪个药柜含计划 */
+    Active: function Active(index) {
+      var active = false;
+      this.MedicalIndex.find(function (item) {
+        if (item === index) {
+          active = true;
+          return true;
+        }
+      });
+      return active;
     } },
-
+  //methods结束
   components: {
     uniGrid: uniGrid,
     uniGridItem: uniGridItem,
@@ -245,7 +288,6 @@ var Equipment, EquipIndex;var _default =
 
     EquipmentInfo: EquipmentInfo,
     Overview: Overview,
-    AllPlans: AllPlans,
     SetMedical: SetMedical } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

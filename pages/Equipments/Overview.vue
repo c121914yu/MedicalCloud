@@ -35,9 +35,9 @@
 				let plans=global.UserPlans
 				let EquipmentID=this.ParentInfo.ID
 				plans.forEach(plan=>{
-					if(plan.EquipmentID==EquipmentID){
+					if(plan.EquipmentID === EquipmentID){
 						statistics.sum++
-						if(plan.UnFinish!="0")
+						if(plan.UnFinish != "0")
 							statistics.unfinish++
 					}
 				})

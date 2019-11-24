@@ -242,7 +242,7 @@
 	        align-items: flex-start;
 }
 .Plan .time{
-	margin-left: 30px;
+	margin-left: 20px;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -253,7 +253,7 @@
 	        align-items: center;
 }
 .Plan .medicine{
-	margin-left: 20px;
+	margin-left: 15px;
 	line-height: 1.5;
 }
 .Plan .Medicine-item{

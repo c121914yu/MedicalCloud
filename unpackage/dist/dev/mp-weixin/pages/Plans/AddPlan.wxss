@@ -51,6 +51,24 @@ page.data-v-3ede6e48{
 .Medicines view.data-v-3ede6e48{
 	margin-right: 5px;
 }
+.Time.data-v-3ede6e48{
+	width: 90%;
+	margin: 0 auto;
+	padding-top: 5px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: end;
+	-webkit-align-items: flex-end;
+	    -ms-flex-align: end;
+	        align-items: flex-end;
+}
+.Time text.data-v-3ede6e48{
+	color: #b3b3b3;
+	font-size: 13px;
+	margin-left: 5px;
+}
 /* 用药时间列表样式 */
 .UseTime.data-v-3ede6e48{
 	background: #fdd930;
@@ -88,17 +106,30 @@ page.data-v-3ede6e48{
 .content.data-v-3ede6e48{
 	font-size: 15px;
 }
+/* 录音 */
+.record.data-v-3ede6e48{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-align-content: center;
+	    -ms-flex-line-pack: center;
+	        align-content: center;
+}
+.record text.data-v-3ede6e48{
+	color: ;
+	font-size: 17px;
+	padding: 0;
+}
+.record image.data-v-3ede6e48{
+	width: 30px;
+	height: auto;
+	z-index: 99;
+}
 /* 添加用药时间照片 */
 .AddTime.data-v-3ede6e48{
 	width: 12%;
 	margin-left: 5%;
-}
-/* 提示内容 */
-.reminder.data-v-3ede6e48{
-	font-size: 15px;
-	color:#7b7b7b;
-	width: 90%;
-	margin: 5px auto;
 }
 /* 确认按键 */
 .sure.data-v-3ede6e48{

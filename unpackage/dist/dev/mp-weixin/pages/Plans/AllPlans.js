@@ -160,7 +160,7 @@ var Plans;var _default =
     change: function change(e) {var _this = this;
       /* 获取最新的Plan */
       this.UpdatePlans();
-      /* 更新选中日期 */
+      /* 父级方法，更新选中日期 */
       this.$emit('UpdataChoosing', e);
       var today = e.fulldate;
       var TodayPlans = [];
@@ -192,7 +192,7 @@ var Plans;var _default =
         plan.UseTimes.forEach(function (info) {
           var data = { MedicalInfo: [] };
           var MedicalInfo = {};
-          /* 取药物的名称 */
+          /* 获取药物的名称 */
           if (plan.EquipmentID == "不使用设备") {
             MedicalInfo = {
               name: plan.MedicalName,
@@ -202,25 +202,25 @@ var Plans;var _default =
 
             data.MedicalInfo.push(MedicalInfo);
           } else
-          {
-            var _index = _this.FindEquipment(plan.EquipmentID);
+          {//使用设备，根据选中的药柜编号筛选出药名
+            var _index = _this.FindEquipment(plan.EquipmentID); //获取设备的下标
             var Medicines = JSON.parse(global.EquipmentsInfo[_index].MedicalInfo);
-            var MedicalIndex = JSON.parse(plan.MedicalIndex);
-            var name = '';
+            var MedicalIndex = JSON.parse(plan.MedicalIndex); //获取选中的药柜编号
+
+            /* 将选中的药柜进行遍历,并从中获取所有的药名 */
             MedicalIndex.forEach(function (item) {
-              if (Medicines[item].name != name) {
+              Medicines[item].forEach(function (medical) {
                 MedicalInfo = {
-                  name: Medicines[item].name,
-                  amount: info.amount,
-                  remark: info.remark,
+                  name: medical.name,
+                  amount: medical.amount,
+                  remark: medical.remark,
                   PlanID: plan.PlanID };
 
-                data.MedicalInfo.push(MedicalInfo);
-              }
-              name = Medicines[item].name;
+                if (MedicalInfo.name != '')
+                data.MedicalInfo.push(MedicalInfo);});
             });
           }
-          /* 取时间 */
+          /* 获取时间 */
           data.time = info.Hour + ":" + info.Minute;
 
           PlansInfo.push(data);
@@ -235,11 +235,11 @@ var Plans;var _default =
             --b;
           }}}
       /* 数组按时间排序 */
-      var WeeHour = new Date('2019/8/25 00:00:00'); //获取0点时间戳
+      var WeeHour = new Date('2019/9/25 00:00:00'); //获取0点时间戳
       for (var _a = 0; _a < PlansInfo.length - 1; _a++) {
         for (var _b = _a + 1; _b < PlansInfo.length; _b++) {
-          var timeA = new Date('2019/8/25 ' + PlansInfo[_a].time + ':00') - WeeHour;
-          var timeB = new Date('2019/8/25 ' + PlansInfo[_b].time + ':00') - WeeHour;
+          var timeA = new Date('2019/9/25 ' + PlansInfo[_a].time + ':00') - WeeHour;
+          var timeB = new Date('2019/9/25 ' + PlansInfo[_b].time + ':00') - WeeHour;
           if (timeA > timeB) {
             var item = PlansInfo[_a];
             PlansInfo[_a] = PlansInfo[_b];

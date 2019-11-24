@@ -4,22 +4,32 @@
 		<Overview :ParentInfo="ChildrenInfo.EquipmentInfo"></Overview>
 		
 		<!-- 储药情况药物一览 -->
-		<h2>储药情况</h2>
-		<uni-grid column="3" :showBorder="false" :highlight="false">
-			<uni-grid-item v-for="(medical,index) in medicals" :key="index"
-				@tap="ClickMedical(index)">
+		<view class="Title">
+			<h2>储药情况</h2>
+			<text>背景加深表示该药柜含计划,请谨慎修改</text>
+		</view>
+		
+		<uni-grid column="2" :showBorder="false" :highlight="false" :square="false">
+			<uni-grid-item :class="Active(index1) ? 'active' : ''" v-for="(medicines,index1) in MedicalInfo" 
+				:key="index1" @tap="ClickMedical(index1)">
 				<view class="medical">
-					<view>药柜编号:{{index+1}}</view>
-					<view >{{medical.name == '' ? '暂无存药':medical.name}}</view>
-					<view>{{medical.amount == '' ? '':"数量:"+medical.amount}}</view>
+					<view>药柜编号:{{index1+1}}</view>
+					
+					<block v-for="(medical,index2) in medicines" :key="index2">
+						<view v-if="medical.name == ''">暂无存药</view>
+						<view class="name" v-else>
+							{{medical.name}}
+						</view>
+					</block>
+					
 				</view>
 			</uni-grid-item>
 		</uni-grid>
 		<!-- 设置药物组件 -->
 		
 		<!-- 发送设备基本信息，药柜编号 -->
-		<SetMedical :show="SetMedical" @CloseSet="CloseSet" @UpdateMedicals="UpdateMedicals"
-			:InitialInfo="SetMedInfo" :StaticInfo="SetMedInfo.MedicalInfo[SetMedInfo.MedicalIndex]">
+		<SetMedical v-if="SetMedical" @CloseSet="CloseSet" @UpdateMedicals="UpdateMedicals"
+			:InitialInfo="SetMedInfo">
 			<!-- StaticInfo是初始的药柜信息，用于判断填写内容是否发生了变化 -->
 		</SetMedical>
 		
@@ -31,7 +41,7 @@
 			</uni-collapse-item>
 		</uni-collapse>
 		
-		<button @click="Remove" type="warn" class="remove">删除设备</button>
+		<button class="remove" type="warn" @click="Remove">删除设备</button>
 	</view>
 </template>
 
@@ -44,7 +54,6 @@
 	
 	import Overview from "./Overview"//引入头部概述组件
 	import SetMedical from"./SetMedical"//引入配置药物信息组件
-	import AllPlans from "../Plans/AllPlans"
 	import EquipmentInfo from"./EquipmentInfo"//引入设备基本信息
 	
 	var Equipment,EquipIndex
@@ -53,8 +62,10 @@
 			return{
 				SetMedInfo:{},//设置药柜时传所有药物信息,药柜编号和设备基本信息过去
 				SetMedical:false,
-				medicals:[],
-				ChildrenInfo:{//传给子组件的信息
+				MedicalIndex : [],//有计划的药柜编号
+				MedicalInfo:[],//结构:数组->数组->对象
+				
+				ChildrenInfo:{//传给设备信息组件的信息
 					BtnText:'修改信息',
 					LoadingText:'修改信息中',
 					PostSrc:'http://49.232.38.113:4000/AmendInfo',
@@ -67,8 +78,11 @@
 		},
 		onLoad(e) {
 			EquipIndex=e.index
-			Equipment=global.EquipmentsInfo[EquipIndex]
-			this.medicals=JSON.parse(Equipment.MedicalInfo)
+			Equipment = global.EquipmentsInfo[EquipIndex]
+			if(global.PlanEquipment(Equipment.ID))
+				this.MedicalIndex = global.PlanEquipment(Equipment.ID).MedicalIndex
+			this.MedicalInfo=JSON.parse(Equipment.MedicalInfo)
+			
 			this.ChildrenInfo.EquipmentInfo=Equipment
 			this.ChildrenInfo.index=EquipIndex
 		},
@@ -76,10 +90,10 @@
 			ClickMedical(index){//点击药柜，进入单个药柜设置
 				let SendInfo={
 					MedicalIndex:index,
-					EquipmentName:Equipment.name,
 					EquipmentID:Equipment.ID,
-					MedicalInfo:this.medicals,
-					EquipIndex:EquipIndex
+					MedicalInfo:this.MedicalInfo,
+					EquipIndex:EquipIndex,
+					active : this.Active(index)
 				}
 				this.SetMedInfo=SendInfo
 				this.SetMedical=!this.SetMedical
@@ -106,13 +120,26 @@
 					}})
 			},//Remove结束
 			
-			CloseSet(e){//接收子组件传来信息关闭蒙层
+			/* 关闭设置药柜 */
+			CloseSet(e){
 				this.SetMedical=false
 			},
-			UpdateMedicals(medicals){
-				this.medicals=medicals
+			/* 更新药柜信息 */
+			UpdateMedicals(MedicalInfo){
+				this.MedicalInfo=MedicalInfo
+			},
+			/* 判断哪个药柜含计划 */
+			Active(index){
+				let active = false
+				this.MedicalIndex.find(item => {
+					if(item === index){
+						active = true
+						return true
+					}
+				})
+				return active
 			}
-		},
+		},//methods结束
 		components:{
 			uniGrid,
 			uniGridItem,
@@ -121,70 +148,59 @@
 			
 			EquipmentInfo,
 			Overview,
-			AllPlans,
 			SetMedical
 		}
 	}
 </script>
 
 <style scoped>
-	h2{
+	.Title{
+		display: flex;
+		align-items: center;
+	}
+	.Title h2{
 		color: #58595a;
 		line-height: 1.8;
 		margin-left: 5%;
 	}
+	.Title text{
+		color: #da1a1a;
+		font-size: 12px;
+		margin-left: 10px;
+	}
+	/* 储药情况样式 */
 	.medical{
-		/* 储药情况样式 */
 		font-size: 15px;
 		width: 80%;
+		height: auto;
 		text-align: center;
 		line-height: 1.7;
-	}	
-	.plan-list{
-		height: 25px;
-		padding: 15px 0;
-		margin-left: 20px;
 	}
+	.medical .name{
+		white-space: nowrap;
+	}
+	/* 选中药柜背景加深 */
+	.active{
+		background: rgba(8,133,115,0.4);
+	}
+	
+	/* 删除按键 */
 	.remove{
-		/* 删除按键 */
 		width: 90%;
 		border-radius: 20px;
 		margin: 10px auto;
 	}
 	
-	/* 九宫格边框样式 */
-	uni-grid-item:nth-last-child(1){
+	/* 4宫格边框样式 */
+	uni-grid-item:nth-child(1){
 		border:1px solid #6fcdb2;
-		border-right: none;
+		border-left: none;
 	}
-	uni-grid-item:nth-last-child(2){
-		border:1px solid #6fcdb2;
-		border-right: none;
+	uni-grid-item:nth-child(2){
+		border-top:1px solid #6fcdb2;
+		border-bottom:1px solid #6fcdb2;
 	}
-	uni-grid-item:nth-last-child(3){
-		border-top: 1px solid #6fcdb2;
-		border-bottom: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(4){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(5){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(6){
-		border-top: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(7){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(8){
-		border-top: 1px solid #6fcdb2;
-		border-left: 1px solid #6fcdb2;
-	}
-	uni-grid-item:nth-last-child(9){
-		border-top: 1px solid #6fcdb2;
+	uni-grid-item:nth-child(3){
+		border-right:1px solid #6fcdb2;
 	}
 </style>

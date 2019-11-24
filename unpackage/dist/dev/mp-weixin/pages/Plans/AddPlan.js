@@ -122,7 +122,11 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var Picker = function Picker() {return __webpack_require__.e(/*! import() | pages/Plans/Picker */ "pages/Plans/Picker").then(__webpack_require__.bind(null, /*! ./Picker */ 178));};var SelectMedicine = function SelectMedicine() {return __webpack_require__.e(/*! import() | pages/Plans/SelectMedicine */ "pages/Plans/SelectMedicine").then(__webpack_require__.bind(null, /*! ./SelectMedicine */ 210));};
+/* WEBPACK VAR INJECTION */(function(uni, global) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var Picker = function Picker() {return __webpack_require__.e(/*! import() | pages/Plans/Picker */ "pages/Plans/Picker").then(__webpack_require__.bind(null, /*! ./Picker */ 178));};var SelectMedicine = function SelectMedicine() {return __webpack_require__.e(/*! import() | pages/Plans/SelectMedicine */ "pages/Plans/SelectMedicine").then(__webpack_require__.bind(null, /*! ./SelectMedicine */ 210));};
+
+
+
+
 
 
 
@@ -212,7 +216,7 @@ var plan;
 var Equipments,UseEquipments = ["不使用设备"];
 var DateList = [],Today,DayList = [];
 var FrequencyList = [];
-var TimesList = [];var _default =
+var TimesList = [],TimeIndex;var _default =
 {
   data: function data() {
     return {
@@ -221,7 +225,7 @@ var TimesList = [];var _default =
 
       EquipmentInfo: {},
       MedicalName: '',
-      MedicalIndex: [],
+      MedicalIndex: new Array(1),
       Today: '',
       UseTimes: [],
       /* 选择器参数 */
@@ -231,14 +235,14 @@ var TimesList = [];var _default =
       CurrentText: [UseEquipments[0], '今天', '每天执行'],
 
       TimeInfo: {},
-      value: [],
-      Items1: [],
+      value: [], //下标的值
+      Items1: [], //发送给选择题的数组内容
       Items2: [],
       Items3: [],
 
-      EquipmentIndex: [0],
-      DateIndex: [0, 0, 0],
-      FrequencyIndex: [0]
+      EquipmentIndex: [0], //设备的下标
+      DateIndex: [0, 0, 0], //日期下标
+      FrequencyIndex: [0] //频率下标
       /* 选择器参数 */ };
 
   },
@@ -247,7 +251,7 @@ var TimesList = [];var _default =
     this.SetDateList();
     this.SetFrequency();
     this.SetTimes();
-    /* 如果是管理界面来初始化数据 */
+    /* 如果是修改界面来,初始化数据 */
     if (e.PlanIndex != "false")
     this.SetChangeData(e.PlanIndex);
   },
@@ -262,6 +266,7 @@ var TimesList = [];var _default =
       this.Picker = true;
     },
     PicMedicine: function PicMedicine() {//配置药柜
+      this.MedicalIndex = this.MedicalIndex;
       this.SelectMedicine = true;
     },
     PickerDate: function PickerDate() {//选择日期
@@ -282,22 +287,22 @@ var TimesList = [];var _default =
       this.value = this.FrequencyIndex;
       this.Picker = true;
     },
-    PickerTimes: function PickerTimes(type) {var usetime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {}; //选择用药时间
+    PickerTimes: function PickerTimes(type) {var usetime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var i = arguments.length > 2 ? arguments[2] : undefined; //选择用药时间
       this.Items1 = TimesList[0];
       this.Items2 = TimesList[1];
       this.Items3 = [];
-      this.Picker = true;
       /* 如果是修改的,把已经选中的时间传过去 */
       if (type == "Change") {
+        TimeIndex = i;
         /* 计算时间下标 */
         var Hour, Minute;
         TimesList[0].find(function (e, index) {
           Hour = index;
-          return e == usetime.Hour;
+          return e === usetime.Hour;
         });
         TimesList[1].find(function (e, index) {
           Minute = index;
-          return e == usetime.Minute;
+          return e === usetime.Minute;
         });
         /* 计算时间下标 */
         this.type = "修改时间";
@@ -305,19 +310,29 @@ var TimesList = [];var _default =
         this.TimeInfo = usetime;
         this.value = [Hour, Minute];
       } else
-      {
+      {//新增时间
         var TimeInfo = {
-          index: this.UseTimes.length,
-          amount: '', remark: '' };
+          amount: '',
+          remark: '',
+          RecordUrl: '' };
 
         this.type = "添加时间";
         this.InitialText = "07:00";
         this.TimeInfo = TimeInfo;
         this.value = [7, 0];
       }
+      this.Picker = true;
     },
     RemoveTime: function RemoveTime(index) {
       this.UseTimes.splice(index, 1);
+    },
+    PlayVoice: function PlayVoice(index) {//播放录音
+      var recorderManager = uni.getRecorderManager();
+      var innerAudioContext = uni.createInnerAudioContext();
+
+      innerAudioContext.volume = 1;
+      innerAudioContext.src = this.UseTimes[index].RecordUrl;
+      innerAudioContext.play();
     },
 
     /* 确认添加计划按键 */
@@ -337,13 +352,22 @@ var TimesList = [];var _default =
       /* 获取使用频率 */
       var Frequency = FrequencyList[this.FrequencyIndex[0]];
 
+      /* 判断有没有重复的时间 */
+      for (var a = 0; a < this.UseTimes.length - 1; a++) {
+        for (var b = a + 1; b < this.UseTimes.length; b++) {
+          if (this.UseTimes[a].Hour === this.UseTimes[b].Hour && this.UseTimes[a].Minute === this.UseTimes[b].Minute) {
+            this.showtoast('有重复时间');
+            return;
+          }}}
+
       /* 判断填写内容是否有误 */
-      if (this.EquipmentIndex[0] == 0 && this.MedicalName == '')
+      if (this.EquipmentIndex[0] === 0 && this.MedicalName === '')
       this.showtoast("请输入药名");else
-      if (this.EquipmentIndex[0] != 0 && this.MedicalIndex.length == 0)
+      if (this.EquipmentIndex[0] != 0 && this.MedicalIndex.length === 0)
       this.showtoast("请选择药柜");else
-      if (this.UseTimes.length == 0)
+      if (this.UseTimes.length === 0)
       this.showtoast("请选择时间");else
+
       {
         /* 发送数据给服务器 */
         var data = {
@@ -399,20 +423,26 @@ var TimesList = [];var _default =
       var SetUseTimes = function SetUseTimes(type) {
         var Hour = TimesList[0][data.value[0]];
         var Minute = TimesList[1][data.value[1]];
-        var TimeInfo = {
+        var TimeInfo = { //初始化对象
           Hour: Hour,
           Minute: Minute,
-          index: data.TimeInfo.index,
           amount: data.TimeInfo.amount,
-          remark: data.TimeInfo.remark };
+          remark: data.TimeInfo.remark,
+          RecordUrl: data.TimeInfo.RecordUrl };
 
-        if (type == '添加时间')
+        if (type === '添加时间')
         _this.UseTimes.push(TimeInfo);else
 
-        _this.UseTimes[data.TimeInfo.index] = TimeInfo;
+        _this.UseTimes[TimeIndex] = TimeInfo;
+        /* 对数组排序 */
+        _this.UseTimes.sort(function (a, b) {
+          if (a.Hour === b.Hour)
+          return a.Minute - b.Minute;
+          return a.Hour - b.Hour;
+        });
       };
       switch (data.type) {
-        case '选择设备':this.EquipmentIndex = data.value;this.CurrentText[0] = data.CurrentText;this.MedicalName = "";this.MedicalIndex = [];break;
+        case '选择设备':this.EquipmentIndex = data.value;this.CurrentText[0] = data.CurrentText;this.MedicalName = "";this.MedicalIndex = [];this.UseTimes = [];break;
         case '选择日期':this.DateIndex = data.value;this.CurrentText[1] = data.CurrentText;break;
         case '选择频率':this.FrequencyIndex = data.value;this.CurrentText[2] = data.CurrentText;break;
         case '添加时间':SetUseTimes('添加时间');break;
@@ -424,6 +454,7 @@ var TimesList = [];var _default =
     Close: function Close() {
       this.Picker = false;
     },
+    /* 配置了药柜，设置药柜编号 */
     ChooseMedicines: function ChooseMedicines(e) {
       this.MedicalIndex = e;
       this.SelectMedicine = false;
@@ -535,7 +566,7 @@ var TimesList = [];var _default =
 
   components: {
     Picker: Picker, SelectMedicine: SelectMedicine } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3)))
 
 /***/ }),
 

@@ -14,19 +14,11 @@ picker-view.data-v-27674220{
 	height: 130px;
 	margin: 10px auto;
 }
-.Btn.data-v-27674220{
-	margin: 20px 0 10px 0;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-}
-.Btn view.data-v-27674220{
-	width: 50%;
-	text-align: center;
-}
-.Btn text.data-v-27674220{
-	color: rgba(174,174,174,0.6);
+/* 分割线样式 */
+.line.data-v-27674220{
+	width: 90%;
+	height: 1px;
+	position: absolute;
 }
 /* 时间设置特有内容样式 */
 .UseTime.data-v-27674220{
@@ -34,7 +26,7 @@ picker-view.data-v-27674220{
 	width: 90%;
 	margin: 20px auto;
 }
-.info.data-v-27674220{
+.UseTime .info.data-v-27674220{
 	height: 40px;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -44,12 +36,6 @@ picker-view.data-v-27674220{
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-}
-/* 分割线样式 */
-.line.data-v-27674220{
-	width: 90%;
-	height: 1px;
-	position: absolute;
 }
 .UseTime ._h2.data-v-27674220{
 	line-height: 1.8;
@@ -62,4 +48,40 @@ picker-view.data-v-27674220{
 	border-radius: 10px;
 }
 /* 时间设置特有内容样式 */
+/* 录音样式 */
+.record.data-v-27674220{
+	margin: 10px 0;
+}
+.record .start_play.data-v-27674220{
+	width: 60px;
+	height: auto;
+	margin-left: 40%;
+}
+.record .delete.data-v-27674220{
+	width: 25px;
+	height: auto;
+	margin-left: 30px;
+	margin-bottom: 15px;
+}
+.record .remark.data-v-27674220{
+	color: #b3b3b3;
+	font-size: 12px;
+	text-align: center;
+	margin-bottom: 5px;
+}
+/* 录音样式 */
+.Btn.data-v-27674220{
+	margin: 10px 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.Btn view.data-v-27674220{
+	width: 50%;
+	text-align: center;
+}
+.Btn text.data-v-27674220{
+	color: rgba(174,174,174,0.6);
+}
 

@@ -1,20 +1,30 @@
 
-.close{
-	width: 35px;
-	position: absolute;
-	margin-top: 5px;
-	margin-left: 83%;
+page.data-v-72abd03c{
+	font-size: 17px;
 }
-.Title{
+.Title.data-v-72abd03c{
+	color: #343434;
 	text-align: center;
 }
-/* 药品信息样式 */
-.info{
+.remark.data-v-72abd03c{
+	color: #da1a1a;
+	font-size: 12px;
+	text-align: center;
+}
+/* 分割线样式 */
+.line.data-v-72abd03c{
 	width: 90%;
+	height: 1px;
+	position: absolute;
+}
+/* 药品信息样式 */
+.medical.data-v-72abd03c{
+	font-size: 17px;
+	width: 90%;
+	margin: 5px auto;
+}
+.medical .info.data-v-72abd03c{
 	height: 40px;
-	margin: 10px auto;
-	border: 1px solid #cbcdcf;
-	border-radius: 20px;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -24,40 +34,41 @@
 	    -ms-flex-align: center;
 	        align-items: center;
 }
-.info text{
-	margin-left: 10px;
+.medical ._h2.data-v-72abd03c{
+	line-height: 1.8;
 }
-.info .content{
+.medical textarea.data-v-72abd03c{
 	color: #696767;
-	width: 70%;
-	margin-left: 15px;
-}
-.palaceholder{
-	color: #858181;
-	font-size: 17px;
-}
-.remark{
-	width: 90%;
-	margin: 10px auto;
-}
-.remark textarea{
-	color: #696767;
-	width: 93%;
-	height: 100px;
-	margin: 10px 0 0 0px;
-	padding: 8px;
-	border: 1px solid #cbcdcf;
-	border-radius: 15px;
+	height: 60px;
+	width: 95%;
+	padding: 5px;
+	border: 1px solid #088573;
+	border-radius: 10px;
 }
 /* 药品信息样式 */
-/* 确认案件 */
-.sure-info{
-	background:-webkit-gradient(linear,right top, left top,from(rgba(63,205,235,1)),to(rgba(188,226,158,1)));
-	background:-o-linear-gradient(right,rgba(63,205,235,1),rgba(188,226,158,1));
-	background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1));
-	color: #FFFFFF;
-	border-radius: 40px;
-	width: 90%;
+/* 图标样式 */
+.icon.data-v-72abd03c{
+	width: 40%;
 	margin: 5px auto;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+}
+/* 确认/取消按键 */
+.Btn.data-v-72abd03c{
+	margin: 20px 0 10px 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.Btn view.data-v-72abd03c{
+	width: 50%;
+	text-align: center;
 }
 

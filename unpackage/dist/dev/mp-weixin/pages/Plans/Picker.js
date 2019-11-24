@@ -155,8 +155,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-var CurrentText;var _default =
+var CurrentText;
+var recorderManager = uni.getRecorderManager();
+var innerAudioContext = uni.createInnerAudioContext();
+innerAudioContext.volume = 1;var _default =
+
 {
   data: function data() {
     return {
@@ -215,17 +232,40 @@ var CurrentText;var _default =
       this.DayList = DayList;
     },
 
+    /* 录音 */
+    StartRecord: function StartRecord() {
+      recorderManager.start({
+        format: 'mp3' });
+
+    },
+    StopRecord: function StopRecord() {var _this = this;
+      recorderManager.stop();
+      recorderManager.onStop(function (res) {
+        _this.TimeInfo.RecordUrl = res.tempFilePath;
+      });
+    },
+    listen: function listen() {
+      if (this.TimeInfo.RecordUrl) {
+        console.log(this.TimeInfo.RecordUrl);
+        innerAudioContext.src = this.TimeInfo.RecordUrl;
+        innerAudioContext.play();
+      }
+    },
+    RemoveUrl: function RemoveUrl() {
+      this.TimeInfo.RecordUrl = '';
+    },
+
     FinishPic: function FinishPic() {//完成选择
-      if (this.type == "添加时间" && this.TimeInfo.amount == '')
+      if (this.type === "添加时间" && this.TimeInfo.amount === '' && this.EquipmentIndex[0] === 0)
       this.showtoast("请输入用药量");else
-      if (this.type == "修改时间" && this.TimeInfo.amount == '')
+      if (this.type === "修改时间" && this.TimeInfo.amount === '' && this.EquipmentIndex[0] === 0)
       this.showtoast("请输入用药量");else
       {
         var data = {
           type: this.type,
           TimeInfo: this.TimeInfo,
           value: this.value,
-          CurrentText: this.CurrentText == '' ? this.InitialText : this.CurrentText };
+          CurrentText: this.CurrentText === '' ? this.InitialText : this.CurrentText };
 
         this.CurrentText = '';
         this.$emit('FinishPic', data);
@@ -243,10 +283,18 @@ var CurrentText;var _default =
         image: "../../static/error.png",
         duration: 1000 });
     } },
+  //methods结束
+  computed: {
+    RecordUrl: function RecordUrl() {
+      if (this.TimeInfo.RecordUrl === '')
+      return false;else
+
+      return true;
+    } },
 
   props: {
-    Picker: Boolean,
     type: String,
+    EquipmentIndex: Array,
     InitialText: {
       type: String,
       value: '' },

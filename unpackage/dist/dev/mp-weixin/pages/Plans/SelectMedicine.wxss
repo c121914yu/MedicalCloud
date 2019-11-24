@@ -17,7 +17,7 @@
 	line-height: 1.7;
 }
 /* 选中药柜背景加深 */
-.Active.data-v-8f6ba230{
+.active.data-v-8f6ba230{
 	background: rgba(8,133,115,0.4);
 }
 button.data-v-8f6ba230{
@@ -29,39 +29,20 @@ button.data-v-8f6ba230{
 	width: 90%;
 	margin: 5px auto;
 }
-/* 九宫格边框样式 */
-uni-grid-item.data-v-8f6ba230:nth-last-child(1){
+/* 4宫格边框样式 */
+uni-grid-item.data-v-8f6ba230:nth-child(1){
 	border:1px solid #6fcdb2;
-	border-right: none;
+	border-left: none;
 }
-uni-grid-item.data-v-8f6ba230:nth-last-child(2){
-	border:1px solid #6fcdb2;
-	border-right: none;
+uni-grid-item.data-v-8f6ba230:nth-child(2){
+	border-top:1px solid #6fcdb2;
+	border-bottom:1px solid #6fcdb2;
 }
-uni-grid-item.data-v-8f6ba230:nth-last-child(3){
-	border-top: 1px solid #6fcdb2;
-	border-bottom: 1px solid #6fcdb2;
+uni-grid-item.data-v-8f6ba230:nth-child(3){
+	border-right:1px solid #6fcdb2;
+	border-bottom:1px solid #6fcdb2;
 }
-uni-grid-item.data-v-8f6ba230:nth-last-child(4){
-	border-top: 1px solid #6fcdb2;
-	border-left: 1px solid #6fcdb2;
-}
-uni-grid-item.data-v-8f6ba230:nth-last-child(5){
-	border-top: 1px solid #6fcdb2;
-	border-left: 1px solid #6fcdb2;
-}
-uni-grid-item.data-v-8f6ba230:nth-last-child(6){
-	border-top: 1px solid #6fcdb2;
-}
-uni-grid-item.data-v-8f6ba230:nth-last-child(7){
-	border-top: 1px solid #6fcdb2;
-	border-left: 1px solid #6fcdb2;
-}
-uni-grid-item.data-v-8f6ba230:nth-last-child(8){
-	border-top: 1px solid #6fcdb2;
-	border-left: 1px solid #6fcdb2;
-}
-uni-grid-item.data-v-8f6ba230:nth-last-child(9){
-	border-top: 1px solid #6fcdb2;
+uni-grid-item.data-v-8f6ba230:nth-child(4){
+	border-bottom:1px solid #6fcdb2;
 }
 

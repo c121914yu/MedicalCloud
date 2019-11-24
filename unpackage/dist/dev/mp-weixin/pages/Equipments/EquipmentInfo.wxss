@@ -125,13 +125,16 @@
 
 
 
+
+
+
 /* 设备信息样式 */
 .info.data-v-3b5cf67f{	
-	width: 90%;
+	width: 94%;
 	height: 40px;
 	margin: 10px auto;
 	border: 1px solid #cbcdcf;
-	border-radius: 20px;
+	border-radius: 10px;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -151,22 +154,21 @@
 }
 .palaceholder.data-v-3b5cf67f{
 	color: #858181;
-	font-size: 17px;
+	font-size: 15px;
 }
 .remark.data-v-3b5cf67f{
-	width: 90%;
+	width: 94%;
 	margin: 10px auto;
-}
-.remark text.data-v-3b5cf67f{
-	margin-left: 10px;
 }
 .remark textarea.data-v-3b5cf67f{
 	color: #696767;
-	height: 110px;
-	margin: 10px 0 0 0px;
-	padding: 8px;
+	width: 97%;
+	min-height: 30px;
+	margin-top: 5px;
+	padding: 5px 0 5px 5px;
 	border: 1px solid #cbcdcf;
-	border-radius: 15px;
+	border-radius: 10px;
+	z-index: 0;
 }
 /* 设备信息样式 */
 button.data-v-3b5cf67f{

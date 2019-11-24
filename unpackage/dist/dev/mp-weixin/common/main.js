@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(uni, global) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 global.UserLoginInfo = uni.getStorageSync('UserLoginInfo');
 global.ScreenWidth = uni.getSystemInfoSync().screenWidth;
-global.EquipmentsInfo = '';
+global.EquipmentsInfo = [];
 global.UserPlans = [];
 
 global.SetLoginIngo = function (that, UserLoginInfo, text) {
@@ -170,6 +170,35 @@ global.GetPlans = function (phone) {var back = arguments.length > 1 && arguments
     },
     fail: function fail(err) {console.log(err);} });
 
+};
+/* 判断哪些设备及对应的药柜有计划 */
+global.PlanEquipment = function (ID) {
+  var data = [];
+  global.UserPlans.forEach(function (plan) {
+    if (plan.EquipmentID != '不使用设备')
+    data.push({
+      EquipmentID: plan.EquipmentID,
+      MedicalIndex: JSON.parse(plan.MedicalIndex) });
+
+  });
+  if (data.length > 0)
+  for (var a = 0; a < data.length - 1; a++) {
+    /* 相同ID的合并 */
+    for (var b = a + 1; b < data.length; b++) {
+      if (data[a].EquipmentID === data[b].EquipmentID) {
+        data[a].MedicalIndex = data[a].MedicalIndex.concat(data[b].MedicalIndex);
+        data.splice(b, 1);
+        --b;
+      }}
+    /* 相同MedicalIndex去重 */
+    data[a].MedicalIndex = data[a].MedicalIndex.filter(function (item, index, self) {
+      return self.indexOf(item) === index;
+    });
+  }
+  data = data.find(function (item) {
+    return item.EquipmentID == ID;
+  });
+  return data;
 };var _default =
 
 {

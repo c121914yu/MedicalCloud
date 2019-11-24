@@ -141,7 +141,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-
 var parent, Equipment;var _default =
 {
   data: function data() {
@@ -208,8 +207,12 @@ var parent, Equipment;var _default =
     /* 添加设备时生成初始药物信息 */
     MedicalInfo: function MedicalInfo() {
       var MedicalInfo = new Array();
-      for (var i = 0; i < 9; i++) {
-        MedicalInfo.push({ name: "", amount: "", remark: "" });}
+      for (var i = 0; i < 4; i++) {
+        MedicalInfo.push([{
+          name: '',
+          amount: '',
+          remark: '' }]);}
+
       return JSON.stringify(MedicalInfo);
     },
     /* 提示错误信息 */

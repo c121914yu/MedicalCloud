@@ -142,7 +142,7 @@ __webpack_require__.r(__webpack_exports__);
       var plans = global.UserPlans;
       var EquipmentID = this.ParentInfo.ID;
       plans.forEach(function (plan) {
-        if (plan.EquipmentID == EquipmentID) {
+        if (plan.EquipmentID === EquipmentID) {
           statistics.sum++;
           if (plan.UnFinish != "0")
           statistics.unfinish++;

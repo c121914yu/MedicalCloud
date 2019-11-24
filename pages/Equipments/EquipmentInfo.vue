@@ -22,9 +22,9 @@
 		</view>
 		
 		<view class="remark">
-			<text>备注</text>
+			<text style="margin-left: 5px;">备注</text>
 			<textarea placeholder-class="palaceholder" placeholder="给设备写个备注"
-				v-model="info.EquipmentInfo.remark" cursor="5"/>
+				v-model="info.EquipmentInfo.remark" auto-height="true"/>
 		</view>
 		
 		<button @click="ClickButton">{{info.BtnText}}</button>
@@ -34,7 +34,6 @@
 <!-- 由于异步问题不方便使用生命周期，直接绑定父级传来的值，异步完成后自动会修改
 	-->
 <script>
-	
 	var parent,Equipment
 	export default{
 		data(){
@@ -101,8 +100,12 @@
 			/* 添加设备时生成初始药物信息 */
 			MedicalInfo(){
 				let MedicalInfo=new Array
-				for(let i=0;i<9;i++)
-					MedicalInfo.push({name:"",amount:"",remark:""})
+				for(let i=0;i<4;i++)
+					MedicalInfo.push([{
+						name:'',
+						amount:'',
+						remark:''
+					}])
 				return JSON.stringify(MedicalInfo)
 			},
 			/* 提示错误信息 */
@@ -127,11 +130,11 @@
 <style scoped>
 	/* 设备信息样式 */
 	.info{	
-		width: 90%;
+		width: 94%;
 		height: 40px;
 		margin: 10px auto;
 		border: 1px solid #cbcdcf;
-		border-radius: 20px;
+		border-radius: 10px;
 		display: flex;
 		align-items: center;
 	}
@@ -145,22 +148,21 @@
 	}
 	.palaceholder{
 		color: #858181;
-		font-size: 17px;
+		font-size: 15px;
 	}
 	.remark{
-		width: 90%;
+		width: 94%;
 		margin: 10px auto;
-	}
-	.remark text{
-		margin-left: 10px;
 	}
 	.remark textarea{
 		color: #696767;
-		height: 110px;
-		margin: 10px 0 0 0px;
-		padding: 8px;
+		width: 97%;
+		min-height: 30px;
+		margin-top: 5px;
+		padding: 5px 0 5px 5px;
 		border: 1px solid #cbcdcf;
-		border-radius: 15px;
+		border-radius: 10px;
+		z-index: 0;
 	}
 	/* 设备信息样式 */
 	button{

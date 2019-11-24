@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "cmd-progress": "/components/cmd-progress/cmd-progress"
-  },
-  "component": true
-}

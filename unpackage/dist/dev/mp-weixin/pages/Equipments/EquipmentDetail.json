@@ -7,7 +7,6 @@
     "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item",
     "equipment-info": "/pages/Equipments/EquipmentInfo",
     "overview": "/pages/Equipments/Overview",
-    "all-plans": "/pages/Plans/AllPlans",
     "set-medical": "/pages/Equipments/SetMedical"
   }
 }
