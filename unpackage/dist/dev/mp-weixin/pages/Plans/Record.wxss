@@ -1,0 +1,90 @@
+
+page{
+	background: rgba(225,225,225,0.8);
+	font-size: 17px;
+}
+.record{
+	width: 94%;
+	background: #F4F4F4;
+	-webkit-box-shadow: 2px 2px 2px #b1b1b1;
+	        box-shadow: 2px 2px 2px #b1b1b1;
+	border-radius: 5px;
+	margin: 10px auto;
+}
+.head{
+	height: 35px;
+	width: 94%;
+	margin: 0 auto;
+	border-bottom: 1px solid rgba(210,210,210,0.9);
+	position: relative;
+}
+.head text{
+	color: #8d8d8d;
+	position: absolute;
+	right: 0;
+	top: 10px;
+}
+.content{
+	color: #4d4d4d;
+	width: 94%;
+	min-height: 30px;
+	border-bottom: 1px solid rgba(210,210,210,0.5);
+	margin: 0 auto;
+	padding: 5px 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.content .condition{
+	margin-left: 5px;
+}
+.content .condition image{
+	width: 20px;
+}
+.content .time{
+	margin-left: 10px;
+	margin-top: -5px;
+}
+.content .medicines{
+	margin-left: 15px;
+	line-height: 1.5;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1 0 auto;
+	    -ms-flex: 1 0 auto;
+	        flex: 1 0 auto;
+}
+.content .medicines .amount{
+	margin-left: 3px;
+}
+.content .dispose{
+	text-align: center;
+	font-size: 15px;
+}
+.content .dispose .readed{
+	color: #d72525;
+	-webkit-animation: rotate 2s infinite linear;
+	        animation: rotate 2s infinite linear;
+}
+.content .dispose .readed:active{
+	font-weight: 600;
+}
+@-webkit-keyframes rotate{
+0%{-webkit-transform:scale(1) rotate(0);}
+10%{-webkit-transform:scale(0.9)}
+30%,50%,70%,90%{-webkit-transform:scale(1.1) rotate(5deg);}
+40%,60%,80%{-webkit-transform:scale(1.1) rotate(-5deg);}
+100%{-webkit-transform:scale(1) rotate(0);}
+}
+@keyframes rotate{
+0%{-webkit-transform:scale(1) rotate(0);}
+10%{-webkit-transform:scale(0.9)}
+30%,50%,70%,90%{-webkit-transform:scale(1.1) rotate(5deg);}
+40%,60%,80%{-webkit-transform:scale(1.1) rotate(-5deg);}
+100%{-webkit-transform:scale(1) rotate(0);}
+}
+

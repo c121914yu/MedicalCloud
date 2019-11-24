@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "用药计划",
+  "usingComponents": {
+    "all-plans": "/pages/Plans/AllPlans"
+  }
+}

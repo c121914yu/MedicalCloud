@@ -1,0 +1,231 @@
+
+.Popup.data-v-27674220{
+	width: 95%;
+	left: 2.5%;
+}
+/* 选中的文字提醒 */
+.CurrentText.data-v-27674220{
+	font-size: 18px;
+	margin: 10px 10%;
+}
+picker-view.data-v-27674220{
+	text-align: center;
+	width: 90%; 
+	height: 130px;
+	margin: 10px auto;
+}
+/* 分割线样式 */
+.line.data-v-27674220{
+	width: 90%;
+	height: 1px;
+	position: absolute;
+}
+/* 时间设置特有内容样式 */
+.UseTime.data-v-27674220{
+	font-size: 17px;
+	width: 90%;
+	margin: 20px auto;
+}
+.UseTime .info.data-v-27674220{
+	height: 40px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.UseTime .info input.data-v-27674220{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+}
+.UseTime ._h2.data-v-27674220{
+	line-height: 1.8;
+}
+.UseTime textarea.data-v-27674220{
+	color: #696767;
+	width: 94%;
+	height: 40px;
+	padding: 5px;
+	border: 1px solid #088573;
+	border-radius: 10px;
+}
+.UseTime .selcet-from-medical.data-v-27674220{
+	color: #088573;
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}
+/* 图标样式 */
+.UseTime .icon.data-v-27674220{
+	width: 40%;
+	margin: 5px auto;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+}
+/* 时间设置特有内容样式 */
+/* 选择药柜样式 */
+.record .Remark.data-v-27674220{
+	text-align: center;
+	font-size: 12px;
+	color: #7b7b7b;
+	line-height: 1.8;
+}
+/* 储药情况样式 */
+.record .medicines.data-v-27674220{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	    -ms-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.record .medicines .medical.data-v-27674220{
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+	font-size: 15px;
+	width: 50%;
+	text-align: center;
+	line-height: 1.7;
+	padding: 5px 0;
+}
+.record .medicines .medical .name.data-v-27674220{
+	width: 98%;
+	margin: 0 auto;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.record .medicines .medical.data-v-27674220:nth-child(1){
+	border-top: 1px solid #088573;
+	border-right: 1px solid #088573;
+	border-bottom: 1px solid #088573;
+}
+.record .medicines .medical.data-v-27674220:nth-child(2){
+	border-top: 1px solid #088573;
+	border-bottom: 1px solid #088573;
+}
+.record .medicines .medical.data-v-27674220:nth-child(3){
+	border-right: 1px solid #088573;
+	border-bottom: 1px solid #088573;
+}
+.record .medicines .medical.data-v-27674220:nth-child(4){
+	border-bottom: 1px solid #088573;
+}
+/* 选中药柜背景加深 */
+.record .medicines .active.data-v-27674220{
+	background: rgba(8,133,115,0.4);
+}
+/* 录音样式 */
+.record.data-v-27674220{
+	margin: 10px 0;
+}
+.record .remark.data-v-27674220{
+	color: #b3b3b3;
+	font-size: 12px;
+	text-align: center;
+	margin-bottom: 5px;
+}
+.record .box.data-v-27674220{
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	display: inline-block;
+	position: relative;
+	margin-left: 40%;
+}
+.record .start_play.data-v-27674220{
+	width: 50px;
+	margin-left: 5px;
+	margin-top: 5px;
+	z-index: 2;
+}
+/* 动画 */
+.record .ripple.data-v-27674220{
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	border-radius: 50%;
+	border:2px solid #088573;
+	z-index: 1;
+}
+.rippleAnimation1.data-v-27674220{
+  -webkit-animation: ripple-data-v-27674220 1.5s infinite linear;
+          animation: ripple-data-v-27674220 1.5s infinite linear;
+}
+.rippleAnimation2.data-v-27674220{
+  -webkit-animation: ripple-data-v-27674220 1.5s infinite linear;
+          animation: ripple-data-v-27674220 1.5s infinite linear;
+  -webkit-animation-delay:0.5s;
+          animation-delay:0.5s;
+}
+.rippleAnimation3.data-v-27674220{
+  -webkit-animation: ripple-data-v-27674220 1.5s infinite linear;
+          animation: ripple-data-v-27674220 1.5s infinite linear;
+  -webkit-animation-delay:1s;
+          animation-delay:1s;
+}
+@-webkit-keyframes ripple-data-v-27674220{
+from{
+    opacity: 1;
+    -webkit-transform: scale(1,1);
+            transform: scale(1,1)
+}
+to{
+    opacity: 0;
+    -webkit-transform: scale(3,3);
+            transform: scale(3,3)
+}
+}
+@keyframes ripple-data-v-27674220{
+from{
+    opacity: 1;
+    -webkit-transform: scale(1,1);
+            transform: scale(1,1)
+}
+to{
+    opacity: 0;
+    -webkit-transform: scale(3,3);
+            transform: scale(3,3)
+}
+}
+.record .delete.data-v-27674220{
+	width: 25px;
+	height: auto;
+	margin-left: 30px;
+	margin-bottom: 15px;
+	z-index: 2;
+}
+/* 录音样式 */
+.Btn.data-v-27674220{
+	margin: 10px 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.Btn view.data-v-27674220{
+	width: 50%;
+	text-align: center;
+}
+.Btn text.data-v-27674220{
+	color: rgba(174,174,174,0.6);
+}
+

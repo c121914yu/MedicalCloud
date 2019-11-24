@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "设备信息",
+  "usingComponents": {
+    "equipment-info": "/pages/Equipments/EquipmentInfo",
+    "overview": "/pages/Equipments/Overview",
+    "set-medical": "/pages/Equipments/SetMedical"
+  }
+}

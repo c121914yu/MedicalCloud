@@ -1,0 +1,170 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*每个页面公共css */
+image{
+	height: auto;
+}
+/* 蒙层样式 */
+.mask{
+	width:100%;
+	height:100%;
+	position:fixed;
+	background-color:#b2b2b2;
+	z-index:99;
+	top:0;
+	left:0;
+	opacity:0.8;
+}
+/* 弹框样式 */
+.Popup{
+	background: #FFFFFF;
+	width: 90%;
+	border-radius: 10px;
+	margin-bottom: 10%;
+	-webkit-box-shadow:2px 2px 5px #7b7b7b;
+	        box-shadow:2px 2px 5px #7b7b7b;
+	position: absolute;
+	top: 10%;
+	left: 5%;
+	z-index: 999;
+	-webkit-animation: appear 0.5s ease-out;
+	        animation: appear 0.5s ease-out;
+}
+@-webkit-keyframes appear{
+0%{
+		opacity: 0;
+		-webkit-transform: scale(0);
+		        transform: scale(0);
+}
+100%{
+  	opacity: 1;
+  	-webkit-transform: scale(1);
+  	        transform: scale(1);
+}
+}
+@keyframes appear{
+0%{
+		opacity: 0;
+		-webkit-transform: scale(0);
+		        transform: scale(0);
+}
+100%{
+  	opacity: 1;
+  	-webkit-transform: scale(1);
+  	        transform: scale(1);
+}
+}
+/* 弹框样式 */
+
