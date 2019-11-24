@@ -153,12 +153,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
+=======
+//
+//
+//
+//
+>>>>>>> yujinlong
 var _default =
 {
   data: function data() {
     return {
       UserAvatar: global.UserLoginInfo.avatar,
       UserName: global.UserLoginInfo.name,
+<<<<<<< HEAD
       EquipmentAmount: 0,
       PlanAmount: 0 };
 
@@ -168,6 +176,19 @@ var _default =
     this.EquipmentAmount = EquipmentAmount;
     var PlanAmount = global.UserPlans.length;
     this.PlanAmount = PlanAmount;
+=======
+      PlanAmount: 0,
+      MedicalAmount: 0,
+      EquipmentAmount: 0 };
+
+  },
+  onShow: function onShow() {
+    uni.showLoading({ title: '加载中...' });
+    this.PlanAmount = global.UserPlans.length;
+    this.MedicalAmount = global.UserMedical.length;
+    this.EquipmentAmount = global.EquipmentsInfo.length;
+    uni.hideLoading();
+>>>>>>> yujinlong
   },
   methods: {
     LogOut: function LogOut() {var _this = this; //退出登录
@@ -186,12 +207,19 @@ var _default =
         } });
 
     }, //LogOut结束
+<<<<<<< HEAD
+=======
+    /*提示*/
+>>>>>>> yujinlong
     showtoast: function showtoast(text, icon, src) {
       uni.showToast({
         title: text,
         icon: icon,
         image: src });
+<<<<<<< HEAD
 
+=======
+>>>>>>> yujinlong
     } }
   //methods结束
 };exports.default = _default;

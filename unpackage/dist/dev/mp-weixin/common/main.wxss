@@ -112,6 +112,7 @@
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -119,6 +120,8 @@
 
 
 
+=======
+>>>>>>> yujinlong
 /*每个页面公共css */
 image{
 	height: auto;
@@ -128,7 +131,11 @@ image{
 	width:100%;
 	height:100%;
 	position:fixed;
+<<<<<<< HEAD
 	background-color:#999;
+=======
+	background-color:#b2b2b2;
+>>>>>>> yujinlong
 	z-index:99;
 	top:0;
 	left:0;
@@ -140,10 +147,44 @@ image{
 	width: 90%;
 	border-radius: 10px;
 	margin-bottom: 10%;
+<<<<<<< HEAD
+=======
+	-webkit-box-shadow:2px 2px 5px #7b7b7b;
+	        box-shadow:2px 2px 5px #7b7b7b;
+>>>>>>> yujinlong
 	position: absolute;
 	top: 10%;
 	left: 5%;
 	z-index: 999;
+<<<<<<< HEAD
+=======
+	-webkit-animation: appear 0.5s ease-out;
+	        animation: appear 0.5s ease-out;
+}
+@-webkit-keyframes appear{
+0%{
+		opacity: 0;
+		-webkit-transform: scale(0);
+		        transform: scale(0);
+}
+100%{
+  	opacity: 1;
+  	-webkit-transform: scale(1);
+  	        transform: scale(1);
+}
+}
+@keyframes appear{
+0%{
+		opacity: 0;
+		-webkit-transform: scale(0);
+		        transform: scale(0);
+}
+100%{
+  	opacity: 1;
+  	-webkit-transform: scale(1);
+  	        transform: scale(1);
+}
+>>>>>>> yujinlong
 }
 /* 弹框样式 */
 

@@ -10,13 +10,6 @@
 </template>
 
 <script>
-	export default{
-		data(){
-			return{
-				
-			}
-		}
-	}
 </script>
 
 <style>
@@ -30,12 +23,15 @@
 		justify-content: space-between;
 		align-items: flex-end;
 	}
+	.Header h3{
+		color: #58595a;
+	}
 	.Header navigator{
 		font-size: 14px;
 		color: rgba(107,109,110,0.8);
 		margin-right: 5px;
 	}
-	.Header h3{
-		color: #58595a;
+	.BodyInfo image{
+		width: 100%;
 	}
 </style>

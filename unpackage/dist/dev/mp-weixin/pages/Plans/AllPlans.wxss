@@ -212,6 +212,13 @@
 	background: #088573;
 	width: 86%;
 	margin: 0 auto;
+<<<<<<< HEAD
+=======
+	-webkit-box-shadow: 2px 2px 2px #b1b1b1;
+	        box-shadow: 2px 2px 2px #b1b1b1;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+>>>>>>> yujinlong
 }
 /* 提示内容 */
 .hint{
@@ -240,6 +247,7 @@
 	-webkit-align-items: flex-start;
 	    -ms-flex-align: start;
 	        align-items: flex-start;
+<<<<<<< HEAD
 }
 .Plan .time{
 	margin-left: 20px;
@@ -253,10 +261,25 @@
 	        align-items: center;
 }
 .Plan .medicine{
+=======
+	overflow: hidden;
+}
+.Plan .time{
+	margin-left: 20px;
+}
+.Plan .medicines{
+>>>>>>> yujinlong
 	margin-left: 15px;
 	line-height: 1.5;
 }
 .Plan .Medicine-item{
+<<<<<<< HEAD
+=======
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+>>>>>>> yujinlong
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;

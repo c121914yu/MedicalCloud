@@ -52,7 +52,7 @@
 
 				else{//输入格式正确再请求服务器，防止端口因特殊字符炸掉
 					uni.request({
-						url: 'http://49.232.38.113:4000/GetLoginInfo',
+						url: 'https://jinlongyuchitang.cn:4000/GetLoginInfo',
 						method: 'POST',
 						data: {
 							phone:that.phone,

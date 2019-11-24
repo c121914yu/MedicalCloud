@@ -12,7 +12,11 @@ page.data-v-3ede6e48{
 }
 /* 分割线样式 */
 .line.data-v-3ede6e48{
+<<<<<<< HEAD
 	width: 85%;
+=======
+	width: 90%;
+>>>>>>> yujinlong
 	height: 1px;
 	margin: 0 auto;
 	position: absolute;
@@ -34,6 +38,15 @@ page.data-v-3ede6e48{
 	    -ms-flex-align: center;
 	        align-items: center;
 }
+<<<<<<< HEAD
+=======
+.info .content.data-v-3ede6e48{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+}
+>>>>>>> yujinlong
 /* 配置药柜样式 */
 .Medicines.data-v-3ede6e48{
 	color: #858181;
@@ -103,7 +116,11 @@ page.data-v-3ede6e48{
 	    -ms-flex-align: center;
 	        align-items: center;
 }
+<<<<<<< HEAD
 .content.data-v-3ede6e48{
+=======
+.UseTime .content.data-v-3ede6e48{
+>>>>>>> yujinlong
 	font-size: 15px;
 }
 /* 录音 */
@@ -112,9 +129,16 @@ page.data-v-3ede6e48{
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
+<<<<<<< HEAD
 	-webkit-align-content: center;
 	    -ms-flex-line-pack: center;
 	        align-content: center;
+=======
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+>>>>>>> yujinlong
 }
 .record text.data-v-3ede6e48{
 	color: ;
@@ -123,7 +147,10 @@ page.data-v-3ede6e48{
 }
 .record image.data-v-3ede6e48{
 	width: 30px;
+<<<<<<< HEAD
 	height: auto;
+=======
+>>>>>>> yujinlong
 	z-index: 99;
 }
 /* 添加用药时间照片 */

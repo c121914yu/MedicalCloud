@@ -147,6 +147,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> yujinlong
 //日历插件
 
 var Plans;var _default =
@@ -190,6 +197,7 @@ var Plans;var _default =
       TodayPlans.forEach(function (plan, index) {
         /* 将时间遍历 */
         plan.UseTimes.forEach(function (info) {
+<<<<<<< HEAD
           var data = { MedicalInfo: [] };
           var MedicalInfo = {};
           /* 获取药物的名称 */
@@ -201,21 +209,46 @@ var Plans;var _default =
               PlanID: plan.PlanID };
 
             data.MedicalInfo.push(MedicalInfo);
+=======
+          var data = { MedicalInfo: []
+            /* 获取时间 */ };
+          data.time = info.Hour + ":" + info.Minute;
+
+          /* 获取药物的名称 */
+          if (plan.EquipmentID === "不使用设备") {
+            info.Medicines.forEach(function (item) {
+              data.MedicalInfo.push({
+                name: item.name,
+                amount: item.amount,
+                remark: item.remark,
+                PlanID: plan.PlanID });
+
+            });
+>>>>>>> yujinlong
           } else
           {//使用设备，根据选中的药柜编号筛选出药名
             var _index = _this.FindEquipment(plan.EquipmentID); //获取设备的下标
             var Medicines = JSON.parse(global.EquipmentsInfo[_index].MedicalInfo);
+<<<<<<< HEAD
             var MedicalIndex = JSON.parse(plan.MedicalIndex); //获取选中的药柜编号
 
             /* 将选中的药柜进行遍历,并从中获取所有的药名 */
             MedicalIndex.forEach(function (item) {
               Medicines[item].forEach(function (medical) {
                 MedicalInfo = {
+=======
+            var MedicalIndex = info.MedicalIndex;
+            /* 将选中的药柜进行遍历,并从中获取所有的药名 */
+            MedicalIndex.forEach(function (item) {
+              Medicines[item].forEach(function (medical) {
+                var MedicalInfo = {
+>>>>>>> yujinlong
                   name: medical.name,
                   amount: medical.amount,
                   remark: medical.remark,
                   PlanID: plan.PlanID };
 
+<<<<<<< HEAD
                 if (MedicalInfo.name != '')
                 data.MedicalInfo.push(MedicalInfo);});
             });
@@ -223,6 +256,11 @@ var Plans;var _default =
           /* 获取时间 */
           data.time = info.Hour + ":" + info.Minute;
 
+=======
+                data.MedicalInfo.push(MedicalInfo);});
+            });
+          }
+>>>>>>> yujinlong
           PlansInfo.push(data);
         });
       });
@@ -290,8 +328,11 @@ var Plans;var _default =
           PlanID: plan.PlanID,
           EquipmentID: plan.EquipmentID,
           Frequency: plan.Frequency,
+<<<<<<< HEAD
           MedicalIndex: plan.MedicalIndex,
           MedicalName: plan.MedicalName,
+=======
+>>>>>>> yujinlong
           UseTimes: JSON.parse(plan.UseTimes),
           date: JSON.parse(plan.date),
           phone: plan.phone };

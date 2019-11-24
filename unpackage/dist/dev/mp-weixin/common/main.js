@@ -96,9 +96,16 @@ global.UserLoginInfo = uni.getStorageSync('UserLoginInfo');
 global.ScreenWidth = uni.getSystemInfoSync().screenWidth;
 global.EquipmentsInfo = [];
 global.UserPlans = [];
+<<<<<<< HEAD
 
 global.SetLoginIngo = function (that, UserLoginInfo, text) {
   /* 登录全局函数,存储用户信息 */
+=======
+global.UserMedical = [];
+
+/* 登录全局函数,存储用户信息 */
+global.SetLoginIngo = function (that, UserLoginInfo, text) {
+>>>>>>> yujinlong
   uni.setStorage({ //成功，跳转主界面
     key: "UserLoginInfo",
     data: UserLoginInfo,
@@ -108,6 +115,10 @@ global.SetLoginIngo = function (that, UserLoginInfo, text) {
         url: '../Home',
         success: function success() {//成功存储数据后，将个人信息赋给全局变量，然后跳转
           global.UserLoginInfo = UserLoginInfo;
+<<<<<<< HEAD
+=======
+          global.GetPlans(UserLoginInfo.phone);
+>>>>>>> yujinlong
           uni.showToast({ title: text });} });} });
   //setstory结束
 };
@@ -115,6 +126,7 @@ global.SetLoginIngo = function (that, UserLoginInfo, text) {
 global.LoginRequest = function (url, data, userinfo, that, text) {
   /* 找回密码跟注册的公用请求函数 */
   uni.request({
+<<<<<<< HEAD
     url: 'http://49.232.38.113:4000' + url,
     method: 'POST',
     data: data,
@@ -122,6 +134,16 @@ global.LoginRequest = function (url, data, userinfo, that, text) {
       if (res.data == '该用户不存在')
       that.showtoast('该用户不存在');else
       if (res.data == '用户已存在')
+=======
+    url: 'https://jinlongyuchitang.cn:4000' + url,
+    // url: 'http://localhost:4000'+url,
+    method: 'POST',
+    data: data,
+    success: function success(res) {
+      if (res.data === '该用户不存在')
+      that.showtoast('该用户不存在');else
+      if (res.data === '用户已存在')
+>>>>>>> yujinlong
       that.showtoast('用户已存在');else
       {//无错误
         var UserLoginInfo = {
@@ -141,7 +163,11 @@ global.GetEquipments = function (that, UserLoginInfo) {var text = arguments.leng
   if (text != '')
   global.UserLoginInfo = { phone: UserLoginInfo.phone };
   uni.request({
+<<<<<<< HEAD
     url: 'http://49.232.38.113:4000/GetEquipment',
+=======
+    url: 'https://jinlongyuchitang.cn:4000/GetEquipment',
+>>>>>>> yujinlong
     method: 'POST',
     data: {
       phone: global.UserLoginInfo.phone,
@@ -157,7 +183,11 @@ global.GetEquipments = function (that, UserLoginInfo) {var text = arguments.leng
 /* 获取计划信息 */
 global.GetPlans = function (phone) {var back = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;var text = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
   uni.request({
+<<<<<<< HEAD
     url: 'http://49.232.38.113:4000/GetPlans',
+=======
+    url: 'https://jinlongyuchitang.cn:4000/GetPlans',
+>>>>>>> yujinlong
     method: 'POST',
     data: { phone: phone },
     success: function success(res) {
@@ -170,6 +200,7 @@ global.GetPlans = function (phone) {var back = arguments.length > 1 && arguments
     },
     fail: function fail(err) {console.log(err);} });
 
+<<<<<<< HEAD
 };
 /* 判断哪些设备及对应的药柜有计划 */
 global.PlanEquipment = function (ID) {
@@ -199,6 +230,8 @@ global.PlanEquipment = function (ID) {
     return item.EquipmentID == ID;
   });
   return data;
+=======
+>>>>>>> yujinlong
 };var _default =
 
 {
@@ -206,8 +239,31 @@ global.PlanEquipment = function (ID) {
     if (global.UserLoginInfo) {
       global.GetEquipments(); //获取用户所有设备信息
       global.GetPlans(global.UserLoginInfo.phone); //获取用户计划信息
+<<<<<<< HEAD
     }
   } };exports.default = _default;
+=======
+      this.GetMedical(global.UserLoginInfo.phone);
+    }
+  },
+  methods: {
+    /* 获取药柜信息 */
+    GetMedical: function GetMedical(phone) {
+      uni.request({
+        url: 'https://jinlongyuchitang.cn:4000/MyMedical/GetMedical',
+        method: "POST",
+        data: {
+          phone: phone },
+
+        success: function success(res) {
+          res.data.forEach(function (item) {
+            item.medical = JSON.parse(item.medical);
+            global.UserMedical.push(item);
+          });
+        },
+        fail: function fail(err) {console.log(err);} });
+    } } };exports.default = _default;
+>>>>>>> yujinlong
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3)))
 
 /***/ }),

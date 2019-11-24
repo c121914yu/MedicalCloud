@@ -122,7 +122,11 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+<<<<<<< HEAD
 /* WEBPACK VAR INJECTION */(function(global) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var PushArticle = function PushArticle() {return __webpack_require__.e(/*! import() | pages/HomeComponents/PushArticle */ "pages/HomeComponents/PushArticle").then(__webpack_require__.bind(null, /*! ./HomeComponents/PushArticle.vue */ 129));};var Equipment = function Equipment() {return __webpack_require__.e(/*! import() | pages/HomeComponents/Equipment */ "pages/HomeComponents/Equipment").then(__webpack_require__.bind(null, /*! ./HomeComponents/Equipment.vue */ 136));};var BodyInfo = function BodyInfo() {return __webpack_require__.e(/*! import() | pages/HomeComponents/BodyInfo */ "pages/HomeComponents/BodyInfo").then(__webpack_require__.bind(null, /*! ./HomeComponents/BodyInfo.vue */ 143));};var _default =
+=======
+/* WEBPACK VAR INJECTION */(function(uni, global) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var PushArticle = function PushArticle() {return __webpack_require__.e(/*! import() | pages/HomeComponents/PushArticle */ "pages/HomeComponents/PushArticle").then(__webpack_require__.bind(null, /*! ./HomeComponents/PushArticle.vue */ 129));};var Equipment = function Equipment() {return __webpack_require__.e(/*! import() | pages/HomeComponents/Equipment */ "pages/HomeComponents/Equipment").then(__webpack_require__.bind(null, /*! ./HomeComponents/Equipment.vue */ 136));};var BodyInfo = function BodyInfo() {return __webpack_require__.e(/*! import() | pages/HomeComponents/BodyInfo */ "pages/HomeComponents/BodyInfo").then(__webpack_require__.bind(null, /*! ./HomeComponents/BodyInfo.vue */ 143));};var _default =
+>>>>>>> yujinlong
 
 
 
@@ -144,12 +148,27 @@ __webpack_require__.r(__webpack_exports__);
       EquipmentInfo: [] };
 
   },
+<<<<<<< HEAD
   onShow: function onShow() {
     this.EquipmentInfo = global.EquipmentsInfo;
   },
   components: {
     PushArticle: PushArticle, Equipment: Equipment, BodyInfo: BodyInfo } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3)))
+=======
+  onLoad: function onLoad() {
+    uni.showLoading({ title: '加载中' });
+  },
+  onShow: function onShow() {
+    this.EquipmentInfo = global.EquipmentsInfo;
+  },
+  onReady: function onReady() {
+    uni.hideLoading();
+  },
+  components: {
+    PushArticle: PushArticle, Equipment: Equipment, BodyInfo: BodyInfo } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3)))
+>>>>>>> yujinlong
 
 /***/ }),
 

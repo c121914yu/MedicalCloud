@@ -138,6 +138,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+<<<<<<< HEAD
 /* WEBPACK VAR INJECTION */(function(global, uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniGrid = function uniGrid() {return __webpack_require__.e(/*! import() | components/uni-grid/uni-grid */ "components/uni-grid/uni-grid").then(__webpack_require__.bind(null, /*! @/components/uni-grid/uni-grid.vue */ 99));};var uniGridItem = function uniGridItem() {return __webpack_require__.e(/*! import() | components/uni-grid-item/uni-grid-item */ "components/uni-grid-item/uni-grid-item").then(__webpack_require__.bind(null, /*! @/components/uni-grid-item/uni-grid-item.vue */ 108));};var uniCollapse = function uniCollapse() {return __webpack_require__.e(/*! import() | components/uni-collapse/uni-collapse */ "components/uni-collapse/uni-collapse").then(__webpack_require__.bind(null, /*! @/components/uni-collapse/uni-collapse.vue */ 125));};var uniCollapseItem = function uniCollapseItem() {return __webpack_require__.e(/*! import() | components/uni-collapse-item/uni-collapse-item */ "components/uni-collapse-item/uni-collapse-item").then(__webpack_require__.bind(null, /*! @/components/uni-collapse-item/uni-collapse-item.vue */ 163));};var Overview = function Overview() {return __webpack_require__.e(/*! import() | pages/Equipments/Overview */ "pages/Equipments/Overview").then(__webpack_require__.bind(null, /*! ./Overview */ 150));};var SetMedical = function SetMedical() {return __webpack_require__.e(/*! import() | pages/Equipments/SetMedical */ "pages/Equipments/SetMedical").then(__webpack_require__.bind(null, /*! ./SetMedical */ 157));};var EquipmentInfo = function EquipmentInfo() {return __webpack_require__.e(/*! import() | pages/Equipments/EquipmentInfo */ "pages/Equipments/EquipmentInfo").then(__webpack_require__.bind(null, /*! ./EquipmentInfo */ 164));};
 
 
@@ -147,6 +148,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+=======
+/* WEBPACK VAR INJECTION */(function(global, uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var Overview = function Overview() {return __webpack_require__.e(/*! import() | pages/Equipments/Overview */ "pages/Equipments/Overview").then(__webpack_require__.bind(null, /*! ./Overview */ 150));};var SetMedical = function SetMedical() {return __webpack_require__.e(/*! import() | pages/Equipments/SetMedical */ "pages/Equipments/SetMedical").then(__webpack_require__.bind(null, /*! ./SetMedical */ 157));};var EquipmentInfo = function EquipmentInfo() {return __webpack_require__.e(/*! import() | pages/Equipments/EquipmentInfo */ "pages/Equipments/EquipmentInfo").then(__webpack_require__.bind(null, /*! ./EquipmentInfo */ 164));};
+>>>>>>> yujinlong
 
 
 
@@ -208,7 +212,11 @@ var Equipment, EquipIndex;var _default =
       ChildrenInfo: { //传给设备信息组件的信息
         BtnText: '修改信息',
         LoadingText: '修改信息中',
+<<<<<<< HEAD
         PostSrc: 'http://49.232.38.113:4000/AmendInfo',
+=======
+        PostSrc: 'https://jinlongyuchitang.cn:4000/AmendInfo',
+>>>>>>> yujinlong
         SuccessText: '修改信息成功',
         change: true,
         EquipmentInfo: {},
@@ -219,8 +227,15 @@ var Equipment, EquipIndex;var _default =
   onLoad: function onLoad(e) {
     EquipIndex = e.index;
     Equipment = global.EquipmentsInfo[EquipIndex];
+<<<<<<< HEAD
     if (global.PlanEquipment(Equipment.ID))
     this.MedicalIndex = global.PlanEquipment(Equipment.ID).MedicalIndex;
+=======
+
+    var PlanEquipment = this.PlanEquipment(Equipment.ID);
+    if (PlanEquipment)
+    this.MedicalIndex = PlanEquipment.MedicalIndex;
+>>>>>>> yujinlong
     this.MedicalInfo = JSON.parse(Equipment.MedicalInfo);
 
     this.ChildrenInfo.EquipmentInfo = Equipment;
@@ -240,6 +255,14 @@ var Equipment, EquipIndex;var _default =
     },
     /* 删除设备按键 */
     Remove: function Remove() {
+<<<<<<< HEAD
+=======
+      if (this.MedicalIndex.length > 0)
+      uni.showToast({
+        title: '正在执行计划',
+        image: "../../static/error.png" });else
+
+>>>>>>> yujinlong
       uni.showModal({
         title: '提示',
         content: '确定删除设备?',
@@ -247,7 +270,11 @@ var Equipment, EquipIndex;var _default =
         success: function success(res) {
           if (res.confirm)
           uni.request({
+<<<<<<< HEAD
             url: 'http://49.232.38.113:4000/RemoveEquipment',
+=======
+            url: 'https://jinlongyuchitang.cn:4000/RemoveEquipment',
+>>>>>>> yujinlong
             method: 'POST',
             data: { ID: Equipment.ID },
             success: function success(res) {
@@ -255,8 +282,13 @@ var Equipment, EquipIndex;var _default =
               uni.navigateBack({
                 delta: 1,
                 success: function success() {uni.showToast({ title: '删除设备成功' });} });
+<<<<<<< HEAD
             }, //request请求成功结束
             fail: function fail(err) {console.log(err);} });
+=======
+            },
+            fail: function fail(err) {console.log(err);} }); //request请求成功结束
+>>>>>>> yujinlong
         } });
     }, //Remove结束
 
@@ -278,6 +310,7 @@ var Equipment, EquipIndex;var _default =
         }
       });
       return active;
+<<<<<<< HEAD
     } },
   //methods结束
   components: {
@@ -286,6 +319,44 @@ var Equipment, EquipIndex;var _default =
     uniCollapse: uniCollapse,
     uniCollapseItem: uniCollapseItem,
 
+=======
+    },
+    /* 判断设备对应的药柜是否有计划 */
+    PlanEquipment: function PlanEquipment(ID) {
+      var data = [];
+      global.UserPlans.forEach(function (plan) {
+        if (plan.EquipmentID != '不使用设备') {
+          var UseTimes = JSON.parse(plan.UseTimes);
+          UseTimes.forEach(function (item) {
+            data.push({
+              EquipmentID: plan.EquipmentID,
+              MedicalIndex: item.MedicalIndex });
+
+          });
+        }
+      });
+      if (data.length > 0)
+      for (var a = 0; a < data.length - 1; a++) {
+        /* 相同ID的合并 */
+        for (var b = a + 1; b < data.length; b++) {
+          if (data[a].EquipmentID === data[b].EquipmentID) {
+            data[a].MedicalIndex = data[a].MedicalIndex.concat(data[b].MedicalIndex);
+            data.splice(b, 1);
+            --b;
+          }}
+        /* 相同MedicalIndex去重 */
+        data[a].MedicalIndex = data[a].MedicalIndex.filter(function (item, index, self) {
+          return self.indexOf(item) === index;
+        });
+      }
+      data = data.find(function (item) {
+        return item.EquipmentID == ID;
+      });
+      return data;
+    } },
+  //methods结束
+  components: {
+>>>>>>> yujinlong
     EquipmentInfo: EquipmentInfo,
     Overview: Overview,
     SetMedical: SetMedical } };exports.default = _default;

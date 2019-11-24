@@ -152,6 +152,8 @@ export default {
 			align-items: center;
 			width: 100%;
 			height: 100%;
+			font-size: 32upx;
+			color: #666;
 			padding: 20upx 0;
 			box-sizing: border-box;
 			.image {
@@ -176,8 +178,8 @@ export default {
 			box-sizing: border-box;
 			// box-shadow: 0 0 0 1px #d0dee5;
 			// border-left: 1px #d0dee5 solid;
-			border-bottom: 1px #dde2e4 solid;
-			border-right: 1px #dde2e4 solid;
+			border-bottom: 1px #d0dee5 solid;
+			border-right: 1px #d0dee5 solid;
 			// &::after {
 			// 	content: '';
 			// 	position: absolute;
@@ -190,10 +192,10 @@ export default {
 			// }
 		}
 		&.border-top {
-			// border-top: 1px #d0dee5 solid;
+			border-top: 1px #d0dee5 solid;
 		}
 		&.uni-highlight:active {
-			background-color: rgba(238,238,238,0.5);
+			background-color: #eee;
 		}
 		&-dot,
 		&-badge,

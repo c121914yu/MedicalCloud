@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "计划设置",
+  "usingComponents": {
+    "picker": "/pages/Plans/Picker"
+  }
+}

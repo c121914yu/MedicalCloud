@@ -1,10 +1,13 @@
 {
   "navigationBarTitleText": "设备信息",
   "usingComponents": {
+<<<<<<< HEAD
     "uni-grid": "/components/uni-grid/uni-grid",
     "uni-grid-item": "/components/uni-grid-item/uni-grid-item",
     "uni-collapse": "/components/uni-collapse/uni-collapse",
     "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item",
+=======
+>>>>>>> yujinlong
     "equipment-info": "/pages/Equipments/EquipmentInfo",
     "overview": "/pages/Equipments/Overview",
     "set-medical": "/pages/Equipments/SetMedical"

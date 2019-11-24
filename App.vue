@@ -3,9 +3,10 @@
 	global.ScreenWidth = uni.getSystemInfoSync().screenWidth
 	global.EquipmentsInfo = []
 	global.UserPlans = []
+	global.UserMedical = []
 	
+	/* 登录全局函数,存储用户信息 */
 	global.SetLoginIngo=(that,UserLoginInfo,text)=>{
-		/* 登录全局函数,存储用户信息 */
 		uni.setStorage({//成功，跳转主界面
 			key:"UserLoginInfo",
 			data:UserLoginInfo,
@@ -15,6 +16,7 @@
 					url:'../Home',
 					success() {//成功存储数据后，将个人信息赋给全局变量，然后跳转
 						global.UserLoginInfo=UserLoginInfo
+						global.GetPlans(UserLoginInfo.phone)
 						uni.showToast({title: text})}})}
 		})//setstory结束
 	}
@@ -22,13 +24,14 @@
 	global.LoginRequest=(url,data,userinfo,that,text)=>{
 		/* 找回密码跟注册的公用请求函数 */
 		uni.request({
-			url: 'http://49.232.38.113:4000'+url,
+			url: 'https://jinlongyuchitang.cn:4000'+url,
+			// url: 'http://localhost:4000'+url,
 			method: 'POST',
 			data:data,
 			success: res => {
-				if(res.data=='该用户不存在')
+				if(res.data === '该用户不存在')
 					that.showtoast('该用户不存在')
-				else if(res.data=='用户已存在')
+				else if(res.data === '用户已存在')
 					that.showtoast('用户已存在')
 				else{//无错误
 					let UserLoginInfo={
@@ -48,7 +51,7 @@
 		if(text!='')
 			global.UserLoginInfo={phone:UserLoginInfo.phone}
 		uni.request({
-			url: 'http://49.232.38.113:4000/GetEquipment',
+			url: 'https://jinlongyuchitang.cn:4000/GetEquipment',
 			method: 'POST',
 			data: {
 				phone:global.UserLoginInfo.phone,
@@ -64,7 +67,7 @@
 	/* 获取计划信息 */
 	global.GetPlans = (phone,back=false,text='') => {
 		uni.request({
-			url: 'http://49.232.38.113:4000/GetPlans',
+			url: 'https://jinlongyuchitang.cn:4000/GetPlans',
 			method: 'POST',
 			data: {phone:phone},
 			success: res => {
@@ -78,51 +81,41 @@
 			fail: (err) => {console.log(err)},
 		});
 	}
-	/* 判断哪些设备及对应的药柜有计划 */
-	global.PlanEquipment = (ID) =>{
-		let data = []
-		global.UserPlans.forEach(plan => {
-			if(plan.EquipmentID != '不使用设备')
-				data.push({
-					EquipmentID : plan.EquipmentID,
-					MedicalIndex : JSON.parse(plan.MedicalIndex) 
-				})
-		})
-		if(data.length > 0)
-			for(let a=0;a<data.length-1;a++){
-				/* 相同ID的合并 */
-				for(let b=a+1;b<data.length;b++)
-					if(data[a].EquipmentID === data[b].EquipmentID){
-						data[a].MedicalIndex = data[a].MedicalIndex.concat(data[b].MedicalIndex)
-						data.splice(b,1)
-						--b
-					}
-				/* 相同MedicalIndex去重 */
-				data[a].MedicalIndex = data[a].MedicalIndex.filter((item,index,self) => {
-					return self.indexOf(item) === index
-				})
-			}			
-		data = data.find(item => {
-			return item.EquipmentID == ID
-		})
-		return data
-	}
 
 	export default {
 		onLaunch: function() {
 			if(global.UserLoginInfo){
 				global.GetEquipments()//获取用户所有设备信息
 				global.GetPlans(global.UserLoginInfo.phone)//获取用户计划信息
+				this.GetMedical(global.UserLoginInfo.phone)
+			}
+		},
+		methods:{
+			/* 获取药柜信息 */
+			GetMedical(phone){
+				uni.request({
+					url:'https://jinlongyuchitang.cn:4000/MyMedical/GetMedical',
+					method:"POST",
+					data:{
+						phone : phone
+					},
+					success: (res) => {
+						res.data.forEach(item => {
+							item.medical = JSON.parse(item.medical)
+							global.UserMedical.push(item)
+						})		
+					},
+					fail(err) {console.log(err)}})
 			}
 		}
 	}
 </script>
 
 <style>
+	/*每个页面公共css */
 	*{
 		box-sizing: border-box;
 	}
-	/*每个页面公共css */
 	image{
 		height: auto;
 	}
@@ -131,7 +124,7 @@
 		width:100%;
 		height:100%;
 		position:fixed;
-		background-color:#999;
+		background-color:#b2b2b2;
 		z-index:99;
 		top:0;
 		left:0;
@@ -143,10 +136,22 @@
 		width: 90%;
 		border-radius: 10px;
 		margin-bottom: 10%;
+		box-shadow:2px 2px 5px #7b7b7b;
 		position: absolute;
 		top: 10%;
 		left: 5%;
 		z-index: 999;
+		animation: appear 0.5s ease-out;
+	}
+	@keyframes appear{
+	  0%{
+			opacity: 0;
+			transform: scale(0);
+		}
+	  100%{
+	  	opacity: 1;
+	  	transform: scale(1);
+	  }
 	}
 	/* 弹框样式 */
 </style>

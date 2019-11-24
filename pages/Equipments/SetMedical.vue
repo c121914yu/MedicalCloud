@@ -3,7 +3,9 @@
 		<view class="mask"></view>
 		
 		<view class="Popup">
-			<view class="Title">药柜编号:{{InitialInfo.MedicalIndex+1}}</view>
+			<view class="Title">
+				<text>药柜编号:{{InitialInfo.MedicalIndex+1}}</text>
+			</view>
 			<view v-if="InitialInfo.active === true" class="remark">该药柜含计划,修改后请注意核对</view>
 			<view v-else-if="InitialInfo.active === 'plan'" class="remark">该药柜可能含其他计划,修改后请注意核对</view>
 			
@@ -22,7 +24,9 @@
 				<image class="line" src="../../static/Plans/line.png"/>
 				
 				<h2>备注:</h2>
-				<textarea placeholder="可以备注些注意事项噢" v-model="medicines[page].remark"/>
+				<textarea 
+					placeholder="可以备注些注意事项噢" 
+					v-model="medicines[page].remark"/>
 			</view>
 			
 			<view style="text-align: center;">药物{{page+1}}</view>
@@ -33,8 +37,8 @@
 				<uni-icons v-if="page === medicines.length-1" type="plusempty" size="30" :color="'#088573'" @click="AddName"></uni-icons>
 				<uni-icons v-else type="forward" size="30" :color="'#088573'" @click="page++"></uni-icons>
 			</view>
-			
 			<!-- 药物信息 -->
+			
 			<view class="Btn">
 				<view style="color: #cd2d2d;" @click="CloseMask">取消</view>
 				<text style="color: rgba(174,174,174,0.6);">|</text>
@@ -119,7 +123,7 @@
 								let MedicalInfo=JSON.stringify(this.InitialInfo.MedicalInfo) 
 								
 								uni.request({
-									url: 'http://49.232.38.113:4000/SetMedicalInfo',
+									url: 'https://jinlongyuchitang.cn:4000/SetMedicalInfo',
 									method: 'POST',
 									data: {
 										MedicalInfo,
@@ -162,7 +166,9 @@
 	.Title{
 		color: #343434;
 		text-align: center;
+		position: relative;
 	}
+	
 	.remark{
 		color: #da1a1a;
 		font-size: 12px;
@@ -184,6 +190,9 @@
 		height: 40px;
 		display: flex;
 		align-items: center;
+	}
+	.medical .info input{
+		flex: 1;
 	}
 	.medical h2{
 		line-height: 1.8;

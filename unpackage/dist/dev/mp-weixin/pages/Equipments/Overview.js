@@ -130,6 +130,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> yujinlong
 {
   data: function data() {
     return {

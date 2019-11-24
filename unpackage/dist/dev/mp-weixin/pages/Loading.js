@@ -149,7 +149,11 @@ var _default =
 
       //通过手机号跟时间戳判断登录是否过期
       uni.request({
+<<<<<<< HEAD
         url: 'http://49.232.38.113:4000/InspectLogin',
+=======
+        url: 'https://jinlongyuchitang.cn:4000/InspectLogin',
+>>>>>>> yujinlong
         method: 'POST',
         data: {
           phone: UserLoginInfo.phone,
@@ -165,7 +169,11 @@ var _default =
 
 
           uni.reLaunch({
+<<<<<<< HEAD
             url: 'Home',
+=======
+            url: 'Plans',
+>>>>>>> yujinlong
             success: function success() {_this.showtoast(text, 'success', '');} });
 
         },

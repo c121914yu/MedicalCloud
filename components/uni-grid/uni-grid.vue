@@ -88,7 +88,6 @@ export default {
 
 <style lang="scss">
 .uni-grid {
-	height: auto;
 	display: flex;
 	flex-wrap: wrap;
 	box-sizing: border-box;

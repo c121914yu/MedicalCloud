@@ -1,38 +1,19 @@
 <template>
 	<view class="AddPlan">
 		<Picker v-if="Picker"  :type="type" :value="value" :EquipmentIndex="EquipmentIndex"
-			:Items1="Items1" :Items2="Items2" :Items3="Items3" :TimeInfo="TimeInfo"
+			:Items1="Items1" :Items2="Items2" :Items3="Items3" :UseMedicines="UseMedicines"
 		 :InitialText="InitialText" @FinishPic="FinishPic" @Close="Close">
 		</Picker>
 		
 		<view class="info">
 			<view>使用设备：</view>
-			<view @click="PickerEquipment">{{CurrentText[0]}}</view>
+			<view class="content" @click="PickerEquipment">{{CurrentText[0]}}</view>
 		</view>
-		<image class="line" src="../../static/Plans/line.png"/>
-		
-		<!-- 不需要设备,直接填写药名 -->
-		<view class="info" v-if="!EquipmentIndex[0]">
-			<view>药物名称：</view>
-			<input type="text" v-model="MedicalName" placeholder="药物名称" />
-		</view>
-		<!-- 需要设备,选择对应的药柜 -->
-		<view class="info" v-else>
-			<view>选择药柜：</view>
-			<view class="Medicines" @click="PicMedicine">
-				<view v-if="MedicalIndex.length==0">配置药柜</view>
-				<view v-for="(item,index) in MedicalIndex" :key="index">药柜{{item+1}}</view>
-			</view>
-		</view>
-		<!-- 配置药柜组件 -->
-		<SelectMedicine :show="SelectMedicine" @ChooseMedicines="ChooseMedicines" :MedicalIndex="MedicalIndex"
-			:EquipmentInfo="EquipmentInfo[EquipmentIndex[0]-1]" :EquipIndex="EquipmentIndex[0]-1">
-		</SelectMedicine>
 		<image class="line" src="../../static/Plans/line.png"/>
 		
 		<view class="info">
 			<view>开始日期：</view>
-			<view @click="PickerDate">
+			<view class="content" @click="PickerDate">
 				{{CurrentText[1]==Today ? '今天' : CurrentText[1]}}
 			</view>
 		</view>
@@ -40,7 +21,7 @@
 		
 		<view class="info">
 			<view>计划频率：</view>
-			<view @click="PickerFrequency">{{CurrentText[2]}}</view>
+			<view class="content" @click="PickerFrequency">{{CurrentText[2]}}</view>
 		</view>
 		<image class="line" src="../../static/Plans/line.png"/>
 		
@@ -54,20 +35,27 @@
 			<view class="time">{{usetime.Hour+":"+usetime.Minute}}</view>
 			
 			<view v-if="EquipmentIndex[0] === 0" class="content">
-				<view>
-					<text style="color:#7b7b7b;">用量：</text>
-					<text>{{usetime.amount}}</text>
-				</view>
-				<view>
-					<text style="color:#7b7b7b;">备注：</text>
-					<text>{{usetime.remark}}</text>
+				<view v-for="(medical,index1) in usetime.Medicines" :key="index1">
+					<text style="color: #464646;">{{medical.name}} *{{medical.amount}}</text>
 				</view>
 			</view>
-			
+				
 			<view v-else class="record">
-				<text style="margin-right: 6px;">录音:</text>
-				<text v-if="UseTimes[index].RecordUrl === ''" style="color: #7b7b7b;">默认提示音</text>
-				<image v-else src="../../static/Plans/PlayVoice.png" mode="widthFix" @click.stop="PlayVoice(index)"/>
+				<view>
+					<view 
+						style="color: #7b7b7b;font-size: 17px;" 
+						v-for="(medicalIndex,index2) in usetime.MedicalIndex" 
+						:key="index2"
+					>
+						药柜{{medicalIndex + 1}}
+					</view>
+				</view>
+				
+				<view style="margin-left: 10px;display: flex;align-items: center;">
+					<text style="margin-right: 6px;">提示音:</text>
+					<text v-if="usetime.RecordUrl === ''" style="color: #7b7b7b;">默认</text>
+					<image v-else src="../../static/Plans/PlayVoice.png" mode="widthFix" @click.stop="PlayVoice(usetime.RecordUrl)"/>
+				</view>
 			</view>
 		</view>
 		
@@ -78,7 +66,7 @@
 		<image class="line" src="../../static/Plans/line.png"/>
 		
 		<view style="display: flex;justify-content: space-between;padding: 10px 0;">
-			<button class="remove" v-if="ChangePlan" @click="Remove">删除</button>
+			<button class="remove" v-show="ChangePlan" @click="Remove">删除</button>
 			<button class="sure" @click="Sure">确认</button>
 		</view>
 	</view>
@@ -86,9 +74,8 @@
 
 <script>
 	import Picker from './Picker'//引入选择自定义组件
-	import SelectMedicine from './SelectMedicine'//选择药柜组件
 	
-	var plan
+	var plan = {}
 	var Equipments,UseEquipments=["不使用设备"]
 	var DateList=[],Today,DayList=[]
 	var FrequencyList=[]
@@ -97,11 +84,8 @@
 		data(){			
 			return{
 				ChangePlan:false,
-				SelectMedicine:false,
 				
 				EquipmentInfo:{},
-				MedicalName:'',
-				MedicalIndex : new Array(1),
 				Today:'',
 				UseTimes:[],
 				/* 选择器参数 */
@@ -110,7 +94,7 @@
 				InitialText:'',
 				CurrentText:[UseEquipments[0],'今天','每天执行'],
 				
-				TimeInfo:{},
+				UseMedicines:{},
 				value:[],//下标的值
 				Items1:[],//发送给选择题的数组内容
 				Items2:[],
@@ -141,10 +125,6 @@
 				this.value=this.EquipmentIndex
 				this.Picker=true
 			},
-			PicMedicine(){//配置药柜
-				this.MedicalIndex = this.MedicalIndex
-				this.SelectMedicine=true
-			},
 			PickerDate(){//选择日期
 				this.type="选择日期"
 				this.Items1=DateList[0]
@@ -168,7 +148,7 @@
 				this.Items2=TimesList[1]
 				this.Items3=[]
 				/* 如果是修改的,把已经选中的时间传过去 */
-				if(type=="Change"){
+				if(type === "Change"){
 					TimeIndex = i
 					/* 计算时间下标 */
 					let Hour,Minute
@@ -181,38 +161,66 @@
 						return e === usetime.Minute
 					})
 					/* 计算时间下标 */		
-					this.type="修改时间"
-					this.InitialText=usetime.Hour+":"+usetime.Minute
-					this.TimeInfo=usetime
-					this.value=[Hour,Minute]
+					this.type = "修改时间"
+					this.InitialText = usetime.Hour + ":" + usetime.Minute
+					this.UseMedicines = usetime
+					this.value = [Hour,Minute]
 				}
 				else{//新增时间
-					let TimeInfo={
-						amount : '',
-						remark : '',
-						RecordUrl : ''
-					}
-					this.type="添加时间"
-					this.InitialText="07:00"
-					this.TimeInfo=TimeInfo
-					this.value=[7,0]
+					let UseMedicines = {}
+					let InitialText = "07:30"
+					let Hour = 7
+					if(this.UseTimes.length > 0){
+						const LastTime = this.UseTimes[this.UseTimes.length-1]
+						TimesList[0].find((e,index)=>{
+							Hour = index
+							return e === LastTime.Hour
+						})
+						UseMedicines = {
+							Hour : Hour,
+							RecordUrl : LastTime.RecordUrl,
+							MedicalIndex : LastTime.MedicalIndex,
+							Medicines : LastTime.Medicines
+						}
+						InitialText = Hour + ":30"
+					}		
+					else
+						UseMedicines = {
+							RecordUrl : '',
+							MedicalIndex : [],
+							Medicines : [{
+								name : '',
+								amount : '',
+								remark : '',
+							}]
+						}
+					this.type = "添加时间"
+					this.InitialText = InitialText
+					this.UseMedicines = UseMedicines
+					this.value = [Hour,30]
 				}
-				this.Picker=true
+				this.Picker = true
 			},
 			RemoveTime(index){
 				this.UseTimes.splice(index,1)
 			},
-			PlayVoice(index){//播放录音
+			PlayVoice(src){//播放录音
 				let recorderManager = uni.getRecorderManager()
 				let innerAudioContext = uni.createInnerAudioContext()
-				
+				console.log(src)
 				innerAudioContext.volume = 1
-				innerAudioContext.src = this.UseTimes[index].RecordUrl
+				innerAudioContext.src = src
 				innerAudioContext.play()
 			},
 			
 			/* 确认添加计划按键 */
 			Sure(){
+				/* 请求订阅权限 */
+				uni.requestSubscribeMessage({
+					tmplIds: ['NZuGule3MSGcW4xLeYT2ucpCho5J1cgQ9O5tmTFLIYs'],
+					success(res){console.log(res)},
+					faie(err){console.log(err)}
+				})
 				/* 获取选择的设备 */
 				let EquipmentID
 				if(this.EquipmentIndex[0]==0)
@@ -226,7 +234,17 @@
 					day:DateList[2][this.DateIndex[2]]
 				}) 
 				/* 获取使用频率 */
-				let Frequency=FrequencyList[this.FrequencyIndex[0]]
+				let Frequency = FrequencyList[this.FrequencyIndex[0]]
+				/* 获取录音列表 */
+				let RecordUrls = []
+				this.UseTimes.forEach((item,index) => {
+					if(item.RecordUrl.indexOf("https") === -1 && item.RecordUrl != '')//代表url不是以https开头，即如果是临时路径则保存
+					 RecordUrls.push({
+						 url : item.RecordUrl,
+						 index : index
+					 })
+				})
+				console.log(RecordUrls)
 				
 				/* 判断有没有重复的时间 */
 				for(let a = 0;a<this.UseTimes.length-1;a++)
@@ -237,43 +255,76 @@
 						}
 				
 				/* 判断填写内容是否有误 */
-				if(this.EquipmentIndex[0] === 0 && this.MedicalName === '')
-					this.showtoast("请输入药名")
-				else if(this.EquipmentIndex[0] != 0 && this.MedicalIndex.length === 0)
-					this.showtoast("请选择药柜")
-				else if(this.UseTimes.length === 0)
-					this.showtoast("请选择时间")
-									
+				if(this.UseTimes.length === 0)
+					this.showtoast("请选择时间")					
 				else{
-					/* 发送数据给服务器 */
-					let data={
-						phone:global.UserLoginInfo.phone,
-						EquipmentID:EquipmentID,
-						MedicalName:this.MedicalName,
-						MedicalIndex:JSON.stringify(this.MedicalIndex),
-						date:date,
-						Frequency:Frequency,
-						UseTimes:JSON.stringify(this.UseTimes)
-					}
-					let Request=(url,text)=>{
-						uni.request({
-							url: 'http://49.232.38.113:4000'+url,
-							method: 'POST',
-							data: data,
-							success: res => {
-								global.GetPlans(global.UserLoginInfo.phone,true,text)
-							},
-							fail: (err) => {console.log(err)},
-						})
-					}
-					if(this.ChangePlan){
-						data.PlanID=plan.PlanID
-						Request('/ChangePlan','修改计划成功')
-					}
-					else
-						Request('/AddPlan','添加计划成功')				
-				}
-				/* 发送数据给服务器 */
+					uni.showModal({
+						title: '提示',
+						content: this.ChangePlan ? '确认修改计划?' : '确认添加计划?',
+						success: res => {
+							if(res.confirm){
+								uni.showLoading({title:'请求中...'})
+								/* 发送数据给服务器 */
+								let request = (url,text) => {
+									const data={
+										phone:global.UserLoginInfo.phone,
+										EquipmentID:EquipmentID,
+										date:date,
+										Frequency:Frequency,
+										UseTimes:JSON.stringify(this.UseTimes),
+										PlanID : plan.PlanID || ''
+									}
+									uni.request({
+										url: 'https://jinlongyuchitang.cn:4000' + url,
+										method:'POST',
+										data:data,
+										success:res => {
+											if(res.statusCode === 200)
+												global.GetPlans(global.UserLoginInfo.phone,true,text)
+											else
+												uni.showToast({title:'网络错误'})
+										},
+										fail: (err) => {console.log(err)}
+									})
+								}//request函数
+								/* 存储录音 */
+								let time = 0
+								let upRecord = (item) => {
+									uni.uploadFile({
+										url: 'https://jinlongyuchitang.cn:4000/upRecord',
+										// url: 'http://localhost:4000/upRecord',
+										filePath: item.url,
+										name: 'audio',
+										success: (res) => {
+											if(res.statusCode === 200){
+												this.UseTimes[item.index].RecordUrl = res.data
+												time++
+												if(time === RecordUrls.length){
+													if(this.ChangePlan)
+														request('/ChangePlan','修改计划成功')
+													else
+														request('/AddPlan','添加计划成功')
+												}
+											}
+											else
+												uni.showToast({title:'网络错误'})
+										},
+										fail: (err) => {console.log(err)},
+									})
+								}//upRecord函数
+								/* 判断是否需要上传录音 */
+								if(RecordUrls.length === 0){
+									if(this.ChangePlan)
+										request('/ChangePlan','修改计划成功')
+									else
+										request('/AddPlan','添加计划成功')
+								}
+								else
+									RecordUrls.forEach(item => {
+											upRecord(item)
+									})
+							}}})//model结束	
+				}//request结束
 			},
 			/* 删除计划 */
 			Remove(){
@@ -283,13 +334,14 @@
 					success: res => {
 						if(res.confirm)
 							uni.request({
-								url: 'http://49.232.38.113:4000/RemovePlan',
+								url: 'https://jinlongyuchitang.cn:4000/RemovePlan',
 								method: 'POST',
 								data:{PlanID:plan.PlanID},
 								success: res => {
 									global.GetPlans(global.UserLoginInfo.phone,true,'删除计划成功')
 								},
-								fail: (err) => {console.log(err)},})}
+								fail: (err) => {console.log(err)},
+								complete() {uni.hideLoading()}})}
 				})
 			},
 					
@@ -297,19 +349,19 @@
 			FinishPic(e){
 				let data=e.detail.__args__[0]
 				let SetUseTimes=(type)=>{
-					let Hour=TimesList[0][data.value[0]]
-					let Minute=TimesList[1][data.value[1]]
-					let TimeInfo={//初始化对象
-						Hour:Hour,
-						Minute:Minute,
-						amount:data.TimeInfo.amount,
-						remark:data.TimeInfo.remark,
-						RecordUrl:data.TimeInfo.RecordUrl
+					let Hour = TimesList[0][data.value[0]]
+					let Minute = TimesList[1][data.value[1]]
+					let UseMedicines = {//初始化对象
+						Hour : Hour,
+						Minute : Minute,
+						Medicines : data.Medicines,
+						MedicalIndex : data.MedicalIndex,
+						RecordUrl : data.RecordUrl,
 					}
 					if(type === '添加时间')
-						this.UseTimes.push(TimeInfo)
+						this.UseTimes.push(UseMedicines)
 					else
-						this.UseTimes[TimeIndex]=TimeInfo
+						this.UseTimes[TimeIndex] = UseMedicines
 					/* 对数组排序 */
 					this.UseTimes.sort(function(a,b){
 						if(a.Hour === b. Hour)
@@ -318,7 +370,7 @@
 					})
 				}
 				switch(data.type){
-					case '选择设备':this.EquipmentIndex=data.value; this.CurrentText[0]=data.CurrentText; this.MedicalName=""; this.MedicalIndex=[]; this.UseTimes=[]; break;
+					case '选择设备':this.EquipmentIndex=data.value; this.CurrentText[0]=data.CurrentText; this.UseTimes=[]; break;
 					case '选择日期':this.DateIndex=data.value;this.CurrentText[1]=data.CurrentText;break
 					case '选择频率':this.FrequencyIndex=data.value;this.CurrentText[2]=data.CurrentText;break
 					case '添加时间':SetUseTimes('添加时间');break
@@ -330,21 +382,16 @@
 			Close(){
 				this.Picker=false
 			},
-			/* 配置了药柜，设置药柜编号 */
-			ChooseMedicines(e){
-				this.MedicalIndex = e
-				this.SelectMedicine = false
-			},
 			
 			/* 初始化数据方法: */
 			SetUseEquipments(){//生成设备信息数组
 				/* 如果用户有设备，把设备名组成数组给UseEquipments */
-				Equipments=global.EquipmentsInfo
-				this.EquipmentInfo=Equipments
+				Equipments = global.EquipmentsInfo
+				this.EquipmentInfo = Equipments
 
 				UseEquipments=["不使用设备"]
 				if(Equipments.length)
-					UseEquipments=UseEquipments.concat(Equipments.map(item=>{
+					UseEquipments = UseEquipments.concat(Equipments.map(item=>{
 						return item.name
 					}))
 			},
@@ -383,7 +430,8 @@
 					DayList.push(i)	
 			},//SetDate结束
 			SetFrequency(){//生成频率信息数组
-				for(let i=1;i<100;i++)
+				FrequencyList = []
+				for(let i=1;i<31;i++)
 					FrequencyList.push(i)
 			},
 			SetTimes(){//生成时间数组
@@ -404,21 +452,17 @@
 			
 			/* 修改界面的初始数据 */
 			SetChangeData(PlanIndex){
-				plan=global.UserPlans[PlanIndex]
-				let equipments=global.EquipmentsInfo
-				/* 如果使用设备 */
-				if(plan.EquipmentID!="不使用设备"){
-					equipments.find((item,index)=>{
-						if(item.ID==plan.EquipmentID){
-							this.EquipmentIndex[0]=index+1
-							this.CurrentText[0]=item.name
+				plan = global.UserPlans[PlanIndex]
+				/* 修改设备情况 */
+				if(plan.EquipmentID != "不使用设备"){
+					let Equipment = Equipments.find((item,index)=>{
+						if(item.ID === plan.EquipmentID){
+							this.EquipmentIndex[0] = index+1
+							this.CurrentText[0] = item.name
 						}
-						return item.ID==plan.EquipmentID
+						return item.ID === plan.EquipmentID
 					})
-					this.MedicalIndex=JSON.parse(plan.MedicalIndex) 
 				}
-				else
-					this.MedicalName=plan.MedicalName
 				/* 修改日期 */
 				let date=JSON.parse(plan.date)
 				this.CurrentText[1]=date.year+'年'+date.month+'月'+date.day+'日'
@@ -441,7 +485,7 @@
 		},//methods结束
 	
 		components:{
-			Picker,SelectMedicine
+			Picker
 		}
 	}
 </script>
@@ -459,7 +503,7 @@
 	}
 	/* 分割线样式 */
 	.line{
-		width: 85%;
+		width: 90%;
 		height: 1px;
 		margin: 0 auto;
 		position: absolute;
@@ -474,6 +518,9 @@
 		margin: 0 auto;
 		display: flex;
 		align-items: center;
+	}
+	.info .content{
+		flex: 1;
 	}
 	
 	/* 配置药柜样式 */
@@ -520,14 +567,14 @@
 		justify-content: center;
 		align-items: center;
 	}
-	.content{
+	.UseTime .content{
 		font-size: 15px;
 	}
 	
 	/* 录音 */
 	.record{
 		display: flex;
-		align-content: center;
+		align-items: center;
 	}
 	.record text{
 		color: ;
@@ -536,7 +583,6 @@
 	}
 	.record image{
 		width: 30px;
-		height: auto;
 		z-index: 99;
 	}
 	

@@ -17,13 +17,17 @@
 				今天不需要用药
 			</view>
 			
-			<view class="Plan" v-for="(plan,index) in TodayPlans" :key="index">		
+			<view 
+				class="Plan" 
+				v-for="(plan,index) in TodayPlans" 
+				:key="index"
+			>		
 				<!-- 时间部分 -->
 				<view class="time">
 					{{plan.time}}
 				</view>
 				<!-- 药物部分 -->
-				<view class="medicine">	
+				<view class="medicines">	
 					<view class="Medicine-item" v-for="(medical,index1) in plan.MedicalInfo" :key="index1">
 						<view class="dot" v-if="medical.remark != ''"></view>
 						<view :class="medical.remark === '' ? 'MedicalName' : ''" @click="SetPlan(medical.PlanID)">
@@ -79,43 +83,41 @@
 				})
 				
 				/* 获取筛选后计划的内容 */
-				let PlansInfo=[]
+				let PlansInfo = []
 				TodayPlans.forEach((plan,index)=>{
 					/* 将时间遍历 */
-					plan.UseTimes.forEach(info=>{
-						let data={MedicalInfo:[]}
-						let MedicalInfo={}
+					plan.UseTimes.forEach(info => {
+						let data = {MedicalInfo:[]}
+						/* 获取时间 */
+						data.time = info.Hour + ":" + info.Minute
+						
 						/* 获取药物的名称 */
-						if(plan.EquipmentID=="不使用设备"){
-							MedicalInfo={
-								name:plan.MedicalName,
-								amount:info.amount,
-								remark:info.remark,
-								PlanID:plan.PlanID
-							}
-							data.MedicalInfo.push(MedicalInfo)
+						if(plan.EquipmentID === "不使用设备"){
+							info.Medicines.forEach(item => {
+								data.MedicalInfo.push({
+									name : item.name,
+									amount : item.amount,
+									remark : item.remark,
+									PlanID : plan.PlanID
+								})
+							})
 						}
 						else{//使用设备，根据选中的药柜编号筛选出药名
-							let index = this.FindEquipment(plan.EquipmentID)//获取设备的下标
-							let Medicines = JSON.parse(global.EquipmentsInfo[index].MedicalInfo)
-							let MedicalIndex = JSON.parse(plan.MedicalIndex)//获取选中的药柜编号
-							
+							const index = this.FindEquipment(plan.EquipmentID)//获取设备的下标
+						  const Medicines = JSON.parse(global.EquipmentsInfo[index].MedicalInfo)
+							const MedicalIndex = info.MedicalIndex
 							/* 将选中的药柜进行遍历,并从中获取所有的药名 */
 							MedicalIndex.forEach(item => {
 								Medicines[item].forEach(medical => {
-									MedicalInfo={
-										name:medical.name,
-										amount:medical.amount,
-										remark:medical.remark,
-										PlanID:plan.PlanID
+									let MedicalInfo={
+										name : medical.name,
+										amount : medical.amount,
+										remark : medical.remark,
+										PlanID : plan.PlanID
 									}
-									if(MedicalInfo.name != '')
-										data.MedicalInfo.push(MedicalInfo)})		
+									data.MedicalInfo.push(MedicalInfo)})		
 							})
-						}
-						/* 获取时间 */
-						data.time=info.Hour+":"+info.Minute
-
+						 }
 						PlansInfo.push(data)
 					})
 				})
@@ -183,8 +185,6 @@
 						PlanID:plan.PlanID,
 						EquipmentID:plan.EquipmentID,
 						Frequency:plan.Frequency,
-						MedicalIndex:plan.MedicalIndex,
-						MedicalName:plan.MedicalName,
 						UseTimes:JSON.parse(plan.UseTimes),
 						date:JSON.parse(plan.date),
 						phone:plan.phone
@@ -211,6 +211,9 @@
 		background: #088573;
 		width: 86%;
 		margin: 0 auto;
+		box-shadow: 2px 2px 2px #b1b1b1;
+		border-bottom-right-radius: 5px;
+		border-bottom-left-radius: 5px;
 	}
 	/* 提示内容 */
 	.hint{
@@ -233,17 +236,17 @@
 		margin: 15px 0;
 		display: flex;
 		align-items: flex-start;
+		overflow: hidden;
 	}
 	.Plan .time{
 		margin-left: 20px;
-		display: flex;
-		align-items: center;
 	}
-	.Plan .medicine{
+	.Plan .medicines{
 		margin-left: 15px;
 		line-height: 1.5;
 	}
 	.Plan .Medicine-item{
+		flex: 1;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "医云助手",
+  "usingComponents": {
+    "push-article": "/pages/HomeComponents/PushArticle",
+    "equipment": "/pages/HomeComponents/Equipment",
+    "body-info": "/pages/HomeComponents/BodyInfo"
+  }
+}

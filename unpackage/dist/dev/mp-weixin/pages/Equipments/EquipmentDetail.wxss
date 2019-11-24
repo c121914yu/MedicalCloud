@@ -1,4 +1,12 @@
 
+<<<<<<< HEAD
+=======
+._h2.data-v-09dc7662{
+	font-size: 20px;
+	line-height: 1.8;
+	margin-left: 5%;
+}
+>>>>>>> yujinlong
 .Title.data-v-09dc7662{
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -9,16 +17,20 @@
 	    -ms-flex-align: center;
 	        align-items: center;
 }
+<<<<<<< HEAD
 .Title ._h2.data-v-09dc7662{
 	color: #58595a;
 	line-height: 1.8;
 	margin-left: 5%;
 }
+=======
+>>>>>>> yujinlong
 .Title text.data-v-09dc7662{
 	color: #da1a1a;
 	font-size: 12px;
 	margin-left: 10px;
 }
+<<<<<<< HEAD
 /* 储药情况样式 */
 .medical.data-v-09dc7662{
 	font-size: 15px;
@@ -30,10 +42,62 @@
 .medical .name.data-v-09dc7662{
 	white-space: nowrap;
 }
+=======
+
+/* 储药情况样式 */
+.medicines.data-v-09dc7662{
+	min-height: 191px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	    -ms-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.medical.data-v-09dc7662{
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+	font-size: 15px;
+	width: 50%;
+	text-align: center;
+	line-height: 1.7;
+	padding: 5px 0;
+}
+.medical .name.data-v-09dc7662{
+	width: 98%;
+	margin: 0 auto;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.medical.data-v-09dc7662:nth-child(1){
+	border-top: 1rpx solid #088573;
+	border-right: 1rpx solid #088573;
+	border-bottom: 1rpx solid #088573;
+}
+.medical.data-v-09dc7662:nth-child(2){
+	border-top: 1rpx solid #088573;
+	border-bottom: 1rpx solid #088573;
+}
+.medical.data-v-09dc7662:nth-child(3){
+	border-right: 1rpx solid #088573;
+	border-bottom: 1rpx solid #088573;
+}
+.medical.data-v-09dc7662:nth-child(4){
+	border-bottom: 1rpx solid #088573;
+}
+
+>>>>>>> yujinlong
 /* 选中药柜背景加深 */
 .active.data-v-09dc7662{
 	background: rgba(8,133,115,0.4);
 }
+<<<<<<< HEAD
 /* 删除按键 */
 .remove.data-v-09dc7662{
 	width: 90%;
@@ -52,4 +116,13 @@ uni-grid-item.data-v-09dc7662:nth-child(2){
 uni-grid-item.data-v-09dc7662:nth-child(3){
 	border-right:1px solid #6fcdb2;
 }
+=======
+
+/* 删除按键 */
+.remove.data-v-09dc7662{
+	width: 95%;
+	border-radius: 20px;
+	margin: 10px auto;
+}
+>>>>>>> yujinlong
 

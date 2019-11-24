@@ -33,12 +33,6 @@
 		},
 		
 		{
-			"path": "pages/Equipments/AllEquipment",
-			"style": {
-				"navigationBarTitleText": "我的设备"
-			}
-		},
-		{
 			"path": "pages/Equipments/EquipmentDetail",
 			"style": {
 				"navigationBarTitleText": "设备信息"
@@ -74,15 +68,19 @@
 		{
 			"path": "pages/Plans/AddPlan",
 			"style": {
-				"navigationBarTitleText": "计划设置",
-				"navigationBarBackgroundColor":"088573"
+				"navigationBarTitleText": "计划设置"
 			}
 		},
 		{
-			"path": "pages/Plans/UndoPlans",
+			"path": "pages/Plans/Record",
 			"style": {
-				"navigationBarTitleText": "未完成计划",
-				"navigationBarBackgroundColor":"088573"
+				"navigationBarTitleText": "用药记录"
+			}
+		},
+		{
+			"path": "pages/Plans/MyPlans",
+			"style": {
+				"navigationBarTitleText": "我的计划"
 			}
 		},
 		
@@ -91,8 +89,15 @@
 			"style": {
 				"navigationBarTitleText": "我的信息"
 			}
-		}
-	],
+		},
+		
+		{
+			"path" : "pages/MyPage/MyMedicines",
+			"style" : {
+				"navigationBarTitleText": "我的药柜"
+			}
+		 }
+    ],
 	
 	"tabBar":{
 		"list":[
@@ -118,9 +123,9 @@
 	},
 	
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "医云助手",
+		"navigationBarBackgroundColor": "#088573",
 		"backgroundColor": "#F8F8F8"
 	},
 	"condition" : { //模式配置，仅开发期间生效
@@ -128,7 +133,7 @@
 		"list": [
 			{
 				"name": "test", //模式名称
-				"path": "pages/Equipments/EquipmentDetail", //启动页面，必选
+				"path": "pages/MyPage/MyMedicines", //启动页面，必选
 				"query": "" //启动参数，在页面的onLoad函数里面得到
 			}
 		]

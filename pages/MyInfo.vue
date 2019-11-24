@@ -1,29 +1,33 @@
 <template>
 	<view class="MyInfo">
 		<view class="wxInfo">
-			<image class="avatar" :src="UserAvatar" mode="widthFix"></image>
+			<view class="avatar">
+				<image :src="UserAvatar" mode="widthFix"></image>
+			</view>
 			<text style="color: #088573;">{{UserName}}</text>
 		</view>
+		
+		<navigator class="info" url="Plans/Record" hover-class="none">
+			<text>用药记录</text>
+			<image src="../static/to_right.png" mode="widthFix"></image>
+		</navigator>
+		
+		<navigator class="info" url="Plans/MyPlans" hover-class="none">
+			<text space="emsp">我的计划</text>
+			<text class="amount">{{PlanAmount}}</text>
+			<image src="../static/to_right.png" mode="widthFix"></image>
+		</navigator>
+		
+		<navigator class="info" url="MyPage/MyMedicines" hover-class="none">
+			<text space="emsp">我的药柜</text>
+			<text class="amount">{{MedicalAmount}}</text>
+			<image src="../static/to_right.png" mode="widthFix"></image>
+		</navigator>
 		
 		<view class="info">
 			<text>我的设备</text>
 			<text class="amount">{{EquipmentAmount}}</text>
 		</view>
-		
-		<view class="info">
-			<text space="emsp">我的计划</text>
-			<text class="amount">{{PlanAmount}}</text>
-		</view>
-		
-		<view class="info">
-			<text>已执行计划</text>
-			<text class="amount">12</text>
-		</view>
-		
-		<navigator class="info" url="Plans/UndoPlans" hover-class="none">
-			<text>未完成计划</text>
-			<text class="amount">0</text>
-		</navigator>
 		
 		<button class="LogOut" @click="LogOut">退出登录</button>
 	</view>
@@ -34,16 +38,18 @@
 		data(){
 			return{
 				UserAvatar:global.UserLoginInfo.avatar,
-				UserName:global.UserLoginInfo.name,
-				EquipmentAmount:0,
-				PlanAmount:0
+				UserName : global.UserLoginInfo.name,
+				PlanAmount : 0,
+				MedicalAmount : 0,
+				EquipmentAmount : 0,
 			}
 		},
 		onShow() {
-			let EquipmentAmount=global.EquipmentsInfo.length
-			this.EquipmentAmount=EquipmentAmount
-			let PlanAmount=global.UserPlans.length
-			this.PlanAmount=PlanAmount
+			uni.showLoading({title:'加载中...'})
+			this.PlanAmount = global.UserPlans.length
+			this.MedicalAmount = global.UserMedical.length
+			this.EquipmentAmount = global.EquipmentsInfo.length
+			uni.hideLoading()
 		},
 		methods:{
 			LogOut(){//退出登录
@@ -62,13 +68,13 @@
 							})}
 				})
 			},//LogOut结束
+			/*提示*/
 			showtoast(text,icon,src){
 				uni.showToast({
 					title: text,
 					icon:icon,
-					image:src
-				})
-			},//showtoast结束
+					image:src})
+			},
 		}//methods结束
 	}
 </script>
@@ -86,24 +92,37 @@
 		display: flex;
 		align-items: center;
 	}
-	.avatar{
-		width: 20%;
-		border-radius: 50%;
+	.wxInfo .avatar{
+		width: 80px;
+		height: 80px;
 		margin: 10px 20px 10px 10px;
+	}
+	.wxInfo .avatar image{
+		width: 100%;
+		border-radius: 50%;
 	}
 	
 	.info{
 		color: #b3b3b3;
 		width: 90%;
 		margin: 0 auto;
-		padding-left: 5px;
-		line-height: 2;
+		padding: 7px 5px;
 		border-top: 1px dotted #c8c8c8;
+		position: relative;
+	}
+	.info:active{
+		background: rgba(212,212,212,0.4);
 	}
 	.info .amount{
 		color: #088573;
 		margin-left: 10px;
 	}
+	.info image{
+		width: 17px;
+		position: absolute;
+		right: 10px;
+	}
+	
 	.LogOut{
 		background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1));
 		color: #FFFFFF;
