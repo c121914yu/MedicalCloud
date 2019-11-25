@@ -5,26 +5,12 @@
     "pages/Login/FindPassword",
     "pages/Login/Register",
     "pages/Home",
-<<<<<<< HEAD
-    "pages/Equipments/AllEquipment",
-=======
->>>>>>> yujinlong
     "pages/Equipments/EquipmentDetail",
     "pages/Equipments/NewEquipment",
     "pages/Articles/ArticleDetail",
     "pages/BodyInfos/BodyInfos",
     "pages/Plans",
     "pages/Plans/AddPlan",
-<<<<<<< HEAD
-    "pages/Plans/UndoPlans",
-    "pages/MyInfo"
-  ],
-  "subPackages": [],
-  "window": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
-=======
     "pages/Plans/Record",
     "pages/Plans/MyPlans",
     "pages/MyInfo",
@@ -35,7 +21,6 @@
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "医云助手",
     "navigationBarBackgroundColor": "#088573",
->>>>>>> yujinlong
     "backgroundColor": "#F8F8F8"
   },
   "tabBar": {
@@ -61,10 +46,6 @@
     ]
   },
   "permission": {},
-<<<<<<< HEAD
-  "usingComponents": {}
-=======
   "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
->>>>>>> yujinlong
+  "sitemapLocation": "sitemap0.json"
 }

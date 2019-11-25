@@ -140,10 +140,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-<<<<<<< HEAD
-=======
 //
->>>>>>> yujinlong
 
 var parent, Equipment;var _default =
 {

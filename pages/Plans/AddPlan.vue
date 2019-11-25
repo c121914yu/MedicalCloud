@@ -54,7 +54,9 @@
 				<view style="margin-left: 10px;display: flex;align-items: center;">
 					<text style="margin-right: 6px;">提示音:</text>
 					<text v-if="usetime.RecordUrl === ''" style="color: #7b7b7b;">默认</text>
-					<image v-else src="../../static/Plans/PlayVoice.png" mode="widthFix" @click.stop="PlayVoice(usetime.RecordUrl)"/>
+					<image v-else-if="PlayRecord != index" src="../../static/Plans/PlayVoice.png" mode="widthFix" 
+						@click.stop="PlayVoice(usetime.RecordUrl,index)"/>
+					<image v-else src="../../static/Plans/pauseVoice.png" mode="widthFix" @click.stop="StopVoice"/>
 				</view>
 			</view>
 		</view>
@@ -80,10 +82,14 @@
 	var DateList=[],Today,DayList=[]
 	var FrequencyList=[]
 	var TimesList=[],TimeIndex
+	
+	var innerAudioContext = uni.createInnerAudioContext()
+	innerAudioContext.volume = 1
 	export default{
 		data(){			
 			return{
 				ChangePlan:false,
+				PlayRecord : -1,
 				
 				EquipmentInfo:{},
 				Today:'',
@@ -204,13 +210,19 @@
 			RemoveTime(index){
 				this.UseTimes.splice(index,1)
 			},
-			PlayVoice(src){//播放录音
-				let recorderManager = uni.getRecorderManager()
-				let innerAudioContext = uni.createInnerAudioContext()
+			PlayVoice(src,index){//播放录音
 				console.log(src)
-				innerAudioContext.volume = 1
+				this.PlayRecord = index
+				innerAudioContext.stop()
 				innerAudioContext.src = src
 				innerAudioContext.play()
+				innerAudioContext.onEnded(e => {
+					this.PlayRecord = -1
+				})
+			},
+			StopVoice(){
+				innerAudioContext.stop()
+				this.PlayRecord = -1
 			},
 			
 			/* 确认添加计划按键 */
@@ -272,10 +284,11 @@
 										date:date,
 										Frequency:Frequency,
 										UseTimes:JSON.stringify(this.UseTimes),
-										PlanID : plan.PlanID || ''
+										PlanID : plan.PlanID
 									}
 									uni.request({
 										url: 'https://jinlongyuchitang.cn:4000' + url,
+										// url: 'http://localhost:4000' + url,
 										method:'POST',
 										data:data,
 										success:res => {
@@ -332,7 +345,8 @@
 					title: '提示',
 					content: '确认删除计划?',
 					success: res => {
-						if(res.confirm)
+						if(res.confirm){
+							uni.showLoading({title:'删除中...'})
 							uni.request({
 								url: 'https://jinlongyuchitang.cn:4000/RemovePlan',
 								method: 'POST',
@@ -342,6 +356,7 @@
 								},
 								fail: (err) => {console.log(err)},
 								complete() {uni.hideLoading()}})}
+					}
 				})
 			},
 					

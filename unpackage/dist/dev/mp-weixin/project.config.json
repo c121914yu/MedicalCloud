@@ -1,45 +1,4 @@
 {
-<<<<<<< HEAD
-  "description": "项目配置文件。",
-  "packOptions": {
-    "ignore": []
-  },
-  "setting": {
-    "urlCheck": false,
-    "es6": true,
-    "postcss": true
-  },
-  "compileType": "miniprogram",
-  "libVersion": "2.9.2",
-  "appid": "wxafd522b076e38be0",
-  "projectname": "医云助手",
-  "condition": {
-    "search": {
-      "current": -1,
-      "list": []
-    },
-    "conversation": {
-      "current": -1,
-      "list": []
-    },
-    "game": {
-      "current": -1,
-      "list": []
-    },
-    "miniprogram": {
-      "current": 0,
-      "list": [
-        {
-          "name": "test",
-          "query": "",
-          "id": 0,
-          "pathName": "pages/Equipments/EquipmentDetail"
-        }
-      ]
-    }
-  },
-  "cloudfunctionRoot": "cloudfunctions/"
-=======
 	"description": "项目配置文件。",
 	"packOptions": {
 		"ignore": []
@@ -82,5 +41,4 @@
 			]
 		}
 	}
->>>>>>> yujinlong
 }

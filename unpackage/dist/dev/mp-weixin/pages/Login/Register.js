@@ -234,15 +234,6 @@ var that, time;var _default =
           /* 发送验证码跟手机到后台代码 */
           if (1) {//验证码正确
             uni.showLoading({ title: '注册中' });
-<<<<<<< HEAD
-            var date = new Date().toLocaleDateString() + ',' + new Date().toLocaleTimeString('chinese', { hour12: false });
-            var data = {
-              phone: that.phone,
-              password: that.password,
-              date: date };
-
-            global.LoginRequest('/UserRegister', data, userinfo, that, '注册成功');
-=======
             uni.login({
               provider: 'weixin',
               success: function success(loginRes) {
@@ -256,7 +247,6 @@ var that, time;var _default =
                 global.LoginRequest('/UserRegister', data, userinfo, that, '注册成功');
               } });
 
->>>>>>> yujinlong
           } else
 
           {}

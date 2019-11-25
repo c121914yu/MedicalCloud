@@ -105,10 +105,6 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-<<<<<<< HEAD
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-=======
->>>>>>> yujinlong
 //
 //
 //
@@ -119,18 +115,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
-<<<<<<< HEAD
-var _default =
-{
-  data: function data() {
-    return {};
-
-
-  } };exports.default = _default;
-=======
 //
 
->>>>>>> yujinlong
 
 /***/ }),
 

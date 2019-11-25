@@ -73,8 +73,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-<<<<<<< HEAD
-=======
   var l0 = _vm.__map(_vm.MedicalInfo, function(medicines, index1) {
     var m0 = _vm.Active(index1)
     return {
@@ -105,7 +103,6 @@ var render = function() {
       }
     }
   )
->>>>>>> yujinlong
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -138,71 +135,6 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-<<<<<<< HEAD
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-=======
 /* WEBPACK VAR INJECTION */(function(uni, global) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniIcons = function uniIcons() {return __webpack_require__.e(/*! import() | components/uni-icons/uni-icons */ "components/uni-icons/uni-icons").then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 192));};var SetMedical = function SetMedical() {return __webpack_require__.e(/*! import() | pages/Equipments/SetMedical */ "pages/Equipments/SetMedical").then(__webpack_require__.bind(null, /*! ../Equipments/SetMedical.vue */ 157));};var Medical = function Medical() {return __webpack_require__.e(/*! import() | pages/Plans/SelectMedical */ "pages/Plans/SelectMedical").then(__webpack_require__.bind(null, /*! ./SelectMedical */ 207));};
 
 
@@ -319,9 +251,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 //查看用户个人药柜
->>>>>>> yujinlong
 
 var CurrentText;
 var recorderManager = uni.getRecorderManager();
@@ -330,14 +260,11 @@ innerAudioContext.volume = 1;var _default =
 
 {
   data: function data() {
-<<<<<<< HEAD
-    return {
-      CurrentText: '',
-      DayList: [] };
-=======
     var Medicines = this.UseMedicines.Medicines;
     var RecordUrl = this.UseMedicines.RecordUrl;
     return {
+      PlayRecord: false,
+
       page: 0,
       Medicines: Medicines,
       LongTap: false,
@@ -357,7 +284,6 @@ innerAudioContext.volume = 1;var _default =
       success: function success() {
         uni.getRecorderManager();
       } });
->>>>>>> yujinlong
 
   },
   methods: {
@@ -385,19 +311,13 @@ innerAudioContext.volume = 1;var _default =
         CurrentText = "每" + this.Items1[value[0]] + "天执行";
       } else
 
-<<<<<<< HEAD
-      {
-=======
       {//选择时间
->>>>>>> yujinlong
         CurrentText = this.Items1[value[0]] + ":" + this.Items2[value[1]];
       }
 
       this.value = e.detail.value;
       this.CurrentText = CurrentText;
     },
-<<<<<<< HEAD
-=======
 
     FinishPic: function FinishPic() {var _this = this; //完成选择
       var error = false;
@@ -459,7 +379,6 @@ innerAudioContext.volume = 1;var _default =
         duration: 1000 });
     },
 
->>>>>>> yujinlong
     /* 重新更新每个月的天数 */
     SetDayList: function SetDayList(year, month) {
       var MaxDay = this.Items3.length;
@@ -478,67 +397,6 @@ innerAudioContext.volume = 1;var _default =
       this.Items3 = DayList;
       this.DayList = DayList;
     },
-<<<<<<< HEAD
-
-    /* 录音 */
-    StartRecord: function StartRecord() {
-      recorderManager.start({
-        format: 'mp3' });
-
-    },
-    StopRecord: function StopRecord() {var _this = this;
-      recorderManager.stop();
-      recorderManager.onStop(function (res) {
-        _this.TimeInfo.RecordUrl = res.tempFilePath;
-      });
-    },
-    listen: function listen() {
-      if (this.TimeInfo.RecordUrl) {
-        console.log(this.TimeInfo.RecordUrl);
-        innerAudioContext.src = this.TimeInfo.RecordUrl;
-        innerAudioContext.play();
-      }
-    },
-    RemoveUrl: function RemoveUrl() {
-      this.TimeInfo.RecordUrl = '';
-    },
-
-    FinishPic: function FinishPic() {//完成选择
-      if (this.type === "添加时间" && this.TimeInfo.amount === '' && this.EquipmentIndex[0] === 0)
-      this.showtoast("请输入用药量");else
-      if (this.type === "修改时间" && this.TimeInfo.amount === '' && this.EquipmentIndex[0] === 0)
-      this.showtoast("请输入用药量");else
-      {
-        var data = {
-          type: this.type,
-          TimeInfo: this.TimeInfo,
-          value: this.value,
-          CurrentText: this.CurrentText === '' ? this.InitialText : this.CurrentText };
-
-        this.CurrentText = '';
-        this.$emit('FinishPic', data);
-      }
-    },
-    Close: function Close() {//取消关闭弹窗
-      this.CurrentText = '';
-      this.$emit('Close', false);
-    },
-
-    /* 错误提醒 */
-    showtoast: function showtoast(text) {
-      uni.showToast({
-        title: text,
-        image: "../../static/error.png",
-        duration: 1000 });
-    } },
-  //methods结束
-  computed: {
-    RecordUrl: function RecordUrl() {
-      if (this.TimeInfo.RecordUrl === '')
-      return false;else
-
-      return true;
-=======
     /* 重新更新每个月的天数 */
 
     /* 添加/切换/减少药物 */
@@ -667,11 +525,22 @@ innerAudioContext.volume = 1;var _default =
         });
       }
     },
-    listen: function listen() {
+    recordCtr: function recordCtr() {var _this5 = this;
       if (this.RecordUrl) {
-        console.log(this.RecordUrl);
-        innerAudioContext.src = this.RecordUrl;
-        innerAudioContext.play();
+        if (this.PlayRecord) {
+          innerAudioContext.stop();
+          this.PlayRecord = false;
+        } else
+        {
+          console.log(this.RecordUrl);
+          innerAudioContext.stop();
+          this.PlayRecord = true;
+          innerAudioContext.src = this.RecordUrl;
+          innerAudioContext.play();
+          innerAudioContext.onEnded(function (e) {
+            _this5.PlayRecord = false;
+          });
+        }
       }
     },
     RemoveUrl: function RemoveUrl() {
@@ -687,7 +556,6 @@ innerAudioContext.volume = 1;var _default =
         return MedicalInfo;
       }
       return '';
->>>>>>> yujinlong
     } },
 
   props: {
@@ -697,11 +565,7 @@ innerAudioContext.volume = 1;var _default =
       type: String,
       value: '' },
 
-<<<<<<< HEAD
-    TimeInfo: Object,
-=======
     UseMedicines: Object,
->>>>>>> yujinlong
     value: Array,
     Items1: {
       type: Array,
@@ -713,10 +577,6 @@ innerAudioContext.volume = 1;var _default =
 
     Items3: {
       type: Array,
-<<<<<<< HEAD
-      value: [] } } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-=======
       value: [] } },
 
 
@@ -725,7 +585,6 @@ innerAudioContext.volume = 1;var _default =
     SetMedical: SetMedical,
     'selcet-from-medical': Medical } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3)))
->>>>>>> yujinlong
 
 /***/ }),
 

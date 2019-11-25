@@ -86,11 +86,10 @@
 				</SetMedical>
 				
 				<view class="remark">按住录音作为计划执行的提示音</view>
-				<view class="box"  @touchstart="StartRecord" @touchend="StopRecord"  @click="listen">
-					<image :hidden="RecordUrl" class="start_play" src="../../static/Plans/StartRecord.png"
-						mode="widthFix"/>
-					<image :hidden="!RecordUrl" class="start_play" src="../../static/Plans/PlayVoice.png" 
-						mode="widthFix"/>
+				<view class="box"  @touchstart="StartRecord" @touchend="StopRecord"  @click="recordCtr">
+					<image v-show="!RecordUrl" class="start_play" src="../../static/Plans/StartRecord.png" mode="widthFix"/>
+					<image v-show="!PlayRecord && RecordUrl" class="start_play" src="../../static/Plans/PlayVoice.png" mode="widthFix"/>
+					<image v-show="PlayRecord && RecordUrl" class="start_play" src="../../static/Plans/pauseVoice.png" mode="widthFix"/>
 					<!-- 动画效果 -->
 					<view :class="animationStatus ? 'rippleAnimation1 ripple' : 'ripple'"></view>
 					<view :class="animationStatus ? 'rippleAnimation2 ripple' : ''"></view>
@@ -127,6 +126,8 @@
 			const Medicines = this.UseMedicines.Medicines
 			const RecordUrl = this.UseMedicines.RecordUrl
 			return{
+				PlayRecord : false,
+				
 				page : 0,
 				Medicines : Medicines,
 				LongTap : false,
@@ -387,11 +388,22 @@
 					})
 				}
 			},
-			listen(){
+			recordCtr(){
 				if(this.RecordUrl){
-					console.log(this.RecordUrl)
-					innerAudioContext.src = this.RecordUrl
-					innerAudioContext.play()
+					if(this.PlayRecord){
+						innerAudioContext.stop()
+						this.PlayRecord = false
+					}
+					else{
+						console.log(this.RecordUrl)
+						innerAudioContext.stop()
+						this.PlayRecord = true
+						innerAudioContext.src = this.RecordUrl
+						innerAudioContext.play()
+						innerAudioContext.onEnded(e => {
+							this.PlayRecord = false
+						})
+					}
 				}
 			},
 			RemoveUrl(){

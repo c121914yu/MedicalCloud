@@ -22,11 +22,6 @@ createPage(_MyMedicines.default);
   !*** G:/uni file/医云助手/pages/MyPage/MyMedicines.vue ***!
   \*****************************************************/
 /*! no static exports found */
-<<<<<<< HEAD
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js):\nError: ENOENT: no such file or directory, open 'G:\\uni file\\医云助手\\pages\\MyPage\\MyMedicines.vue'");
-=======
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -354,7 +349,6 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
->>>>>>> yujinlong
 
 /***/ })
 

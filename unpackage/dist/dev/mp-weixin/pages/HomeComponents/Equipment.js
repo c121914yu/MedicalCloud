@@ -127,10 +127,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-<<<<<<< HEAD
-//
-=======
->>>>>>> yujinlong
 var _default =
 {
   name: 'Equipment',

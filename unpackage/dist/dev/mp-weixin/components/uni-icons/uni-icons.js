@@ -1,19 +1,10 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["components/uni-icons/uni-icons"],{
 
-<<<<<<< HEAD
-/***/ 276:
-=======
 /***/ 192:
->>>>>>> yujinlong
 /*!***********************************************************!*\
   !*** G:/uni file/医云助手/components/uni-icons/uni-icons.vue ***!
   \***********************************************************/
 /*! no static exports found */
-<<<<<<< HEAD
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js):\nError: ENOENT: no such file or directory, open 'G:\\uni file\\医云助手\\components\\uni-icons\\uni-icons.vue'");
-=======
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -171,7 +162,6 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
->>>>>>> yujinlong
 
 /***/ })
 
@@ -181,11 +171,7 @@ __webpack_require__.r(__webpack_exports__);
     'components/uni-icons/uni-icons-create-component',
     {
         'components/uni-icons/uni-icons-create-component':(function(module, exports, __webpack_require__){
-<<<<<<< HEAD
-            __webpack_require__('1')['createComponent'](__webpack_require__(276))
-=======
             __webpack_require__('1')['createComponent'](__webpack_require__(192))
->>>>>>> yujinlong
         })
     },
     [['components/uni-icons/uni-icons-create-component']]

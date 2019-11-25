@@ -122,11 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-<<<<<<< HEAD
-/* WEBPACK VAR INJECTION */(function(uni, global) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var Picker = function Picker() {return __webpack_require__.e(/*! import() | pages/Plans/Picker */ "pages/Plans/Picker").then(__webpack_require__.bind(null, /*! ./Picker */ 178));};var SelectMedicine = function SelectMedicine() {return __webpack_require__.e(/*! import() | pages/Plans/SelectMedicine */ "pages/Plans/SelectMedicine").then(__webpack_require__.bind(null, /*! ./SelectMedicine */ 210));};
-=======
 /* WEBPACK VAR INJECTION */(function(uni, global) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var Picker = function Picker() {return __webpack_require__.e(/*! import() | pages/Plans/Picker */ "pages/Plans/Picker").then(__webpack_require__.bind(null, /*! ./Picker */ 178));};
->>>>>>> yujinlong
 
 
 
@@ -201,46 +197,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-<<<<<<< HEAD
 
 
-
-
-
-
-
-
-
-
-
-
-
-//选择药柜组件
-
-var plan;
-=======
 //引入选择自定义组件
 
 var plan = {};
->>>>>>> yujinlong
 var Equipments,UseEquipments = ["不使用设备"];
 var DateList = [],Today,DayList = [];
 var FrequencyList = [];
-var TimesList = [],TimeIndex;var _default =
+var TimesList = [],TimeIndex;
+
+var innerAudioContext = uni.createInnerAudioContext();
+innerAudioContext.volume = 1;var _default =
 {
   data: function data() {
     return {
       ChangePlan: false,
-<<<<<<< HEAD
-      SelectMedicine: false,
+      PlayRecord: -1,
 
       EquipmentInfo: {},
-      MedicalName: '',
-      MedicalIndex: new Array(1),
-=======
-
-      EquipmentInfo: {},
->>>>>>> yujinlong
       Today: '',
       UseTimes: [],
       /* 选择器参数 */
@@ -249,11 +224,7 @@ var TimesList = [],TimeIndex;var _default =
       InitialText: '',
       CurrentText: [UseEquipments[0], '今天', '每天执行'],
 
-<<<<<<< HEAD
-      TimeInfo: {},
-=======
       UseMedicines: {},
->>>>>>> yujinlong
       value: [], //下标的值
       Items1: [], //发送给选择题的数组内容
       Items2: [],
@@ -284,13 +255,6 @@ var TimesList = [],TimeIndex;var _default =
       this.value = this.EquipmentIndex;
       this.Picker = true;
     },
-<<<<<<< HEAD
-    PicMedicine: function PicMedicine() {//配置药柜
-      this.MedicalIndex = this.MedicalIndex;
-      this.SelectMedicine = true;
-    },
-=======
->>>>>>> yujinlong
     PickerDate: function PickerDate() {//选择日期
       this.type = "选择日期";
       this.Items1 = DateList[0];
@@ -314,11 +278,7 @@ var TimesList = [],TimeIndex;var _default =
       this.Items2 = TimesList[1];
       this.Items3 = [];
       /* 如果是修改的,把已经选中的时间传过去 */
-<<<<<<< HEAD
-      if (type == "Change") {
-=======
       if (type === "Change") {
->>>>>>> yujinlong
         TimeIndex = i;
         /* 计算时间下标 */
         var Hour, Minute;
@@ -333,21 +293,6 @@ var TimesList = [],TimeIndex;var _default =
         /* 计算时间下标 */
         this.type = "修改时间";
         this.InitialText = usetime.Hour + ":" + usetime.Minute;
-<<<<<<< HEAD
-        this.TimeInfo = usetime;
-        this.value = [Hour, Minute];
-      } else
-      {//新增时间
-        var TimeInfo = {
-          amount: '',
-          remark: '',
-          RecordUrl: '' };
-
-        this.type = "添加时间";
-        this.InitialText = "07:00";
-        this.TimeInfo = TimeInfo;
-        this.value = [7, 0];
-=======
         this.UseMedicines = usetime;
         this.value = [Hour, Minute];
       } else
@@ -383,43 +328,35 @@ var TimesList = [],TimeIndex;var _default =
         this.InitialText = InitialText;
         this.UseMedicines = UseMedicines;
         this.value = [_Hour, 30];
->>>>>>> yujinlong
       }
       this.Picker = true;
     },
     RemoveTime: function RemoveTime(index) {
       this.UseTimes.splice(index, 1);
     },
-<<<<<<< HEAD
-    PlayVoice: function PlayVoice(index) {//播放录音
-      var recorderManager = uni.getRecorderManager();
-      var innerAudioContext = uni.createInnerAudioContext();
-
-      innerAudioContext.volume = 1;
-      innerAudioContext.src = this.UseTimes[index].RecordUrl;
-=======
-    PlayVoice: function PlayVoice(src) {//播放录音
-      var recorderManager = uni.getRecorderManager();
-      var innerAudioContext = uni.createInnerAudioContext();
+    PlayVoice: function PlayVoice(src, index) {var _this = this; //播放录音
       console.log(src);
-      innerAudioContext.volume = 1;
+      this.PlayRecord = index;
+      innerAudioContext.stop();
       innerAudioContext.src = src;
->>>>>>> yujinlong
       innerAudioContext.play();
+      innerAudioContext.onEnded(function (e) {
+        _this.PlayRecord = -1;
+      });
+    },
+    StopVoice: function StopVoice() {
+      innerAudioContext.stop();
+      this.PlayRecord = -1;
     },
 
     /* 确认添加计划按键 */
-<<<<<<< HEAD
-    Sure: function Sure() {
-=======
-    Sure: function Sure() {var _this = this;
+    Sure: function Sure() {var _this2 = this;
       /* 请求订阅权限 */
       uni.requestSubscribeMessage({
         tmplIds: ['NZuGule3MSGcW4xLeYT2ucpCho5J1cgQ9O5tmTFLIYs'],
         success: function success(res) {console.log(res);},
         faie: function faie(err) {console.log(err);} });
 
->>>>>>> yujinlong
       /* 获取选择的设备 */
       var EquipmentID;
       if (this.EquipmentIndex[0] == 0)
@@ -434,8 +371,6 @@ var TimesList = [],TimeIndex;var _default =
 
       /* 获取使用频率 */
       var Frequency = FrequencyList[this.FrequencyIndex[0]];
-<<<<<<< HEAD
-=======
       /* 获取录音列表 */
       var RecordUrls = [];
       this.UseTimes.forEach(function (item, index) {
@@ -446,7 +381,6 @@ var TimesList = [],TimeIndex;var _default =
 
       });
       console.log(RecordUrls);
->>>>>>> yujinlong
 
       /* 判断有没有重复的时间 */
       for (var a = 0; a < this.UseTimes.length - 1; a++) {
@@ -457,45 +391,6 @@ var TimesList = [],TimeIndex;var _default =
           }}}
 
       /* 判断填写内容是否有误 */
-<<<<<<< HEAD
-      if (this.EquipmentIndex[0] === 0 && this.MedicalName === '')
-      this.showtoast("请输入药名");else
-      if (this.EquipmentIndex[0] != 0 && this.MedicalIndex.length === 0)
-      this.showtoast("请选择药柜");else
-      if (this.UseTimes.length === 0)
-      this.showtoast("请选择时间");else
-
-      {
-        /* 发送数据给服务器 */
-        var data = {
-          phone: global.UserLoginInfo.phone,
-          EquipmentID: EquipmentID,
-          MedicalName: this.MedicalName,
-          MedicalIndex: JSON.stringify(this.MedicalIndex),
-          date: date,
-          Frequency: Frequency,
-          UseTimes: JSON.stringify(this.UseTimes) };
-
-        var Request = function Request(url, text) {
-          uni.request({
-            url: 'http://49.232.38.113:4000' + url,
-            method: 'POST',
-            data: data,
-            success: function success(res) {
-              global.GetPlans(global.UserLoginInfo.phone, true, text);
-            },
-            fail: function fail(err) {console.log(err);} });
-
-        };
-        if (this.ChangePlan) {
-          data.PlanID = plan.PlanID;
-          Request('/ChangePlan', '修改计划成功');
-        } else
-
-        Request('/AddPlan', '添加计划成功');
-      }
-      /* 发送数据给服务器 */
-=======
       if (this.UseTimes.length === 0)
       this.showtoast("请选择时间");else
       {
@@ -512,11 +407,12 @@ var TimesList = [],TimeIndex;var _default =
                   EquipmentID: EquipmentID,
                   date: date,
                   Frequency: Frequency,
-                  UseTimes: JSON.stringify(_this.UseTimes),
-                  PlanID: plan.PlanID || '' };
+                  UseTimes: JSON.stringify(_this2.UseTimes),
+                  PlanID: plan.PlanID };
 
                 uni.request({
                   url: 'https://jinlongyuchitang.cn:4000' + url,
+                  // url: 'http://localhost:4000' + url,
                   method: 'POST',
                   data: data,
                   success: function success(res) {
@@ -538,10 +434,10 @@ var TimesList = [],TimeIndex;var _default =
                   name: 'audio',
                   success: function success(res) {
                     if (res.statusCode === 200) {
-                      _this.UseTimes[item.index].RecordUrl = res.data;
+                      _this2.UseTimes[item.index].RecordUrl = res.data;
                       time++;
                       if (time === RecordUrls.length) {
-                        if (_this.ChangePlan)
+                        if (_this2.ChangePlan)
                         request('/ChangePlan', '修改计划成功');else
 
                         request('/AddPlan', '添加计划成功');
@@ -555,7 +451,7 @@ var TimesList = [],TimeIndex;var _default =
               }; //upRecord函数
               /* 判断是否需要上传录音 */
               if (RecordUrls.length === 0) {
-                if (_this.ChangePlan)
+                if (_this2.ChangePlan)
                 request('/ChangePlan', '修改计划成功');else
 
                 request('/AddPlan', '添加计划成功');
@@ -566,7 +462,6 @@ var TimesList = [],TimeIndex;var _default =
               });
             }} }); //model结束	
       } //request结束
->>>>>>> yujinlong
     },
     /* 删除计划 */
     Remove: function Remove() {
@@ -574,52 +469,27 @@ var TimesList = [],TimeIndex;var _default =
         title: '提示',
         content: '确认删除计划?',
         success: function success(res) {
-          if (res.confirm)
-          uni.request({
-<<<<<<< HEAD
-            url: 'http://49.232.38.113:4000/RemovePlan',
-=======
-            url: 'https://jinlongyuchitang.cn:4000/RemovePlan',
->>>>>>> yujinlong
-            method: 'POST',
-            data: { PlanID: plan.PlanID },
-            success: function success(res) {
-              global.GetPlans(global.UserLoginInfo.phone, true, '删除计划成功');
-            },
-<<<<<<< HEAD
-            fail: function fail(err) {console.log(err);} });} });
-=======
-            fail: function fail(err) {console.log(err);},
-            complete: function complete() {uni.hideLoading();} });} });
->>>>>>> yujinlong
+          if (res.confirm) {
+            uni.showLoading({ title: '删除中...' });
+            uni.request({
+              url: 'https://jinlongyuchitang.cn:4000/RemovePlan',
+              method: 'POST',
+              data: { PlanID: plan.PlanID },
+              success: function success(res) {
+                global.GetPlans(global.UserLoginInfo.phone, true, '删除计划成功');
+              },
+              fail: function fail(err) {console.log(err);},
+              complete: function complete() {uni.hideLoading();} });}
+        } });
 
     },
 
     /* 完成Picker选择,重置界面数据*/
-<<<<<<< HEAD
-    FinishPic: function FinishPic(e) {var _this = this;
-=======
-    FinishPic: function FinishPic(e) {var _this2 = this;
->>>>>>> yujinlong
+    FinishPic: function FinishPic(e) {var _this3 = this;
       var data = e.detail.__args__[0];
       var SetUseTimes = function SetUseTimes(type) {
         var Hour = TimesList[0][data.value[0]];
         var Minute = TimesList[1][data.value[1]];
-<<<<<<< HEAD
-        var TimeInfo = { //初始化对象
-          Hour: Hour,
-          Minute: Minute,
-          amount: data.TimeInfo.amount,
-          remark: data.TimeInfo.remark,
-          RecordUrl: data.TimeInfo.RecordUrl };
-
-        if (type === '添加时间')
-        _this.UseTimes.push(TimeInfo);else
-
-        _this.UseTimes[TimeIndex] = TimeInfo;
-        /* 对数组排序 */
-        _this.UseTimes.sort(function (a, b) {
-=======
         var UseMedicines = { //初始化对象
           Hour: Hour,
           Minute: Minute,
@@ -628,23 +498,18 @@ var TimesList = [],TimeIndex;var _default =
           RecordUrl: data.RecordUrl };
 
         if (type === '添加时间')
-        _this2.UseTimes.push(UseMedicines);else
+        _this3.UseTimes.push(UseMedicines);else
 
-        _this2.UseTimes[TimeIndex] = UseMedicines;
+        _this3.UseTimes[TimeIndex] = UseMedicines;
         /* 对数组排序 */
-        _this2.UseTimes.sort(function (a, b) {
->>>>>>> yujinlong
+        _this3.UseTimes.sort(function (a, b) {
           if (a.Hour === b.Hour)
           return a.Minute - b.Minute;
           return a.Hour - b.Hour;
         });
       };
       switch (data.type) {
-<<<<<<< HEAD
-        case '选择设备':this.EquipmentIndex = data.value;this.CurrentText[0] = data.CurrentText;this.MedicalName = "";this.MedicalIndex = [];this.UseTimes = [];break;
-=======
         case '选择设备':this.EquipmentIndex = data.value;this.CurrentText[0] = data.CurrentText;this.UseTimes = [];break;
->>>>>>> yujinlong
         case '选择日期':this.DateIndex = data.value;this.CurrentText[1] = data.CurrentText;break;
         case '选择频率':this.FrequencyIndex = data.value;this.CurrentText[2] = data.CurrentText;break;
         case '添加时间':SetUseTimes('添加时间');break;
@@ -656,14 +521,6 @@ var TimesList = [],TimeIndex;var _default =
     Close: function Close() {
       this.Picker = false;
     },
-<<<<<<< HEAD
-    /* 配置了药柜，设置药柜编号 */
-    ChooseMedicines: function ChooseMedicines(e) {
-      this.MedicalIndex = e;
-      this.SelectMedicine = false;
-    },
-=======
->>>>>>> yujinlong
 
     /* 初始化数据方法: */
     SetUseEquipments: function SetUseEquipments() {//生成设备信息数组
@@ -712,12 +569,8 @@ var TimesList = [],TimeIndex;var _default =
         DayList.push(_i3);}
     }, //SetDate结束
     SetFrequency: function SetFrequency() {//生成频率信息数组
-<<<<<<< HEAD
-      for (var i = 1; i < 100; i++) {
-=======
       FrequencyList = [];
       for (var i = 1; i < 31; i++) {
->>>>>>> yujinlong
         FrequencyList.push(i);}
     },
     SetTimes: function SetTimes() {//生成时间数组
@@ -737,37 +590,18 @@ var TimesList = [],TimeIndex;var _default =
     },
 
     /* 修改界面的初始数据 */
-<<<<<<< HEAD
-    SetChangeData: function SetChangeData(PlanIndex) {var _this2 = this;
-      plan = global.UserPlans[PlanIndex];
-      var equipments = global.EquipmentsInfo;
-      /* 如果使用设备 */
-      if (plan.EquipmentID != "不使用设备") {
-        equipments.find(function (item, index) {
-          if (item.ID == plan.EquipmentID) {
-            _this2.EquipmentIndex[0] = index + 1;
-            _this2.CurrentText[0] = item.name;
-          }
-          return item.ID == plan.EquipmentID;
-        });
-        this.MedicalIndex = JSON.parse(plan.MedicalIndex);
-      } else
-
-      this.MedicalName = plan.MedicalName;
-=======
-    SetChangeData: function SetChangeData(PlanIndex) {var _this3 = this;
+    SetChangeData: function SetChangeData(PlanIndex) {var _this4 = this;
       plan = global.UserPlans[PlanIndex];
       /* 修改设备情况 */
       if (plan.EquipmentID != "不使用设备") {
         var Equipment = Equipments.find(function (item, index) {
           if (item.ID === plan.EquipmentID) {
-            _this3.EquipmentIndex[0] = index + 1;
-            _this3.CurrentText[0] = item.name;
+            _this4.EquipmentIndex[0] = index + 1;
+            _this4.CurrentText[0] = item.name;
           }
           return item.ID === plan.EquipmentID;
         });
       }
->>>>>>> yujinlong
       /* 修改日期 */
       var date = JSON.parse(plan.date);
       this.CurrentText[1] = date.year + '年' + date.month + '月' + date.day + '日';
@@ -790,11 +624,7 @@ var TimesList = [],TimeIndex;var _default =
   //methods结束
 
   components: {
-<<<<<<< HEAD
-    Picker: Picker, SelectMedicine: SelectMedicine } };exports.default = _default;
-=======
     Picker: Picker } };exports.default = _default;
->>>>>>> yujinlong
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3)))
 
 /***/ }),

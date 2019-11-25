@@ -180,7 +180,7 @@
 			},
 			
 			UpdatePlans(){//将计划中字符串格式转化成对象或数组
-				Plans=global.UserPlans.map(plan=>{
+				Plans = global.UserPlans.map(plan=>{
 					let data={
 						PlanID:plan.PlanID,
 						EquipmentID:plan.EquipmentID,

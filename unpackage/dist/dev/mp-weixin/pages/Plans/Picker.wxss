@@ -37,33 +37,23 @@ picker-view.data-v-27674220{
 	    -ms-flex-align: center;
 	        align-items: center;
 }
-<<<<<<< HEAD
-=======
 .UseTime .info input.data-v-27674220{
 	-webkit-box-flex: 1;
 	-webkit-flex: 1;
 	    -ms-flex: 1;
 	        flex: 1;
 }
->>>>>>> yujinlong
 .UseTime ._h2.data-v-27674220{
 	line-height: 1.8;
 }
 .UseTime textarea.data-v-27674220{
 	color: #696767;
-<<<<<<< HEAD
-	height: 60px;
-=======
 	width: 94%;
 	height: 40px;
->>>>>>> yujinlong
 	padding: 5px;
 	border: 1px solid #088573;
 	border-radius: 10px;
 }
-<<<<<<< HEAD
-/* 时间设置特有内容样式 */
-=======
 .UseTime .selcet-from-medical.data-v-27674220{
 	color: #088573;
 	position: absolute;
@@ -141,18 +131,10 @@ picker-view.data-v-27674220{
 .record .medicines .active.data-v-27674220{
 	background: rgba(8,133,115,0.4);
 }
->>>>>>> yujinlong
 /* 录音样式 */
 .record.data-v-27674220{
 	margin: 10px 0;
 }
-<<<<<<< HEAD
-.record .start_play.data-v-27674220{
-	width: 60px;
-	height: auto;
-	margin-left: 40%;
-}
-=======
 .record .remark.data-v-27674220{
 	color: #b3b3b3;
 	font-size: 12px;
@@ -224,22 +206,12 @@ to{
             transform: scale(3,3)
 }
 }
->>>>>>> yujinlong
 .record .delete.data-v-27674220{
 	width: 25px;
 	height: auto;
 	margin-left: 30px;
 	margin-bottom: 15px;
-<<<<<<< HEAD
-}
-.record .remark.data-v-27674220{
-	color: #b3b3b3;
-	font-size: 12px;
-	text-align: center;
-	margin-bottom: 5px;
-=======
 	z-index: 2;
->>>>>>> yujinlong
 }
 /* 录音样式 */
 .Btn.data-v-27674220{
