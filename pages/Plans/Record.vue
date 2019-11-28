@@ -16,10 +16,11 @@
 				:key="index1"
 			>
 				<!-- 状态图标 -->
-				<view class="condition">
-					<image v-if="item.condition === 2" src="../../static/record/finish.png" mode="widthFix"></image>
-					<image v-else-if="item.condition === 0" src="../../static/record/unfinish.png" mode="widthFix"></image>
-					<image v-else-if="item.condition === 1" src="../../static/record/timeout.png" mode="widthFix"></image>
+				<view class="status">
+					<image v-if="item.status === -1" src="../../static/record/todos.png" mode="widthFix"></image>
+					<image v-else-if="item.status === 0" src="../../static/record/unfinish.png" mode="widthFix"></image>
+					<image v-else-if="item.status === 1" src="../../static/record/timeout.png" mode="widthFix"></image>
+					<image v-else-if="item.status === 2" src="../../static/record/finish.png" mode="widthFix"></image>
 				</view>
 				
 				<!-- 用药时间 -->
@@ -40,31 +41,35 @@
 				
 				<!-- 处理方式 -->
 				<view class="dispose">
-					<view class="timeout" v-if="item.condition === 1">
+					<view v-if="item.status === -1">待服用</view>
+					<view class="timeout" v-else-if="item.status === 1">
 						超时{{item.timeout}}分钟
 					</view>
 					<view 
 						class="readed" 
-						v-if="item.condition === 0 && item.readed != 1"
+						v-else-if="item.status === 0 && item.readed != 1"
 						@click="readed(item.ID,index0,index1)"
 					>
 						标为已读
 					</view>
-					<view v-if="item.condition === 0 && item.readed === 1">已读</view>
-				</view>
-				
+					<view v-else-if="item.status === 0 && item.readed === 1">已读</view>
+				</view>		
 			</view>
-			
+		</view>
+		
+		<view class="ger-more" @click="getMore">
+			{{page != 0 ? '点击加载更多' : '已加载全部'}}
 		</view>
 	</view>
 </template>
 
 <script>
 	/*
-		数据类型：date:字符串（日期） time:字符串(时间) conditione:数字(状态,0未完成，1超时，2完成) timeout:数字（超时时间，默认为0）
+		数据类型：date:字符串（日期） time:字符串(时间) statuse:数字(状态,0未完成，1超时，2完成) timeout:数字（超时时间，默认为0）
 		readed:数字(是否已读，0代表未读,1代表已读) medicines:字符串（存放一个json格式数组，药物信息） 
 		ID:唯一标识码（记录唯一标识码） phone:手机号（用户唯一标识码）
 	*/
+	var phone = global.UserLoginInfo.phone
 	export default{
 		data(){
 			const date = new Date()
@@ -72,11 +77,12 @@
 			return{
 				today : today,
 				page : 1,
-				records : []//condition: 0未完成，1超时，2完成
+				records : []//status: 0未完成，1超时，2完成
 			}
 		},
 		onLoad(e) {
-			this.GetRecords(global.UserLoginInfo.phone)
+			const endtoday = this.today + ' 23:59:59'//读取5天内记录
+			this.GetRecords(phone,new Date(endtoday))
 		},
 		methods:{
 			readed(ID,index0,index1){
@@ -93,21 +99,37 @@
 					complete() {uni.hideLoading()}
 				})
 			},
-			GetRecords(phone){//获取记录
+			getMore(){
+				if(this.page != 0){
+					const endtoday = this.today + ' 23:59:59'
+					const enddate = new Date(endtoday) - this.page*5*24*60*60*1000
+					this.GetRecords(phone,enddate)
+					this.page++
+				}
+			},
+			GetRecords(phone,date){//获取记录
 				uni.showLoading({title:'读取中...'})
 				uni.request({
 					url:'https://jinlongyuchitang.cn:4000/Record/GetRecords',
+					// url:'http://localhost:4000/Record/GetRecords',
 					method:"POST",
 					data:{
-						phone : phone
+						phone : phone,
+						enddate : date-0
 					},
 					success: (res) => {
-						this.records = res.data
+						this.records = this.records.concat(res.data)
+						if(res.data.length === 0)
+							this.page = 0
 					},
 					complete() {uni.hideLoading()}
 				})
 			},
-		}
+		},//methods结束
+		onReachBottom() {
+			this.getMore()
+			console.log(1)
+		},
 	}
 </script>
 
@@ -123,21 +145,21 @@
 		border-radius: 5px;
 		margin: 10px auto;	
 	}	
-	.head{
+	.record .head{
 		height: 35px;
 		width: 94%;
 		margin: 0 auto;
 		border-bottom: 1px solid rgba(210,210,210,0.9);
 		position: relative;
 	}
-	.head text{
+	.record .head text{
 		color: #8d8d8d;
 		position: absolute;
 		right: 0;
 		top: 10px;
 	}
 	
-	.content{
+	.record .content{
 		color: #4d4d4d;
 		width: 94%;
 		min-height: 30px;
@@ -148,36 +170,36 @@
 		align-items: center;
 	}
 	
-	.content .condition{
+	.record .content .status{
 		margin-left: 5px;
 	}
-	.content .condition image{
+	.record .content .status image{
 		width: 20px;
 	}
 	
-	.content .time{
+	.record .content .time{
 		margin-left: 10px;
 		margin-top: -5px;
 	}
 	
-	.content .medicines{
+	.record .content .medicines{
 		margin-left: 15px;
 		line-height: 1.5;
 		flex: 1 0 auto;
 	}
-	.content .medicines .amount{
+	.record .content .medicines .amount{
 		margin-left: 3px;
 	}
 	
-	.content .dispose{
+	.record .content .dispose{
 		text-align: center;
 		font-size: 15px;
 	}
-	.content .dispose .readed{
+	.record .content .dispose .readed{
 		color: #d72525;
 		animation: rotate 2s infinite linear;
 	}
-	.content .dispose .readed:active{
+	.record .content .dispose .readed:active{
 		font-weight: 600;
 	}
 	@keyframes rotate{
@@ -186,5 +208,13 @@
 		30%,50%,70%,90%{-webkit-transform:scale(1.1) rotate(5deg);}
 		40%,60%,80%{-webkit-transform:scale(1.1) rotate(-5deg);}
 		100%{-webkit-transform:scale(1) rotate(0);}
+	}
+	
+	.Record .ger-more{
+		color: #a7a7a7;
+		font-size: 15px;
+		text-align: center;
+		margin-bottom: 10px;
+		z-index: 999;
 	}
 </style>

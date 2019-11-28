@@ -108,12 +108,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /*
-	数据类型：date:字符串（日期） time:字符串(时间) conditione:数字(状态,0未完成，1超时，2完成) timeout:数字（超时时间，默认为0）
+	数据类型：date:字符串（日期） time:字符串(时间) statuse:数字(状态,0未完成，1超时，2完成) timeout:数字（超时时间，默认为0）
 	readed:数字(是否已读，0代表未读,1代表已读) medicines:字符串（存放一个json格式数组，药物信息） 
 	ID:唯一标识码（记录唯一标识码） phone:手机号（用户唯一标识码）
-*/var _default =
+*/
+var phone = global.UserLoginInfo.phone;var _default =
 {
   data: function data() {
     var date = new Date();
@@ -121,11 +126,12 @@ __webpack_require__.r(__webpack_exports__);
     return {
       today: today,
       page: 1,
-      records: [] //condition: 0未完成，1超时，2完成
+      records: [] //status: 0未完成，1超时，2完成
     };
   },
   onLoad: function onLoad(e) {
-    this.GetRecords(global.UserLoginInfo.phone);
+    var endtoday = this.today + ' 23:59:59'; //读取5天内记录
+    this.GetRecords(phone, new Date(endtoday));
   },
   methods: {
     readed: function readed(ID, index0, index1) {var _this = this;
@@ -142,20 +148,37 @@ __webpack_require__.r(__webpack_exports__);
         complete: function complete() {uni.hideLoading();} });
 
     },
-    GetRecords: function GetRecords(phone) {var _this2 = this; //获取记录
+    getMore: function getMore() {
+      if (this.page != 0) {
+        var endtoday = this.today + ' 23:59:59';
+        var enddate = new Date(endtoday) - this.page * 5 * 24 * 60 * 60 * 1000;
+        this.GetRecords(phone, enddate);
+        this.page++;
+      }
+    },
+    GetRecords: function GetRecords(phone, date) {var _this2 = this; //获取记录
       uni.showLoading({ title: '读取中...' });
       uni.request({
         url: 'https://jinlongyuchitang.cn:4000/Record/GetRecords',
+        // url:'http://localhost:4000/Record/GetRecords',
         method: "POST",
         data: {
-          phone: phone },
+          phone: phone,
+          enddate: date - 0 },
 
         success: function success(res) {
-          _this2.records = res.data;
+          _this2.records = _this2.records.concat(res.data);
+          if (res.data.length === 0)
+          _this2.page = 0;
         },
         complete: function complete() {uni.hideLoading();} });
 
-    } } };exports.default = _default;
+    } },
+  //methods结束
+  onReachBottom: function onReachBottom() {
+    this.getMore();
+    console.log(1);
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../HBuilderX/plugins/uniapp-cli/node_modules/webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
