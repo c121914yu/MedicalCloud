@@ -1,9 +1,0 @@
-
-.AddPlan{
-	width: 50px;
-	position: fixed;
-	right: 1%;
-	bottom: 3%;
-	z-index: 999;
-}
-

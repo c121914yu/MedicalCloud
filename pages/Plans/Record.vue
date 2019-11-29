@@ -128,7 +128,6 @@
 		},//methods结束
 		onReachBottom() {
 			this.getMore()
-			console.log(1)
 		},
 	}
 </script>

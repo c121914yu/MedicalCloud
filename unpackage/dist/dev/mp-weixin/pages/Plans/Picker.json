@@ -1,8 +1,0 @@
-{
-  "usingComponents": {
-    "uni-icons": "/components/uni-icons/uni-icons",
-    "set-medical": "/pages/Equipments/SetMedical",
-    "selcet-from-medical": "/pages/Plans/SelectMedical"
-  },
-  "component": true
-}
