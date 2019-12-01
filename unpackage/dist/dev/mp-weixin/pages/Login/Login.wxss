@@ -1,0 +1,84 @@
+
+page{
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.logo{	
+	/* logo样式 */
+	padding-top: 10%;
+	margin-bottom: 10px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+}
+.logo image{
+	width: 25%;
+	height: auto;
+	border-radius: 50%;
+}
+.info{
+	/* 输入框样式 */
+	width: 85%;
+	height: 50px;
+	border-bottom: 1px solid rgba(230,230,230,1);
+	margin: 0 auto;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+}
+.info image{
+	width: 25px;
+	height: auto;
+}
+.info input{
+	width: 75%;
+	color: #737376;
+}
+.info .right{
+	/* 显示和隐藏密码 */
+	z-index: 9999;
+	height: auto;
+}
+.login-btn{       
+	/*登录按键*/
+	/* background:linear-gradient(-90deg,rgba(63,205,235,1),rgba(188,226,158,1)); */
+	background:-webkit-gradient(linear,left top, right top,from(rgba(63,205,235,1)),to(rgba(16,48,233,1)));
+	background:-o-linear-gradient(left,rgba(63,205,235,1),rgba(16,48,233,1));
+	background:linear-gradient(left,rgba(63,205,235,1),rgba(16,48,233,1));
+	color: #FFFFFF;
+	border-radius: 40px;
+	width: 80%;
+	margin: auto;
+	margin-top: 15px;
+}
+.problem{
+	/* 忘记密码/注册用户 */
+	color: #FFA800;
+	width: 45%;
+	font-size: 17px;
+	margin: 15px auto;
+	text-align: center;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+}
+

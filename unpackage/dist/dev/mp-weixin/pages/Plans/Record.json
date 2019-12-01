@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "用药记录",
+  "onReachBottomDistance": 10,
+  "usingComponents": {
+    "analyze": "/pages/Plans/RecordAnalyze"
+  }
+}

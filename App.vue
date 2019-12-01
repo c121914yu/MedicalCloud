@@ -115,6 +115,7 @@
 	/*每个页面公共css */
 	*{
 		box-sizing: border-box;
+		font-family: ExtraLight,Microsoft Yahei;
 	}
 	image{
 		height: auto;

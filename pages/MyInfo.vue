@@ -12,6 +12,11 @@
 			<image src="../static/to_right.png" mode="widthFix"></image>
 		</navigator>
 		
+		<navigator class="info" url="MyPage/searchMedical" hover-class="none">
+			<text>药物查询</text>
+			<image src="../static/to_right.png" mode="widthFix"></image>
+		</navigator>
+		
 		<navigator class="info" url="Plans/MyPlans" hover-class="none">
 			<text space="emsp">我的计划</text>
 			<text class="amount">{{PlanAmount}}</text>

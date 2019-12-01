@@ -1,0 +1,293 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 日历表样式*/
+.calendar{
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 10px;
+	-webkit-box-shadow:2px 2px 5px #7b7b7b;
+	        box-shadow:2px 2px 5px #7b7b7b;
+}
+.PlansList{
+	background: #088573;
+	width: 86%;
+	margin: 0 auto;
+	-webkit-box-shadow: 2px 2px 2px #b1b1b1;
+	        box-shadow: 2px 2px 2px #b1b1b1;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+/* 提示内容 */
+.hint{
+	text-align: center;
+	font-size: 13px;
+	color: #dfdcdc;
+	padding-top: 5px;
+}
+/* 没有计划内容,提醒无计划 */
+.NoneMedicine{
+	color: #fdd930;
+	font-size: 20px;
+	text-align: center;
+	padding: 10px;
+}
+/* 计划内容 */
+.Plan{
+	color: #fdd930;
+	font-size: 17px;
+	margin: 15px 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: start;
+	-webkit-align-items: flex-start;
+	    -ms-flex-align: start;
+	        align-items: flex-start;
+	overflow: hidden;
+}
+.Plan .time{
+	margin-left: 20px;
+}
+.Plan .medicines{
+	margin-left: 15px;
+	line-height: 1.5;
+}
+.Plan .Medicine-item{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-flex-wrap: wrap;
+	    -ms-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.Plan .dot{
+	background: #FFFFFF;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+.Plan .MedicalName{
+	margin-left: 16px;
+}
+.Plan .remark{
+	color: #dfdcdc;
+	font-size: 13px;
+	line-height: 1;
+	margin-left: 16px;
+	margin-bottom: 7px;
+	-webkit-flex-basis:100%;
+	    -ms-flex-preferred-size:100%;
+	        flex-basis:100%;
+}
+

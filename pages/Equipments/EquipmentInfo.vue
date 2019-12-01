@@ -32,10 +32,9 @@
 	</view>
 </template>
 
-<!-- 由于异步问题不方便使用生命周期，直接绑定父级传来的值，异步完成后自动会修改
-	-->
+<!-- 由于异步问题不方便使用生命周期，直接绑定父级传来的值，异步完成后自动会修改-->
 <script>
-	var parent,Equipment
+	var parent
 	export default{
 		data(){
 			return{
@@ -48,18 +47,19 @@
 				this.index=e.detail.value
 			},
 			ClickButton(){
-				uni.showLoading({title: parent.LoadingText})
 				/* Equipment等于界面中设备信息 */
-				Equipment=this.info.EquipmentInfo
-				let Info
+				let Equipment = this.info.EquipmentInfo
+				let Info,text
 				/* 判断是新建还是修改，创建不同post数据 */
-				if(parent.change)//修改界面的
+				if(parent.change){//修改界面的
 					Info={
 						name:Equipment.name,
 						remark:Equipment.remark,
 						ID:Equipment.ID
-					}
-				else//新增界面的
+					}	
+					text = '确认修改设备信息?'
+				}
+				else{//新增界面的
 					Info={
 						phone:global.UserLoginInfo.phone,
 						ID:Equipment.ID,
@@ -69,6 +69,19 @@
 						condition:"正常",
 						MedicalInfo:this.MedicalInfo()
 					}
+					text = '确认添加设备?'
+				}
+				uni.showModal({
+					title:'提示',
+					content:text,
+					success: (res) => {
+						if(res.confirm)
+							this.Request(Info,Equipment)
+					}
+				})
+			},//clickBtn结束
+			Request(Info,Equipment){//网络请求
+				uni.showLoading({title: parent.LoadingText})
 				/* 判断是否有未填写内容 */
 				if(!Equipment.ID)
 					this.showtoast('请输入设备标识码')
@@ -80,15 +93,15 @@
 						method:"POST",
 						data:Info,
 						success:res => {
-							if(res.data=='标识码错误')
+							if(res.data === '标识码错误')
 								this.showtoast(res.data)
-							else if(res.data=='修改成功'){
+							else if(res.data === '修改成功'){
 								let index=this.info.index
 								this.showtoast(parent.SuccessText,'')
 								global.EquipmentsInfo[index].name=Info.name
 								global.EquipmentsInfo[index].remark=Info.remark
 							}						
-							else if(res.data=="添加设备成功"){
+							else if(res.data === "添加设备成功"){
 								global.EquipmentsInfo.push(Info)
 								uni.navigateBack({
 									delta: 1,
@@ -97,7 +110,7 @@
 						},//request请求成功结束
 						fail: (err) => {console.log(err)}})
 				}
-			},//clickBtn结束
+			},
 			/* 添加设备时生成初始药物信息 */
 			MedicalInfo(){
 				let MedicalInfo=new Array
@@ -120,7 +133,7 @@
 			}
 		},
 		beforeMount(){
-			parent=this.info
+			parent = this.info
 		},
 		props:{
 			info:Object,

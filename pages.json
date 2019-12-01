@@ -31,6 +31,18 @@
 				"navigationBarTitleText": "医云助手"
 			}
 		},
+		{
+			"path": "pages/Articles/ArticleDetail",
+			"style": {
+				"navigationBarTitleText": "文章详细"
+			}
+		},
+		{
+			"path": "pages/BodyInfos/BodyInfos",
+			"style": {
+				"navigationBarTitleText": "身体指数"
+			}
+		},
 		
 		{
 			"path": "pages/Equipments/EquipmentDetail",
@@ -42,20 +54,6 @@
 			"path": "pages/Equipments/NewEquipment",
 			"style": {
 				"navigationBarTitleText": "添加设备"
-			}
-		},
-		
-		{
-			"path": "pages/Articles/ArticleDetail",
-			"style": {
-				"navigationBarTitleText": "文章详细"
-			}
-		},
-		
-		{
-			"path": "pages/BodyInfos/BodyInfos",
-			"style": {
-				"navigationBarTitleText": "身体指数"
 			}
 		},
 		
@@ -90,14 +88,19 @@
 			"style": {
 				"navigationBarTitleText": "我的信息"
 			}
-		},
-		
+		},	
 		{
 			"path" : "pages/MyPage/MyMedicines",
 			"style" : {
 				"navigationBarTitleText": "我的药柜"
 			}
-		 }
+		 },
+		 {
+		 	"path" : "pages/MyPage/searchMedical",
+		 	"style" : {
+		 		"navigationBarTitleText": "药物查询"
+		 	}
+		  }
     ],
 	
 	"tabBar":{
@@ -134,7 +137,7 @@
 		"list": [
 			{
 				"name": "test", //模式名称
-				"path": "pages/MyPage/MyMedicines", //启动页面，必选
+				"path": "pages/Plans/Record", //启动页面，必选
 				"query": "" //启动参数，在页面的onLoad函数里面得到
 			}
 		]

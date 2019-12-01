@@ -1,5 +1,6 @@
 <template>
 	<view class="Record">
+		<analyze :records="records"></analyze>
 		<view 
 			class="record"
 			v-for="(record,index0) in records"
@@ -65,10 +66,11 @@
 
 <script>
 	/*
-		数据类型：date:字符串（日期） time:字符串(时间) statuse:数字(状态,0未完成，1超时，2完成) timeout:数字（超时时间，默认为0）
+		数据类型：date:字符串（日期） time:字符串(时间) statuse:数字(状态,-1待服用，0未完成，1超时，2完成) timeout:数字（超时时间，默认为0）
 		readed:数字(是否已读，0代表未读,1代表已读) medicines:字符串（存放一个json格式数组，药物信息） 
 		ID:唯一标识码（记录唯一标识码） phone:手机号（用户唯一标识码）
 	*/
+	import analyze from './RecordAnalyze'
 	var phone = global.UserLoginInfo.phone
 	export default{
 		data(){
@@ -129,6 +131,9 @@
 		onReachBottom() {
 			this.getMore()
 		},
+		components:{
+			analyze
+		}
 	}
 </script>
 
@@ -170,6 +175,7 @@
 	}
 	
 	.record .content .status{
+		margin-top: 2px;
 		margin-left: 5px;
 	}
 	.record .content .status image{
@@ -178,12 +184,11 @@
 	
 	.record .content .time{
 		margin-left: 10px;
-		margin-top: -5px;
 	}
 	
 	.record .content .medicines{
-		margin-left: 15px;
 		line-height: 1.5;
+		margin-left: 15px;
 		flex: 1 0 auto;
 	}
 	.record .content .medicines .amount{
