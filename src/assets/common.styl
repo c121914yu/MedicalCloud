@@ -1,0 +1,101 @@
+:root
+  --green #3cd793
+  --green5 rgba(60, 215, 147, 0.1)
+  --dark #101010
+  --gray #c2c7c6
+  --gray1 #5d7092
+  --blue #4a9bf3
+  --red #e86452
+  --yellow #f6bd16
+  --bg-gray #f4f4f4
+  --border1 1px solid #c2c7c6
+  --shadow1 0 0 5px rgba(0, 0, 0, 0.6)
+  --shadow2 0 0 4px rgba(0, 0, 0, 0.4)
+  --shadow3 1px 1px 5px rgba(0, 0, 0, 0.3)
+  --speed1 0.5s ease-in-out
+  --speed2 0.5s
+@font-face
+  font-family 'webfont'
+  font-display swap
+  src url('//at.alicdn.com/t/webfont_6paau156043.eot') /* IE9 */
+  src url('//at.alicdn.com/t/webfont_6paau156043.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/webfont_6paau156043.woff2') format('woff2'), url('//at.alicdn.com/t/webfont_6paau156043.woff') format('woff'), url('//at.alicdn.com/t/webfont_6paau156043.ttf') format('truetype'), url('//at.alicdn.com/t/webfont_6paau156043.svg#杨任东竹石体-Bold') format('svg')
+  /* iOS 4.1- */
+// 不同字体大小设计
+fontSize(s, w, l)
+  font-size s
+  font-weight w
+  letter-spacing l
+*
+  position relative
+  margin 0
+  padding 0
+  box-sizing border-box
+  line-height 1.5
+  color inherit
+  font-family Arial, Helvetica, sans-serif, 'webfont'
+  font-style normal
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+body
+  width 100vw
+  min-height 100vh
+  color var(--dark)
+  fontSize(16px, 500, 0.5px)
+h1
+  fontSize(1.4em, 700, 1px)
+h2
+  fontSize(1.2em, 700, 1px)
+strong
+  font-weight 700
+small
+  font-size 0.8em
+.remark
+  color var(--gray)
+.center
+  text-align center
+  margin auto
+a
+  margin 0
+  padding 0
+  -webkit-tap-highlight-color rgba(0, 0, 0, 0)
+  text-decoration none
+button, .btn
+  border none
+  outline none
+  color #fff
+  background-color var(--green)
+  padding 5px 15px
+  border-radius 5px
+  &:active
+    transform scale(0.98)
+    filter brightness(110%)
+input
+  font-size 1em
+  border var(--border1)
+  outline 0
+  border-radius 5px
+  padding 5px
+  &:focus
+    border-color var(--green)
+input::-webkit-input-placeholder
+  fontSize(16px, 500, 0.5px)
+  color var(--gray)
+.mask
+  z-index 19
+  position fixed
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background-color rgba(0, 0, 0, 0.2)
+.popup
+  z-index 20
+  position fixed
+  top 40%
+  left 50%
+  transform translate(-50%, -50%)
+  width 80%
+  background #fff
+  box-shadow var(--shadow2)
+  padding 10px
+  border-radius 5px
