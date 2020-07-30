@@ -57,7 +57,7 @@ lineX(h)
     align-items center
     justify-content center
     &:active
-      background var(--green5)
+      background var(--green1)
     i
       font-size 2em
       font-weight 600

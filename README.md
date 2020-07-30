@@ -1,19 +1,8 @@
-# medical_cloud2
+# 新版医云助手
 
-## Project setup
-```
-npm install
-```
+## 2020/7/30
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. 设备列表静态界面。
+2. 手机，邮箱绑定静态界面。
+3. 添加药盒静态界面。
+4. 药盒配置静态界面。
