@@ -2,7 +2,7 @@
   <div class="popup-setUser">
     <div class="mask"></div>
     <div class="popup">
-      <img :src="picture">
+      <img :src="image">
       <input
         type="text"
         placeholder="昵称"
@@ -25,19 +25,19 @@
 <script>
 export default {
   props: {
-    param_picture: {
+    param_image: {
       type: String,
-      default: 'http://blogs.jinlongyuchitang.cn/avator.jpg'
+      default: 'http://blogs.jinlongyuchitang.cn/avator.jpg',
     },
     param_name: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
     return {
       name: '',
-      picture: ''
+      image: '',
     }
   },
   methods: {
@@ -45,19 +45,19 @@ export default {
       if (this.name === '')
         this.$showToast({
           type: 'warn',
-          text: '名称不能为空'
+          text: '名称不能为空',
         })
       else
         this.$emit('confirm', {
           name: this.name,
-          picture: this.picture
+          image: this.image,
         })
-    }
+    },
   },
   created() {
     this.name = this.param_name
-    this.picture = this.param_picture
-  }
+    this.image = this.param_image
+  },
 }
 </script>
 

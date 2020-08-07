@@ -11,7 +11,7 @@
       <p class="name"><strong>jlYU</strong></p>
       <router-link
         class="change"
-        to="/User/SetUser"
+        to="/User/SetRole"
       >切换用户</router-link>
       <div class="statistics">
         <div
@@ -33,10 +33,10 @@ export default {
     return {
       statistics: [
         { text: '提醒计划', amount: 3 },
-        { text: '绑定设备', amount: 2 }
-      ]
+        { text: '绑定设备', amount: 2 },
+      ],
     }
-  }
+  },
 }
 </script>
 

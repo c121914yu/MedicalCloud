@@ -84,7 +84,7 @@ export default {
 
 <style lang="stylus" scoped>
 .email
-  padding 0 5px
+  padding 0 5%
   padding-top 60px
   display flex
   flex-direction column
@@ -99,8 +99,6 @@ export default {
     border var(--border1)
     border-color var(--yellow)
     border-radius 50%
-  form
-    width 90%
   input
     margin 10px 0
     width 100%

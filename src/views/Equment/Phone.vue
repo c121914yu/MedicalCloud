@@ -95,13 +95,11 @@ export default {
 
 <style lang="stylus" scoped>
 .phone
-  padding 0 5px
+  padding 0 5%
   padding-top 60px
   display flex
   flex-direction column
   align-items center
-  form
-    width 90%
   i
     width 70px
     height 70px

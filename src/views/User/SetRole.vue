@@ -6,7 +6,7 @@
       :key="index"
     >
       <img
-        :src="item.picture"
+        :src="item.image"
         alt="加载失败"
       />
       <p class="name">{{ item.name }}</p>
@@ -27,7 +27,7 @@
     <Popup
       v-if="popupData!=null"
       :param_name="popupData.name"
-      :param_picture="popupData.picture"
+      :param_image="popupData.image"
       @close="close"
       @confirm="confirm"
     ></Popup>
@@ -36,31 +36,28 @@
 
 <script>
 import Popup from './components/popup_setUser'
+import { gettRoles, createRole, deleteRole } from '../../assets/axios/api'
 export default {
   data() {
     return {
-      userList: [
-        {
-          name: '余金隆',
-          picture: 'http://blogs.jinlongyuchitang.cn/avator.jpg'
-        },
-        {
-          name: '邓丹婵',
-          picture: 'http://blogs.jinlongyuchitang.cn/avator.jpg'
-        },
-        {
-          name: '妈妈',
-          picture: 'http://blogs.jinlongyuchitang.cn/background.jpg'
-        }
-      ],
-      popupData: null
+      userList: [],
+      popupData: null,
     }
   },
+  watch: {
+    userList: 'updateRoles',
+  },
   methods: {
+    getRoles() {
+      gettRoles().then((res) => {
+        console.log(res.data)
+        this.userList = this.$store.getters.getUser.roles || []
+      })
+    },
     edit(item, i) {
       this.popupData = {}
       this.popupData.name = item.name
-      this.popupData.picture = item.picture
+      this.popupData.image = item.image
       this.popupData.index = i
     },
     remove(item, index) {
@@ -71,36 +68,48 @@ export default {
         confirmColor: 'var(--red)',
         success: () => {
           // 网络请求
-          this.userList.splice(index, 1)
-          this.$showToast({
-            text: '删除成功',
-            type: 'success'
+          deleteRole(item._id).then((res) => {
+            // 更新vuex内容
+            this.userList.splice(index, 1)
+            this.$showToast({
+              text: '删除成功',
+              type: 'success',
+            })
           })
-        }
+        },
       })
     },
     confirm(e) {
       if (this.popupData.hasOwnProperty('index')) {
         this.userList[this.popupData.index].name = e.name
-        this.userList[this.popupData.index].picture = e.picture
+        this.userList[this.popupData.index].image = e.image
         this.$showToast({
-          text: '修改成功'
+          text: '修改成功',
         })
       } else {
-        this.userList.push(e)
-        this.$showToast({
-          text: '新建用户成功'
+        createRole(e).then((res) => {
+          this.userList.push(res.data.data)
+          this.$showToast({
+            text: '新建用户成功',
+          })
         })
       }
       this.close()
     },
     close() {
       this.popupData = null
-    }
+    },
+    updateRoles() {
+      this.$store.commit('updateRoles', this.userList)
+      console.log(this.$store.getters.getUser)
+    },
+  },
+  created() {
+    this.userList = this.$store.getters.getUser.roles || []
   },
   components: {
-    Popup
-  }
+    Popup,
+  },
 }
 </script>
 

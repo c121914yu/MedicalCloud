@@ -1,6 +1,6 @@
 <template>
-  <div class="register">
-    <form @submit="findPsw">
+  <div class="set-user">
+    <form @submit="setUser">
       <div class="input">
         <i class="iconfont icon-phone"></i>
         <input
@@ -16,7 +16,7 @@
         <i class="iconfont icon-password"></i>
         <input
           type="password"
-          placeholder="请输入新密码"
+          placeholder="请输入密码"
           minlength="6"
           required
           autocomplete="off"
@@ -37,7 +37,7 @@
       <div class="input">
         <i class="iconfont icon-verification-code"></i>
         <input
-          type="tel "
+          type="tel"
           placeholder="请输入验证码"
           required
           maxlength="6"
@@ -48,24 +48,27 @@
           type="button"
           class="getCode"
           :class="{
-            'bin': time>0
+            'ban': time>0
           }"
           @click="sendCode"
         >{{codeText}}</button>
       </div>
-      <button type="submit">修改密码</button>
+      <button type="submit">重置用户</button>
     </form>
-    <div class="info">
-      <router-link to="/Register">注册账号</router-link>
-      <router-link
-        to="/"
-        style="color:var(--green)"
-      >返回登录</router-link>
-    </div>
+    <router-link
+      class="change-nav"
+      to="/"
+      style="color:var(--green)"
+    >已有账号</router-link>
+    <p
+      class="remark"
+      style="display:inline-block"
+    ><small>账号不存在时会自动注册</small></p>
   </div>
 </template>
 
 <script>
+import { getRandomCode, setUser } from '../../assets/axios/api'
 const reg = /^1[3456789]\d{9}$/
 export default {
   data() {
@@ -75,7 +78,7 @@ export default {
       password2: '',
       code: '',
       timer: null,
-      time: 0
+      time: 0,
     }
   },
   methods: {
@@ -83,53 +86,66 @@ export default {
       if (!reg.test(this.phone))
         this.$showToast({
           type: 'warn',
-          text: '手机格式错误'
+          text: '手机格式错误',
         })
       else if (this.time <= 0) {
-        this.time = 10
-        this.timer = setInterval(() => {
-          this.time--
-          if (this.time <= 0) clearInterval(this.timer)
-        }, 1000)
+        getRandomCode(this.phone).then((res) => {
+          console.log(res.data)
+          this.time = 10
+          this.timer = setInterval(() => {
+            this.time--
+            if (this.time <= 0) clearInterval(this.timer)
+          }, 1000)
+          this.$showToast({
+            text: '验证码已发送',
+          })
+        })
       }
     },
-    findPsw(e) {
+    setUser(e) {
       e.preventDefault()
       if (!reg.test(this.phone))
         this.$showToast({
           type: 'warn',
-          text: '手机格式错误'
+          text: '手机格式错误',
         })
       else if (this.password.length < 6)
         this.$showToast({
           type: 'warn',
-          text: '密码小于6位'
+          text: '密码小于6位',
         })
       else if (this.password != this.password2)
         this.$showToast({
           type: 'warn',
-          text: '两次密码不同'
+          text: '两次密码不同',
         })
       else if (this.code.length != 6)
         this.$showToast({
           type: 'warn',
-          text: '验证码错误'
+          text: '验证码错误',
         })
       else {
-        this.$showToast({
-          text: '修改密码成功'
+        setUser({
+          phone: this.phone,
+          password: this.password,
+          randomCode: this.code,
+        }).then((res) => {
+          console.log(res.data)
+          this.$showToast({
+            text: 'success',
+          })
+          this.$router.push({ name: 'Login' })
         })
-        this.$router.push({ name: 'Login', params: { phone: this.phone } })
       }
-    }
+    },
   },
   computed: {
     codeText() {
       if (this.time <= 0) return '获取验证码'
       else if (this.time < 10) return `0${this.time}s后获取`
       else return `${this.time}s后获取`
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -139,7 +155,7 @@ export default {
   margin 0
   right 0
   width 100px
-  &.bin
+  &.ban
     background-color var(--gray)
     &:active
       transform scale(1)

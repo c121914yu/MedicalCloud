@@ -1,18 +1,38 @@
-import { axios } from './request.js'
+import {
+	axios
+} from './request.js'
 
 //get
-export function getAction(url,params){
+export function getAction(url, params) {
 	return axios({
 		url,
-		method : "get",
+		method: "GET",
 		params
 	})
 }
 
-export function postAction(url,data){
+// post
+export function postAction(url, data) {
 	return axios({
 		url,
-		method : "post",
+		method: "POST",
 		data
+	})
+}
+
+// PUT
+export function putAction(url, data) {
+	return axios({
+		url,
+		method: "PUT",
+		data
+	})
+}
+
+// delete
+export function deleteAction(url) {
+	return axios({
+		url,
+		method: "DELETE"
 	})
 }

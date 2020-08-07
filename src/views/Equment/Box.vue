@@ -1,10 +1,11 @@
 <template>
   <div class="medical-box">
     <SetMedical
-      v-if="setIndex"
+      v-if="setIndex!=null"
       :medicines="setMedicines"
       :index="setIndex"
       @close="setIndex=null"
+      @changeMedical="changeMedical"
     ></SetMedical>
     <div class="box">
       <div
@@ -73,7 +74,7 @@ export default {
         medicines: [
           [
             {
-              name: '小柴胡颗粒',
+              name: '小柴胡颗粒1',
               amount: 1,
               remark: '饭后服用',
             },
@@ -85,7 +86,7 @@ export default {
           ],
           [
             {
-              name: '小柴胡颗粒',
+              name: '小柴胡颗粒2',
               amount: 0,
               remark: '饭后服用',
             },
@@ -97,7 +98,7 @@ export default {
           ],
           [
             {
-              name: '小柴胡颗粒',
+              name: '小柴胡颗粒3',
               amount: 1,
               remark: '饭后服用',
             },
@@ -109,7 +110,7 @@ export default {
           ],
           [
             {
-              name: '小柴胡颗粒',
+              name: '小柴胡颗粒4',
               amount: 1,
               remark: '饭后服用',
             },
@@ -121,7 +122,7 @@ export default {
           ],
           [
             {
-              name: '小柴胡颗粒',
+              name: '小柴胡颗粒5',
               amount: 1,
               remark: '饭后服用',
             },
@@ -133,7 +134,7 @@ export default {
           ],
           [
             {
-              name: '小柴胡颗粒',
+              name: '小柴胡颗粒6',
               amount: 0,
               remark: '饭后服用',
             },
@@ -151,8 +152,14 @@ export default {
   },
   methods: {
     set_medical(index) {
-      this.setMedicines = this.boxInfo.medicines[index - 1]
-      this.setIndex = index
+      let i = index - 1
+      this.setMedicines = [...this.boxInfo.medicines[i]]
+      this.setIndex = i
+    },
+    changeMedical(e) {
+      this.boxInfo.medicines[this.setIndex] = e
+      this.boxInfo.medicines.splice(0, 0)
+      this.setIndex = this.setMedicines = null
     },
     save(e) {
       e.preventDefault()
@@ -178,7 +185,7 @@ export default {
       let index = []
       this.boxInfo.medicines.forEach((item, i) => {
         item.find((medical) => {
-          if (medical.amount > 0) {
+          if (+medical.amount > 0) {
             index.push(i)
             return true
           }
@@ -194,7 +201,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 .medical-box
   position relative
   padding 60px 5% 0
@@ -258,7 +265,6 @@ export default {
   .type
     width 100%
   form
-    width 100%
     .input
       margin-top 15px
       width 100%
@@ -275,8 +281,9 @@ export default {
         width 100%
         padding-left 35px
         font-size 1em
-        border-radius 0
+        border none
         border-bottom var(--border1)
+        border-radius 0
         &:focus
           border-color var(--green)
         &:focus + i
@@ -285,7 +292,7 @@ export default {
         &.disable
           color var(--gray1)
   button
-    margin 5px 0
+    margin-top 10px
     width 100%
     padding 10px
     border-radius 20px

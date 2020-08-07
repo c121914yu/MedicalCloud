@@ -4,8 +4,7 @@ Vue.use(VueRouter)
 
 import PageLogin from "../views/Login/Page_Login.vue"
 import Login from "../views/Login/Login.vue"
-import Register from "../views/Login/Register.vue"
-import FindPsw from "../views/Login/FindPsw.vue"
+import SetNumber from "../views/Login/SetNumber.vue"
 
 import PageRemind from "../views/Remind/PageRemind.vue"
 import Remind from "../views/Remind/Remind.vue"
@@ -22,7 +21,7 @@ import Record from "../views/Record/Record.vue"
 
 import PageUser from "../views/User/Page_User.vue"
 import User from "../views/User/User.vue"
-import SetUser from "../views/User/SetUser.vue"
+import SetRole from "../views/User/SetRole.vue"
 import Case from "../views/User/Case.vue"
 import Report from "../views/User/Report.vue"
 import Introduction from "../views/User/Introduction.vue"
@@ -35,17 +34,18 @@ const routes = [{
 				path: "",
 				name: "Login",
 				component: Login,
+				meta: {
+					protect: false
+				},
 			},
 			{
-				path: "Register",
-				name: "Register",
-				component: Register,
-			},
-			{
-				path: "FindPsw",
-				name: "FindPsw",
-				component: FindPsw,
-			},
+				path: "SetNumber",
+				name: "SetNumber",
+				component: SetNumber,
+				meta: {
+					protect: false
+				},
+			}
 		],
 	},
 	{
@@ -55,11 +55,17 @@ const routes = [{
 				path: "",
 				name: "Remind",
 				component: Remind,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "EditRemind",
 				name: "EditRemind",
 				component: EditRemind,
+				meta: {
+					protect: true
+				},
 			},
 		],
 	},
@@ -70,26 +76,41 @@ const routes = [{
 				path: "",
 				name: "Equment",
 				component: Equment,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "Add",
 				name: "AddEqument",
 				component: AddEqument,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "Phone",
 				name: "Phone",
 				component: Phone,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "Email",
 				name: "Email",
 				component: Email,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "Box",
 				name: "MedicalBox",
 				component: MedicalBox,
+				meta: {
+					protect: true
+				},
 			},
 		],
 	},
@@ -97,6 +118,9 @@ const routes = [{
 		path: "/Record",
 		name: "Record",
 		component: Record,
+		meta: {
+			protect: true
+		},
 	},
 	{
 		path: "/User",
@@ -105,37 +129,55 @@ const routes = [{
 				path: "",
 				name: "User",
 				component: User,
+				meta: {
+					protect: true
+				},
 			},
 			{
-				path: "SetUser",
-				name: "SetUser",
-				component: SetUser,
+				path: "SetRole",
+				name: "SetRole",
+				component: SetRole,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "Case",
 				name: "Case",
 				component: Case,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "Report",
 				name: "Report",
 				component: Report,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "Introduction",
 				name: "Introduction",
 				component: Introduction,
+				meta: {
+					protect: true
+				},
 			},
 			{
 				path: "UsingHelp",
 				name: "UsingHelp",
 				component: UsingHelp,
+				meta: {
+					protect: true
+				},
 			},
 		],
 	},
 	{
 		path: "/*",
-		redirect: "/Remind",
+		redirect: "/",
 	},
 ]
 
@@ -143,6 +185,27 @@ const router = new VueRouter({
 	mode: "history",
 	base: process.env.BASE_URL,
 	routes,
+})
+
+import store from '../store/index'
+import showToast from "../components/Toast/Toast.js"
+// 路由守卫
+router.beforeEach((to, from, next) => {
+	const protect = to.meta.protect
+	// 判断是否为需要守卫的路由
+	if (protect && !store.getters.matchUser) {
+		showToast({
+			text: "请先登录",
+			type: "warn"
+		})
+		next("/")
+	} else if (!protect && store.getters.matchUser) {
+		showToast({
+			text: "自动登录",
+		})
+		next("/User")
+	}
+	next()
 })
 
 export default router

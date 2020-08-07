@@ -8,6 +8,10 @@ export default new Vuex.Store({
     user: null
   },
   getters: {
+    matchUser: (state) => {
+      if (!state.user) return false
+      return true
+    },
     getUser: (state) => {
       return {
         ...state.user
@@ -19,6 +23,9 @@ export default new Vuex.Store({
       state.user = {
         ...data
       }
+    },
+    updateRoles: (state, roles) => {
+      state.user.roles = roles
     }
   },
   actions: {}
