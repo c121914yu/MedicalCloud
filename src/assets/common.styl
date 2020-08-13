@@ -70,17 +70,25 @@ button, .btn
   &:active
     transform scale(0.98)
     filter brightness(110%)
-input
+input, textarea
   font-size 1em
   border var(--border1)
   outline 0
   border-radius 5px
   padding 5px
+  resize none
   &:focus
     border-color var(--green)
-input::-webkit-input-placeholder
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder
   fontSize(16px, 500, 0.5px)
   color var(--gray)
+input[type=file]
+  position absolute
+  width 0
+  height 0
+  opacity 0
+textarea
+  width 100%
 .mask
   z-index 19
   position fixed

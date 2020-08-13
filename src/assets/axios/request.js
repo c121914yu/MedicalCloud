@@ -2,7 +2,7 @@ import axios from "axios"
 import showToast from "../../components/Toast/Toast.js"
 import loading from "../../components/Loading/Loading.js"
 
-let load, token
+let load, token = localStorage.getItem("TOKEN")
 
 // 创建实例
 const service = axios.create({
@@ -15,6 +15,9 @@ const service = axios.create({
 service.interceptors.request.use(
 	(req) => {
 		load = loading()
+		// 判断是否存在token，如果存在的话，则每个http header都加上token
+		if (token)
+			req.headers.Authorization = `Bearer ${token}`;
 		return req
 	},
 	(err) => {

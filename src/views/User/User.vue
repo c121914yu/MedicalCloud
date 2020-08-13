@@ -20,6 +20,7 @@ export default {
         text: '确认退出登录?',
         cancelText: '取消',
         success: () => {
+          this.$store.commit('setUser', null)
           localStorage.removeItem('TOKEN')
           this.$router.push({ name: 'Login' })
           this.$showToast({

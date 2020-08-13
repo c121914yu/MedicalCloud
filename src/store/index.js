@@ -20,12 +20,17 @@ export default new Vuex.Store({
   },
   mutations: {
     setUser: (state, data) => {
-      state.user = {
-        ...data
-      }
+      state.user = data
+      console.log(state.user)
     },
     updateRoles: (state, roles) => {
       state.user.roles = roles
+    },
+    updateEmail: (state, email) => {
+      state.user.email = email
+    },
+    updateEqument: (state, equments) => {
+      state.user.equments = equments
     }
   },
   actions: {}

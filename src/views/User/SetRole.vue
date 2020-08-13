@@ -36,7 +36,12 @@
 
 <script>
 import Popup from './components/popup_setUser'
-import { gettRoles, createRole, deleteRole } from '../../assets/axios/api'
+import {
+  gettRoles,
+  createRole,
+  updateRole,
+  deleteRole,
+} from '../../assets/axios/api'
 export default {
   data() {
     return {
@@ -55,10 +60,10 @@ export default {
       })
     },
     edit(item, i) {
-      this.popupData = {}
-      this.popupData.name = item.name
-      this.popupData.image = item.image
-      this.popupData.index = i
+      this.popupData = {
+        ...item,
+        index: i,
+      }
     },
     remove(item, index) {
       this.$showModel({
@@ -81,27 +86,36 @@ export default {
     },
     confirm(e) {
       if (this.popupData.hasOwnProperty('index')) {
-        this.userList[this.popupData.index].name = e.name
-        this.userList[this.popupData.index].image = e.image
-        this.$showToast({
-          text: '修改成功',
-        })
-      } else {
-        createRole(e).then((res) => {
-          this.userList.push(res.data.data)
-          this.$showToast({
-            text: '新建用户成功',
+        updateRole(this.userList[this.popupData.index]._id, e)
+          .then((res) => {
+            this.userList[this.popupData.index] = { ...res.data.data }
+            this.$showToast({
+              text: '修改成功',
+            })
+            this.close()
           })
-        })
+          .catch((err) => {
+            this.close()
+          })
+      } else {
+        createRole(e)
+          .then((res) => {
+            this.userList.push(res.data.data)
+            this.$showToast({
+              text: '新建用户成功',
+            })
+            this.close()
+          })
+          .catch((err) => {
+            this.close()
+          })
       }
-      this.close()
     },
     close() {
       this.popupData = null
     },
     updateRoles() {
-      this.$store.commit('updateRoles', this.userList)
-      console.log(this.$store.getters.getUser)
+      this.$store.commit('updateRoles', [...this.userList])
     },
   },
   created() {

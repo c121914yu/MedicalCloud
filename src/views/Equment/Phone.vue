@@ -1,33 +1,13 @@
 <template>
   <div class="phone">
     <i class="iconfont icon-phone"></i>
-    <form @submit="changeTel">
-      <input
-        type="tel"
-        placeholder="手机号"
-        required
-        v-model="phone"
-      >
-      <div class="random">
-        <input
-          type="tel"
-          maxlength="6"
-          placeholder="验证码"
-          v-model="randomCode"
-          required
-        >
-        <button
-          :class="{
-            'ban': time>0
-          }"
-          @click="sendCode"
-        >{{codeText}}</button>
-      </div>
-      <button
-        class="submit"
-        type="submit"
-      >修改手机号</button>
-    </form>
+    <p class="center remark"><small>该手机将被用于接受用药通知</small></p>
+    <input
+      type="tel"
+      placeholder="手机号"
+      disabled
+      v-model="phone"
+    >
     <div class="remind">
       <div class="note">
         <p>短信通知</p>
@@ -48,47 +28,10 @@ export default {
   data() {
     return {
       phone: '',
-      randomCode: '',
-      time: 0,
-      timer: null,
     }
   },
-  methods: {
-    sendCode(e) {
-      e.preventDefault()
-      if (!reg.test(this.phone))
-        this.$showToast({
-          type: 'warn',
-          text: '手机格式错误',
-        })
-      else if (this.time <= 0) {
-        this.time = 10
-        this.timer = setInterval(() => {
-          this.time--
-          if (this.time <= 0) clearInterval(this.timer)
-        }, 1000)
-      }
-    },
-    changeTel(e) {
-      e.preventDefault()
-      if (!reg.test(this.phone))
-        this.$showToast({
-          type: 'warn',
-          text: '手机格式错误',
-        })
-      else {
-        this.$showToast({
-          text: '手机修改成功',
-        })
-      }
-    },
-  },
-  computed: {
-    codeText() {
-      if (this.time <= 0) return '获取验证码'
-      else if (this.time < 10) return `0${this.time}s后获取`
-      else return `${this.time}s后获取`
-    },
+  created() {
+    this.phone = this.$store.getters.getUser.phone
   },
 }
 </script>
@@ -112,21 +55,6 @@ export default {
   input
     margin 10px 0
     width 100%
-  .random
-    display flex
-    align-items center
-    button
-      margin 0 0 0 5px
-      padding 5px 10px
-      height 36px
-      width 150px
-      border-radius 5px
-      &.ban
-        background-color var(--gray)
-        &:active
-          transform scale(1)
-  .submit
-    margin 5px 0
   .remind
     margin-top 10px
     width 100%

@@ -1,24 +1,23 @@
 <template>
   <div class="medical-box">
     <SetMedical
-      v-if="setIndex!=null"
+      v-if="setMedicines != null"
       :medicines="setMedicines"
       :index="setIndex"
-      @close="setIndex=null"
+      @close="setMedicines = null"
       @changeMedical="changeMedical"
     ></SetMedical>
     <div class="box">
       <div
         class="slice"
         :class="[
-          'slice' + index,
-          hasMedical.indexOf(index-1) > -1 ? 'active':''
-        ]"
+					'slice' + index,
+					hasMedical.indexOf(index - 1) > -1 ? 'active' : '',
+				]"
         v-for="index in 6"
         :key="index"
         @click="set_medical(index)"
-      >
-      </div>
+      ></div>
     </div>
     <div class="numbers">
       <div
@@ -28,7 +27,7 @@
         :key="index"
         @click="set_medical(index)"
       >
-        {{index}}
+        {{ index }}
       </div>
     </div>
     <p class="remark"><small>*点击对应编码的药柜可配置储药情况</small></p>
@@ -38,7 +37,7 @@
           type="text"
           class="disable"
           placeholder="设备标识码"
-          v-model="boxInfo.id"
+          v-model="boxInfo.identify"
           required
           disabled
         />
@@ -53,6 +52,12 @@
         />
         <i class="iconfont icon-name"></i>
       </div>
+      <textarea
+        class="description"
+        rows="3"
+        placeholder="对设备进行简单的备注描述"
+        v-model="boxInfo.description"
+      ></textarea>
       <button type="submit">修改昵称</button>
     </form>
     <button
@@ -64,88 +69,15 @@
 
 <script>
 import SetMedical from './components/SetMedical'
+import {
+  updateEqument,
+  deleteEqument,
+  updateMedicines,
+} from '../../assets/axios/api'
 export default {
   data() {
     return {
-      boxInfo: {
-        type: '智能药盒',
-        id: 'adsfg2-tfas15',
-        name: '房间药盒',
-        medicines: [
-          [
-            {
-              name: '小柴胡颗粒1',
-              amount: 1,
-              remark: '饭后服用',
-            },
-            {
-              name: '***颗粒',
-              amount: 1,
-              remark: '饭后服用',
-            },
-          ],
-          [
-            {
-              name: '小柴胡颗粒2',
-              amount: 0,
-              remark: '饭后服用',
-            },
-            {
-              name: '***颗粒',
-              amount: 0,
-              remark: '饭后服用',
-            },
-          ],
-          [
-            {
-              name: '小柴胡颗粒3',
-              amount: 1,
-              remark: '饭后服用',
-            },
-            {
-              name: '***颗粒',
-              amount: 1,
-              remark: '饭后服用',
-            },
-          ],
-          [
-            {
-              name: '小柴胡颗粒4',
-              amount: 1,
-              remark: '饭后服用',
-            },
-            {
-              name: '***颗粒',
-              amount: 1,
-              remark: '饭后服用',
-            },
-          ],
-          [
-            {
-              name: '小柴胡颗粒5',
-              amount: 1,
-              remark: '饭后服用',
-            },
-            {
-              name: '***颗粒',
-              amount: 1,
-              remark: '饭后服用',
-            },
-          ],
-          [
-            {
-              name: '小柴胡颗粒6',
-              amount: 0,
-              remark: '饭后服用',
-            },
-            {
-              name: '***颗粒',
-              amount: 0,
-              remark: '饭后服用',
-            },
-          ],
-        ],
-      },
+      boxInfo: {},
       setIndex: null,
       setMedicines: null,
     }
@@ -153,19 +85,36 @@ export default {
   methods: {
     set_medical(index) {
       let i = index - 1
-      this.setMedicines = [...this.boxInfo.medicines[i]]
       this.setIndex = i
+      if (!this.boxInfo.medicines[i])
+        this.setMedicines = [
+          {
+            name: '',
+            amount: '',
+            remark: '',
+          },
+        ]
+      else this.setMedicines = [...this.boxInfo.medicines[i]]
     },
     changeMedical(e) {
       this.boxInfo.medicines[this.setIndex] = e
       this.boxInfo.medicines.splice(0, 0)
       this.setIndex = this.setMedicines = null
+      console.log(this.boxInfo.medicines)
+      updateMedicines(this.boxInfo._id, {
+        data: JSON.stringify(this.boxInfo.medicines),
+      })
     },
     save(e) {
       e.preventDefault()
-      console.log(this.type)
-      this.$showToast({
-        text: '修改成功',
+      const data = {
+        name: this.boxInfo.name,
+        description: this.boxInfo.description,
+      }
+      updateEqument(this.boxInfo._id, data).then((res) => {
+        this.$showToast({
+          text: '修改成功',
+        })
       })
     },
     remove() {
@@ -173,8 +122,14 @@ export default {
         text: '确认删除该设备?',
         cancelText: '取消',
         success: () => {
-          this.$showToast({
-            text: '删除成功',
+          deleteEqument(this.boxInfo._id).then((res) => {
+            if (res.data.success) {
+              this.$store.commit('updateEqument', res.data.data)
+              this.$showToast({
+                text: '删除成功',
+              })
+              this.$router.push({ name: 'Equment' })
+            }
           })
         },
       })
@@ -184,16 +139,24 @@ export default {
     hasMedical() {
       let index = []
       this.boxInfo.medicines.forEach((item, i) => {
-        item.find((medical) => {
-          if (+medical.amount > 0) {
-            index.push(i)
-            return true
-          }
-        })
+        if (item)
+          item.find((medical) => {
+            if (+medical.amount > 0) {
+              index.push(i)
+              return true
+            }
+          })
       })
-      console.log(index)
       return index
     },
+  },
+  created() {
+    const id = this.$route.params.id
+    this.boxInfo = this.$store.getters.getUser.equments.find((item) => {
+      return item._id === id
+    })
+    if (!this.boxInfo) this.$router.push({ name: 'Equment' })
+    console.log(this.boxInfo)
   },
   components: {
     SetMedical,
@@ -291,6 +254,8 @@ export default {
           font-weight 500
         &.disable
           color var(--gray1)
+  textarea
+    margin-top 10px
   button
     margin-top 10px
     width 100%

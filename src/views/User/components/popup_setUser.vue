@@ -2,10 +2,18 @@
   <div class="popup-setUser">
     <div class="mask"></div>
     <div class="popup">
-      <img :src="image">
+      <label class="check-image">
+        <input
+          type="file"
+          ref="file"
+          @change="checkImg"
+        >
+        <img :src="image">
+      </label>
       <input
         type="text"
         placeholder="昵称"
+        maxlength="6"
         v-model="name"
       >
       <div class="btns">
@@ -41,6 +49,18 @@ export default {
     }
   },
   methods: {
+    checkImg(e) {
+      const file = this.$refs.file.files[0]
+      const reg = /image/g
+      if (!reg.test(file.type))
+        this.$showToast({
+          type: 'warn',
+          text: '请选择图片',
+        })
+      else {
+        this.image = window.URL.createObjectURL(file)
+      }
+    },
     confirm() {
       if (this.name === '')
         this.$showToast({
@@ -67,11 +87,14 @@ export default {
     display flex
     flex-direction column
     align-items center
-    img
+    .check-image
       width 70px
       height 70px
-      border-radius 50%
-      box-shadow var(--shadow2)
+      img
+        width 100%
+        height 100%
+        border-radius 50%
+        box-shadow var(--shadow2)
     input
       margin 10px 0
       width 90%

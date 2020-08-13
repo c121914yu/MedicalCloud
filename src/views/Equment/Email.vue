@@ -1,84 +1,46 @@
 <template>
-  <div class="email">
-    <i class="iconfont icon-email"></i>
-    <form @submit="changeTel">
-      <input
-        type="tel"
-        placeholder="邮箱地址"
-        required
-        v-model="phone"
-      >
-      <div class="random">
-        <input
-          type="tel"
-          maxlength="6"
-          placeholder="验证码"
-          v-model="randomCode"
-          required
-        >
-        <button
-          :class="{
-            'ban': time>0
-          }"
-          @click="sendCode"
-        >{{codeText}}</button>
-      </div>
-      <button
-        class="submit"
-        type="submit"
-      >确认</button>
-    </form>
-  </div>
+	<div class="email">
+		<i class="iconfont icon-email"></i>
+		<p class="center remark"><small>该邮箱将被用于接受用药通知</small></p>
+		<form @submit="changeEmail">
+			<input type="tel" placeholder="邮箱地址" required v-model="email" />
+			<button class="submit" type="submit">更新</button>
+		</form>
+	</div>
 </template>
 
 <script>
+import { getEmail } from "../../assets/axios/api"
 const reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
 export default {
-  data() {
-    return {
-      phone: '',
-      randomCode: '',
-      time: 0,
-      timer: null,
-    }
-  },
-  methods: {
-    sendCode(e) {
-      e.preventDefault()
-      if (!reg.test(this.phone))
-        this.$showToast({
-          type: 'warn',
-          text: '邮箱格式错误',
-        })
-      else if (this.time <= 0) {
-        this.time = 10
-        this.timer = setInterval(() => {
-          this.time--
-          if (this.time <= 0) clearInterval(this.timer)
-        }, 1000)
-      }
-    },
-    changeTel(e) {
-      e.preventDefault()
-      if (!reg.test(this.phone))
-        this.$showToast({
-          type: 'warn',
-          text: '邮箱格式错误',
-        })
-      else {
-        this.$showToast({
-          text: '邮箱绑定成功',
-        })
-      }
-    },
-  },
-  computed: {
-    codeText() {
-      if (this.time <= 0) return '获取验证码'
-      else if (this.time < 10) return `0${this.time}s后获取`
-      else return `${this.time}s后获取`
-    },
-  },
+	data() {
+		return {
+			email: "",
+		}
+	},
+	methods: {
+		changeEmail(e) {
+			e.preventDefault()
+			if (!reg.test(this.email))
+				this.$showToast({
+					type: "warn",
+					text: "邮箱格式错误",
+				})
+			else {
+				getEmail(this.email).then((res) => {
+					console.log(res.data)
+					this.$store.commit("updateEmail", this.email)
+					this.$showToast({
+						text: "请注意查收",
+					})
+				})
+			}
+		},
+	},
+	created() {
+		if (this.$store.getters.getUser.hasOwnProperty("email"))
+			this.email = this.$store.getters.getUser.email
+	},
 }
 </script>
 

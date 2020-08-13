@@ -105,7 +105,7 @@ const routes = [{
 				},
 			},
 			{
-				path: "Box",
+				path: "Box/:id",
 				name: "MedicalBox",
 				component: MedicalBox,
 				meta: {

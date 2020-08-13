@@ -1,52 +1,69 @@
 <template>
-	<div class="equments">
-		<router-link class="iconfont icon-add add" to="/Equment/Add"> </router-link>
-		<router-link
-			class="item"
-			v-for="(item, index) in equments"
-			:key="index"
-			:to="{ name: item.to }"
-		>
-			<i :class="'iconfont icon-' + item.icon"></i>
-			<p>{{ item.text }}</p>
-			<div class="status" :class="'status-color' + item.status">
-				<div class="dot"></div>
-				<p>{{ item.statusText }}</p>
-			</div>
-		</router-link>
-	</div>
+  <div class="equments">
+    <router-link
+      class="iconfont icon-add add"
+      to="/Equment/Add"
+    > </router-link>
+    <router-link
+      class="item"
+      v-for="(item, index) in equments"
+      :key="index"
+      :to="item.to"
+    >
+      <i :class="'iconfont icon-' + item.icon"></i>
+      <p>{{ item.text }}</p>
+      <div
+        class="status"
+        :class="'status-color' + item.status"
+      >
+        <div class="dot"></div>
+        <p>{{ item.statusText }}</p>
+      </div>
+    </router-link>
+  </div>
 </template>
 
 <script>
 export default {
-	data() {
-		return {
-			equments: [
-				{
-					text: "手机",
-					icon: "phone",
-					status: 1,
-					statusText: "已绑定",
-					to: "Phone",
-				},
-				{
-					text: "邮箱",
-					icon: "email",
-					status: 0,
-					statusText: "未绑定",
-					to: "Email",
-				},
-				{
-					text: "家庭药盒",
-					icon: "icon",
-					status: 1,
-					statusText: "已连接",
-					to: "MedicalBox",
-				},
-			],
-		}
-	},
-	methods: {},
+  data() {
+    return {
+      equments: [
+        {
+          text: '手机',
+          icon: 'phone',
+          status: 1,
+          statusText: '已绑定',
+          to: 'phone',
+        },
+        {
+          text: '邮箱',
+          icon: 'email',
+          status: 0,
+          statusText: '未绑定',
+          to: 'email',
+        },
+      ],
+    }
+  },
+  methods: {},
+  created() {
+    const user = this.$store.getters.getUser
+    const email = user.email
+    if (!/@temp.com/g.test(email)) {
+      this.equments[1].status = 1
+      this.equments[1].statusText = '已绑定'
+    }
+    const equments = user.equments
+    equments.forEach((item) => {
+      this.equments.push({
+        text: item.name,
+        icon: 'icon',
+        status: item.status || 0,
+        statusText: item.status === 1 ? '已连接' : '未连接',
+        to: 'Box/' + item._id,
+      })
+    })
+  },
 }
 </script>
 <style lang="stylus" scoped>
@@ -54,6 +71,7 @@ export default {
   padding 10px 5px 60px
   display grid
   grid-template-columns repeat(3, 1fr)
+  grid-gap 10px
   text-align center
   .add
     position fixed

@@ -111,7 +111,6 @@ export default {
           }
         else if (item.nmae != '' && item.amount === '') item.amount = 0
       })
-      console.log([...this.temp_medicines])
       this.$emit('changeMedical', [...this.temp_medicines])
     },
   },
